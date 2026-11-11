@@ -73,4 +73,4 @@ cudaDeviceSynchronize();
 `\Needspace` は必要な場合だけ指定し、短いブロックの直前で改ページを促す。
 
 付録の後は `\clearpage` で改ページし、暫定の参考メモ
-`src/subfiles/reference-notes.tex` を表示する。見出しは番号なしの「参考（暫定）」。
+`src/subfiles/reference-notes.tex` を表示する。番号なしの参考ページに、インラインコード・コードブロック・参照・改ページ調整の入力例と表示例を掲載する。

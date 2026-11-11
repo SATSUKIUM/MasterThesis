@@ -1,5 +1,49 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
-\section*{参考（暫定）}
-% 参考資料やメモをここに記述する。
+\lstnewenvironment{latexexample}{\lstset{language={[LaTeX]TeX},numbers=none}}{}
+\section*{参考：コード記述テンプレート（暫定）}
+このページは執筆時にコピーして使う記述例であり、研究結果ではない。
+共通設定の \texttt{listings}、\texttt{jvlisting}、\texttt{needspace} を使用する。
+
+\subsection*{インラインコード}
+記述例：\verb|\lstinline!cudaDeviceSynchronize()!|。
+表示例：\lstinline!cudaDeviceSynchronize()! を呼び出す。
+アンダースコアを含む識別子も \lstinline!device_buffer! のように記述できる。
+区切り文字はコード中に含まれない文字を選ぶ。
+
+\subsection*{コードブロック}
+次の記述を本文へコピーし、言語、説明、ラベル、コードを置き換える。
+
+\begin{latexexample}
+\begin{lstlisting}[language=C++,caption={同期処理の例},label={lst:sync-example}]
+// ホスト側で完了を待つ
+cudaDeviceSynchronize();
+\end{lstlisting}
+\end{latexexample}
+
+表示例：
+\begin{lstlisting}[language=C++,caption={同期処理の例（テンプレート）},label={lst:template-sync}]
+// ホスト側で完了を待つ
+cudaDeviceSynchronize();
+\end{lstlisting}
+本文からの参照は \verb|リスト\ref{lst:template-sync}| と記述する。
+表示例：リスト\ref{lst:template-sync}。
+ラベルは各コードブロックで重複しない名前にする。
+
+\subsection*{短いコードの直前で改ページを調整する}
+直後に指定行数分の余白がない場合、\verb|\Needspace| で改ページを促す。
+コード全体を囲む命令ではなく、長いコードのページ分割を禁止するものでもない。
+
+\begin{lstlisting}[language={[LaTeX]TeX},numbers=none]
+\Needspace{8\baselineskip}
+% この直後にコードブロックを置く。
+\end{lstlisting}
+
+\Needspace{8\baselineskip}
+\begin{lstlisting}[language=C++,caption={短いコードの例（テンプレート）},label={lst:template-short}]
+int main() {
+    // 実際の処理へ置き換える
+    return 0;
+}
+\end{lstlisting}
 \end{document}
