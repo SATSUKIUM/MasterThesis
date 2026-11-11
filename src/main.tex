@@ -63,6 +63,10 @@
 % 目次
 \tableofcontents
 \clearpage
+\listoffigures
+\clearpage
+\listoftables
+\clearpage
 
 % イントロ
 \subfile{subfiles/introduction.tex}
@@ -74,6 +78,6 @@
 \subfile{subfiles/discussion.tex}
 \subfile{subfiles/conclusion.tex}
 \subfile{subfiles/references.tex}
-\appendix
+% 付録への切り替えはsubfile内で行う（単独ビルドにも対応）。
 \subfile{subfiles/appendix.tex}
 \end{document}

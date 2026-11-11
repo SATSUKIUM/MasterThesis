@@ -44,3 +44,10 @@ latexmk -r .latexmkrc -outdir=../../build/introduction src/subfiles/introduction
 目次・節番号・表番号には含めない。
 提出時は `src/main.tex` の `\notationnotestrue` を
 `\notationnotesfalse` に変更してから `make` する。
+
+## 目次と付録
+
+通常の目次に続き、図目次・表目次をそれぞれ別ページに表示する。
+図・表が未登録の間も見出しを表示し、captionを追加すると自動で掲載する。
+付録は `src/subfiles/appendix.tex` 内で `\appendix` に切り替え、
+`\section` ごとに「付録A」「付録B」…と表示する。本文は未記入。
