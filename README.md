@@ -36,6 +36,8 @@ latexmk -r .latexmkrc -outdir=../../build/introduction src/subfiles/introduction
 
 独立した新規リポジトリの `main` ブランチで管理する。旧リポジトリの履歴は継承しない。
 作業の区切りに対象を明示してローカルコミットを行い、既存の変更を保持する。
-GitHubリポジトリはユーザーが用意する。URL共有後に origin を設定して初期プッシュする。
+GitHubリポジトリ：`git@github.com:SATSUKIUM/MasterThesis.git`。
+2026-11-11にユーザーからURLが共有され、空のリモートであることを確認。
+`origin` に登録し、`main` の初期プッシュを行う。
 `.DS_Store`・`.DS_STORE`、LaTeX中間ファイルとビルド出力は追跡しない。
 必要な図・参考資料・提出版PDFは `figure/`・`docs/` に置いて管理する。
