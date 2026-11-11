@@ -1,0 +1,64 @@
+\documentclass[a4paper,dvipdfmx,titlepage,oneside]{jsarticle}
+\usepackage{subfiles}
+\usepackage{amsmath,latexsym,mathtools,bm,ulem,tikz,circuitikz,graphicx}
+\usepackage{times}
+\usepackage[subrefformat=parens]{subcaption}
+\usepackage{here}
+\usepackage{siunitx}
+\usepackage{physics}
+\usepackage{upgreek}%ギリシャ文字を立てる
+\usepackage{hyperref}
+\usepackage{pxjahyper}
+\hypersetup{
+    colorlinks=true,      % カラーリンクを有効化（枠ではなく色で表示）
+    linkcolor=blue,       % 目次や文書内リンクの色
+    citecolor=blue,        % 文献引用の色
+    filecolor=blue,    % ファイルリンクの色
+    urlcolor=blue      % URLリンクの色
+}
+\usepackage{multirow}
+\usepackage{tcolorbox}
+\usepackage{placeins}
+\tcbuselibrary{breakable,skins,theorems}
+
+\usepackage{mhchem}
+\numberwithin{equation}{section}
+\numberwithin{table}{section}
+\numberwithin{figure}{section}
+\usepackage{wrapfig}%文中に画像を入れる
+\newcommand{\keV}{\si{\kilo\electronvolt}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\Na}{$^{22}\text{Na}$}
+\newcommand{\Eu}{$^{152}\text{Eu}$}
+\newcounter{subsubsubsectioncounter}
+\setcounter{subsubsubsectioncounter}{0}
+\newcommand{\subsubsubsection}[1]{
+  \refstepcounter{subsubsubsectioncounter}
+  \paragraph{Subsubsubsection \thesubsubsubsectioncounter: #1}\mbox{}\\
+}
+
+\usepackage{amsthm,amsfonts,amssymb}
+
+% 図のパスは章を単独コンパイルする場合にも対応する。
+\graphicspath{{\subfix{../figure/}}}
+
+\title{\large{修士論文}\\研究題目（仮）}
+\author{所属（未設定）\\氏名（未設定）}
+\date{\today}
+
+\begin{document}
+\hypersetup{pageanchor=false}
+\maketitle
+\hypersetup{pageanchor=true}
+\tableofcontents
+\clearpage
+\subfile{subfiles/introduction.tex}
+\subfile{subfiles/background.tex}
+\subfile{subfiles/methods.tex}
+\subfile{subfiles/results.tex}
+\subfile{subfiles/discussion.tex}
+\subfile{subfiles/conclusion.tex}
+\subfile{subfiles/references.tex}
+\appendix
+\subfile{subfiles/appendix.tex}
+\end{document}
