@@ -35,12 +35,12 @@ latexmk -r .latexmkrc -outdir=../../build/introduction src/subfiles/introduction
 `.DS_Store`・`.DS_STORE`、LaTeX中間ファイルとビルド出力は追跡しない。
 必要な図・参考資料・提出版PDFは `figure/`・`docs/` に置いて管理する。
 
-## 表記統一メモ
+## 表記検討メモ
 
 `src/subfiles/notation-notes.tex` を表紙の前に表示する。
-表は「統一する表記／揺れている表記／使い分け・理由／状態」の4列。
+表は「現在使っている表記／迷っている表記／意図など」の3列。
 長くなると自動的に改ページし、見出しを繰り返す。
-本文で実際に確認した表記を追記し、確定・検討中を区別する。
+現在の表記と候補、意図を記録する。統一方針の確定は前提としない。
 目次・節番号・表番号には含めない。
 提出時は `src/main.tex` の `\notationnotestrue` を
 `\notationnotesfalse` に変更してから `make` する。
