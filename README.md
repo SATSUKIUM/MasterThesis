@@ -38,6 +38,6 @@ latexmk -r .latexmkrc -outdir=../../build/introduction src/subfiles/introduction
 作業の区切りに対象を明示してローカルコミットを行い、既存の変更を保持する。
 GitHubリポジトリ：`git@github.com:SATSUKIUM/MasterThesis.git`。
 2026-11-11にユーザーからURLが共有され、空のリモートであることを確認。
-`origin` に登録し、`main` の初期プッシュを行う。
+`origin` に登録し、`main` の初期プッシュ完了。`main` は `origin/main` を追跡する。
 `.DS_Store`・`.DS_STORE`、LaTeX中間ファイルとビルド出力は追跡しない。
 必要な図・参考資料・提出版PDFは `figure/`・`docs/` に置いて管理する。
