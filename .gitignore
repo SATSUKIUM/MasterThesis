@@ -43,6 +43,7 @@
 *.synctex(busy)
 /src/main.pdf
 /src/subfiles/*.pdf
+**/out/*.pdf
 
 # エディタの一時ファイル
 *~
