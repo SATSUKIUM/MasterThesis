@@ -1,7 +1,5 @@
 # MasterThesis
 
-2024B4Paper の LaTeX 様式を再利用した修士論文原稿。
-
 - `src/main.tex`：表紙、共通設定、章の読み込み
 - `src/subfiles/*.tex`：章ごとの本文、参考文献、付録
 - `figure/`：図の原本・画像
@@ -15,11 +13,11 @@
 TeX Live 等の `platex`, `latexmk`, `dvipdfmx` と原稿が読み込むパッケージを使用。
 リポジトリのルートで `make` を実行すると `build/main.pdf` を生成する。
 中間ファイルの削除は `make clean`（生成PDFを保持）。
-章のみのビルド例：
+<!-- 章のみのビルド例：
 
 ```sh
 latexmk -r .latexmkrc -outdir=../../build/introduction src/subfiles/introduction.tex
-```
+``` -->
 
 図は `\includegraphics{example.pdf}` のように `figure/` 内の名前を指定する。
 表紙の題目・所属・氏名と章構成は仮置き。研究本文・数値・文献は未記入。
@@ -34,10 +32,5 @@ latexmk -r .latexmkrc -outdir=../../build/introduction src/subfiles/introduction
 
 ## Git
 
-独立した新規リポジトリの `main` ブランチで管理する。旧リポジトリの履歴は継承しない。
-作業の区切りに対象を明示してローカルコミットを行い、既存の変更を保持する。
-GitHubリポジトリ：`git@github.com:SATSUKIUM/MasterThesis.git`。
-2026-11-11にユーザーからURLが共有され、空のリモートであることを確認。
-`origin` に登録し、`main` の初期プッシュ完了。`main` は `origin/main` を追跡する。
 `.DS_Store`・`.DS_STORE`、LaTeX中間ファイルとビルド出力は追跡しない。
 必要な図・参考資料・提出版PDFは `figure/`・`docs/` に置いて管理する。
