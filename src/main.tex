@@ -1,5 +1,6 @@
 \documentclass[a4paper,dvipdfmx,titlepage,oneside]{jsarticle}
 \usepackage{subfiles}
+\usepackage{longtable}
 \usepackage{amsmath,latexsym,mathtools,bm,ulem,tikz,circuitikz,graphicx}
 \usepackage{times}
 \usepackage[subrefformat=parens]{subcaption}
@@ -47,8 +48,16 @@
 \author{大阪大学大学院 理学研究科 物理学専攻\\加島 駿一}
 \date{\today}
 
+% 執筆用の表記統一メモ。提出時は false に変更する。
+\newif\ifnotationnotes
+\notationnotestrue
+
 \begin{document}
 \hypersetup{pageanchor=false}
+\ifnotationnotes
+  \subfile{subfiles/notation-notes.tex}
+  \clearpage
+\fi
 \maketitle
 \hypersetup{pageanchor=true}
 % 目次
