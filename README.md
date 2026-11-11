@@ -74,3 +74,6 @@ cudaDeviceSynchronize();
 
 付録の後は `\clearpage` で改ページし、暫定の参考メモ
 `src/subfiles/reference-notes.tex` を表示する。番号なしの参考ページに、インラインコード・コードブロック・参照・改ページ調整の入力例と表示例を掲載する。
+
+概要は `src/subfiles/abstract.tex` に記述する。タイトルページの直後、
+目次の前に独立ページとして表示する。本文は未記入。
