@@ -51,3 +51,23 @@ latexmk -r .latexmkrc -outdir=../../build/introduction src/subfiles/introduction
 図・表が未登録の間も見出しを表示し、captionを追加すると自動で掲載する。
 付録は `src/subfiles/appendix.tex` 内で `\appendix` に切り替え、
 `\section` ごとに「付録A」「付録B」…と表示する。本文は未記入。
+
+## コード表示
+
+`/Users/kashima/LaTeX_personal/TEX/CUDA_get_started/texTemplate.tex` の
+`listings,jvlisting` と `needspace` を継承。コードは上下罫線・左行番号・自動折り返し。
+元設定の `\smallitshape` は `\small\itshape` に修正。
+言語はブロックごとに指定する。
+
+```tex
+本文中では \lstinline|cudaDeviceSynchronize()| を使う。
+
+\Needspace{8\baselineskip}
+\begin{lstlisting}[language=C++,caption={同期処理の例},label={lst:sync}]
+// ホスト側で完了を待つ
+cudaDeviceSynchronize();
+\end{lstlisting}
+```
+
+`\lstinline` の区切り文字はコード内に含まれない文字を使う。
+`\Needspace` は必要な場合だけ指定し、短いブロックの直前で改ページを促す。
