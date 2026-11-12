@@ -34,6 +34,20 @@ MARQスペクトロメータで用いることを想定したハイレベルフ�
 
 
 \subsection{評価方法}
+\begin{tcolorbox}
+[
+  title=執筆メモ,
+  colback=yellow!8,
+  colframe=black!30,
+  breakable
+]
+\begin{itemize}
+  \item 修論として結果をまとめるなら、計測環境がバラバラなのはだめだ
+  \item 世代が一番新しくて、メモリ転送速度も現代的なmarq07で統一して計測するのが今後の見通しが良さそう
+  \item それぞれの環境でなんらかのベンチマークをして計算能力の相互変換をできるようにするものいいと思う
+  \item ここ(\lstinline|/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark|)でどこに何のコードがあるかまとめることにする
+\end{itemize}
+\end{tcolorbox}
 記録済みのT103データをリプレイヤーから入力し、1プロセスのオンラインフィルタが処理したデータ量と処理時間を測定した。
 TOFフィルタとクラスター数フィルタの評価にはAMD EPYC 74F3、64\,GBメモリの計算機を用いた。
 トラッキングフィルタの評価にはAMD Ryzen 9 7900、128\,GBメモリ、AlmaLinux 9.8の計算機を用い、省電力機能を無効化した\cite{kashima:tof2025,kashima:cluster2026,kashima:tracking2026}。
