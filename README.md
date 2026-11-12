@@ -5,18 +5,18 @@
 - `figure/`：図の原本・画像
 - `docs/`：参考資料・提出版PDF
 - `misc/`：補助スクリプト・メモ
-- `build/`：生成PDF・中間ファイル（Git対象外）
+- `out/`：生成PDF・中間ファイル（Git対象外）
 - `workspace/20261111/latex-git-setup/index.html`：準備の記録
 
 ## ビルド
 
 TeX Live 等の `platex`, `latexmk`, `dvipdfmx` と原稿が読み込むパッケージを使用。
-リポジトリのルートで `make` を実行すると `build/main.pdf` を生成する。
+リポジトリのルートで `make` を実行すると `out/main.pdf` を生成する。
 中間ファイルの削除は `make clean`（生成PDFを保持）。
 <!-- 章のみのビルド例：
 
 ```sh
-latexmk -r .latexmkrc -outdir=../../build/introduction src/subfiles/introduction.tex
+latexmk -r .latexmkrc -outdir=../../out/introduction src/subfiles/introduction.tex
 ``` -->
 
 図は `\includegraphics{example.pdf}` のように `figure/` 内の名前を指定する。
@@ -77,3 +77,14 @@ cudaDeviceSynchronize();
 
 概要は `src/subfiles/abstract.tex` に記述する。タイトルページの直後、
 目次の前に独立ページとして表示する。本文は未記入。
+
+## VSCodeの出力先（2026-11-12）
+
+VSCodeでは **MasterThesisフォルダーを開く**。`.vscode/settings.json` の
+`MasterThesis (latexmk)` レシピがユーザー共通のplatex→コピー設定を置き換え、
+最初からリポジトリ直下の `out/` にPDFと中間ファイルを生成する。
+`src/subfiles/` の単独ビルドでも出力先は同じ。成功後は `.out` のみ削除し、
+差分ビルド・参照解決に必要な他の中間ファイルとSyncTeXは保持する。
+`make clean` はPDFを保持して中間ファイルを削除する。
+既存のsrc以下のPDFは削除せず `out/previous/src/` 以下へ移動した。
+編集後のPDF再生成はユーザーの依頼時のみ行う。
