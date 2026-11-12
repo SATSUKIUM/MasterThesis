@@ -2,10 +2,8 @@
 \begin{document}
 \begingroup
 \pagestyle{empty}
-\section*{表記検討メモ（執筆用・提出対象外）}
+\section*{表記検討メモ(執筆用, 提出対象外)}
 本文中の表記揺れを整理するための暫定メモである。
-
-このページは目次に含めず、提出時には除外する。
 
 \small
 \setlength{\tabcolsep}{5pt}
@@ -31,114 +29,56 @@
 \end{longtable}
 
 \subsection*{表記チェック項目 (2026-11-12)}
-対象は \lstinline|src/main.tex| と全subfileのソース。
-本文、執筆メモ、コード例、コメントを区別して確認した。
-
-提出要領は未確認であり、以下を普遍的な論文規則とは扱わない。
-表記の検討段階を維持し、この点検では本文を自動修正しない。
 
 \begin{itemize}
-  \setlength{\itemsep}{0.8\baselineskip}
-  \setlength{\parsep}{0.3\baselineskip}
-  \item \textbf{括弧の全角・半角}\par\nopagebreak[4]
-  半角括弧を使うというユーザーの意向に照らして点検。
-
-  本文ファイル03--10には全角丸括弧は見つからなかった。
-
-  このメモの見出しと11の参考見出し・コード例のcaptionには全角丸括弧が残る。
-
-  TeXコメント内の括弧は印刷されないため別扱い。
-
-  \item \textbf{句読点}\par\nopagebreak[4]
-  ユーザー指定により日本語本文は「、。」を採用する。
-
-  「，．」への変更は行わない。
-
-  04の49・52行、07の24行、10の13行に日本語の列挙を半角カンマで区切った箇所がある。
-
-  コード、URL、TeXの引数区切り、小数点はこの方針の置換対象にしない。
-
-  \item 全角英数字・角括弧・波括弧
+  \item カッコの全角・半角
   \begin{itemize}
-    \item 本文03--10に該当する全角文字は見つからなかった。
-    \item 日本語と英数字の境界の空白は、提出要領が未確認のため一律挿入しない。
+    \item 全角カッコは使わない。
+  \end{itemize}
+
+  \item 句読点・読点の全角・半角
+  \begin{itemize}
+    \item 句点・読点は全角を使う。
+    \item 文章中のカンマ・ピリオドについては例外的に半角を使うこともある。
+  \end{itemize}
+
+  \item 全角英数字
+  \begin{itemize}
+    \item 全角英数字は使わない。
   \end{itemize}
 
   \item 用語と長音
   \begin{itemize}
     \item 本文の「ハイレベルフィルタ」と付録10の9行の「ハイレベルフィルター」が混在。
-    \item どちらを採用するかは未決定。
-    \item 上の検討表にある候補を確定済みの統一規則とは扱わない。
-  \end{itemize}
-
-  \item 名称の対応
-  \begin{itemize}
-    \item 連続読み出し式DAQ、データ収集システム、オンラインフィルタ、ハイレベルフィルタ、LogicFilterなどの関係・使い分けを確認。
-    \item 同義語とは限らないので機械的に置換しない。
   \end{itemize}
 
   \item 略語の初出
   \begin{itemize}
     \item DAQ、FEE、TOF、DC、SFT、T0、BFT、LTOF、STLなどについて、意味と必要な初出説明があるかを点検。
     \item 現状は多くが未説明。
-    \item 計画名・機器名を含め、正式名称や説明は資料確認後に記入する。
-  \end{itemize}
-
-  \item 数値・単位
-  \begin{itemize}
-    \item 07の6・11・16・18行に\lstinline|30 Mcps|、\lstinline|60 Mcps|、\lstinline|1 Mcps| がある。
-    \item 数値と単位の間隔に加え、cpsの意味、瞬間値・spill平均などの条件と出典が必要。
-    \item 数値の正しさは今回検証していない。
-    \item 単位組版には既存のsiunitxを利用できる。
-  \end{itemize}
-
-  \item 演算記号・矢印
-  \begin{itemize}
-    \item 07の16行の英字 \lstinline|x| と18行の\lstinline|->| は、積・推移など意図を確認して数式または文章で表す候補。
-    \item コード内の同じ文字列は変更対象にしない。
-  \end{itemize}
-
-  \item 識別子の書体
-  \begin{itemize}
-    \item 10の \lstinline|std::unordered_map| と\lstinline|std::map| は既にインラインコードで記述されている。
-    \item 04のタスク名やリポジトリ名も、文章中の名称かコード識別子かを区別して扱う。
-  \end{itemize}
-
-  \item 文体・執筆メモ
-  \begin{itemize}
-    \item 03の疑問形、03・04の \lstinline|on it|、07の \lstinline|or not|、「真面目に」などは執筆中の表現として確認。
-    \item 本文に残すか、執筆メモの枠へ移すかは後で判断する。
-    \item 語尾「である」と箇条書きの体言止めを一律に同じ文体へ変えない。
   \end{itemize}
 
   \item 誤記・重複
   \begin{itemize}
-    \item 10の11行に「ハッシュテーブルを用いたマップ」の重複がある。
-    \item 同13行の「読み出し基盤」は電子回路の「基板」を意図しているか要確認。
+    \item 
   \end{itemize}
 
   \item 見出し・番号・参照
   \begin{itemize}
-    \item 10の18行に空の\lstinline|\subsubsection{}|、07の5行に手入力の「4.」がある。
-    \item \lstinline|sec:methods| が05・07の4行で重複している。
-    \item 参照先は章ごとに一意にし、表示番号はTeXの自動採番を使う。
+    \item
   \end{itemize}
 
   \item 引用・主張の根拠
   \begin{itemize}
-    \item 09の参考文献は未記入で、本文に有効なciteはない。
-    \item 研究計画・装置・ライブラリの説明や性能・計算量の主張は、原資料・条件・出典を確認してから完成させる。
-    \item 10の計算量の記述も成立条件の確認対象であり、今回の表記点検で検証済みとはしない。
+    \item
   \end{itemize}
 
   \item 図表・コードのcaptionとlabel
   \begin{itemize}
-    \item 本文の図表は未登録のため、captionの句読点、単位、出典、本文参照の確認は追加時に行う。
-    \item 11のコード例はテンプレートとして区別し、例のラベルをコピーする際の重複に注意する。
+    \item
   \end{itemize}
 
 \end{itemize}
-行番号は点検時点の各subfileのもの。原稿の追記後は再確認する。
 
 \clearpage
 \endgroup
