@@ -2,13 +2,82 @@
 \begin{document}
 \section{テスト実験データを用いたハイレベルフィルタの性能評価}
 \label{sec:methods}
+\begin{tcolorbox}
+[
+  title=執筆メモ,
+  colback=yellow!8,
+  colframe=black!30,
+  breakable
+]
+\begin{itemize}
+  \item 目的
+  \item 評価方法
+  \begin{itemize}
+    \item データリプレイヤー
+    \item T103のデータ
+    \begin{itemize}
+      \item T103とは
+      \item ビーム
+      \item セットアップ
+    \end{itemize}
+    \item 評価指標
+  \end{itemize}
+  \item 実装して評価したハイレベルフィルタ3種
+  \begin{itemize}
+    \item TOFフィルタ
+    \item クラスタリングフィルタ
+    \item トラッキングフィルタ
+  \end{itemize}
+\end{itemize}
+\end{tcolorbox}
+MARQスペクトロメータで用いることを想定したハイレベルフィルタを複数実装し、連続読み出し式DAQテスト実験T103で取得したデータを用いてハイレベルフィルタの性能評価を行った。
+
 \subsection{TOFフィルタ}
-セグメント数は効かない
-イベントウィンドウの中のビーム密度の違い
+\begin{tcolorbox}[
+  title=執筆メモ,
+  colback=yellow!8,
+  colframe=black!30,
+  breakable
+]
+\begin{itemize}
+  \item 他のハイレベルフィルタの基礎となる共通の処理
+  \item TOFを計算することで、粒子識別のために重要である粒子の速度を求めることができる
+  \begin{itemize}
+    \item 後で確認
+    \item 例えばLTOFだとセグメント数は効かない
+    \item むしろイベントウィンドウの中のビーム密度の違い
+  \end{itemize}
+\end{itemize}
+\end{tcolorbox}
+
 \subsection{クラスタリングフィルタ}
-クラスタリング
+\begin{tcolorbox}[
+  title=執筆メモ,
+  colback=yellow!8,
+  colframe=black!30,
+  breakable
+]
+\begin{itemize}
+  \item クラスタリングを行うことで、イベントが解析可能であるための最小の条件を課す。少ない計算量でもフィルタリング後のイベントの解析可能性の向上が期待できる
+\end{itemize}
+\end{tcolorbox}
+
 \subsection{トラッキングフィルタ}
-トラッキング
-DCの面が変わった時の処理速度の違い
+
+\begin{tcolorbox}
+[
+  title=執筆メモ,
+  colback=yellow!8,
+  colframe=black!30,
+  breakable
+]
+\begin{itemize}
+  \item ローカル直線トラッキングを行うことで、トラッカーに残された粒子の飛跡へアクセスできる。
+  \begin{itemize}
+    \item 後で確認
+    \item DCの面が変わった時の処理速度の違い
+  \end{itemize}
+\end{itemize}
+\end{tcolorbox}
 
 \end{document}

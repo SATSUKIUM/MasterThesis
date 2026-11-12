@@ -12,7 +12,65 @@
 連続読み出し式DAQ+オンラインフィルタ on it
 \subsubsection{ハードウェア}
 どんなFEEを使うか
+\begin{tcolorbox}[
+  title=執筆メモ,
+  colback=yellow!8,
+  colframe=black!30,
+  breakable
+]
+\begin{itemize}
+  \item AMANEQ
+  \item CIRASAME
+  \item ASAGI
+\end{itemize}
+\end{tcolorbox}
+
 \subsubsection{ソフトウェア}
 どんなソフトウェア(フレームワーク)を使うか
+\begin{tcolorbox}[
+  title=執筆メモ,
+  colback=yellow!8,
+  colframe=black!30,
+  breakable
+]
+\begin{itemize}
+  \item NestDAQ
+  \begin{itemize}
+    \item 連続読み出し式DAQを実現するためのソフトウェアフレームワーク
+    \item 分散型DAQシステムを管理する
+    \begin{itemize}
+      \item 複数プロセス
+      \item 複数ノード
+    \end{itemize}
+    \item いくつかのライブラリを使い、以下の機能を提供する
+    \begin{itemize}
+      \item プロセスの状態管理(プロセスが状態機械を持つ)
+      \item 通信チャンネル(プロセス間のメッセージ通信機能)
+      \item トポロジーの生成, サービス発見
+      \item RUN制御
+      \item 設定管理(パラメータの管理)
+      \item モニタリング(各デバイスの動作状態, データ転送量)
+    \end{itemize}
+  \end{itemize}
+  \item nestdaq-user-impl
+  \begin{itemize}
+    \item NestDAQ上で動作するユーザータスク実装群
+    \item FEEからデータを受け取ってからデータを外部に出力するまでの処理を定義する
+    \begin{itemize}
+      \item ディスクに保存
+      \item 間引いてディスクに保存
+      \item イベントディスプレイに表示
+    \end{itemize}
+    \item つまりオンライン処理
+    \item どんな実験にも共通して使われる処理を行うためのNestDAQデバイスはすでに(\url{https://github.com/spadi-alliance/nestdaq-user-impl.git})で提供されている
+    \item NestDAQデバイスをどのように組み合わせるかをトポロジーが定義する
+    \item 最小構成のDAQならFEEからデータを受け取ってディスクに書き込むような、Sampler→FileSink
+    \item オンラインでデータ削減を行うための仕組みが提供されている
+    \begin{itemize}
+      \item Sampler→STFBuilder→TFBuilder→LogicFilter→TimeFrameSlicer→HighLevelFilter→FileSink
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+\end{tcolorbox}
 \subsection{NestDAQ上に実装できるオンラインフィルタ}
 \end{document}
