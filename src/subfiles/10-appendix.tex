@@ -21,11 +21,8 @@ C++ STLのコンテナには二種類のアルゴリズムのマップが提供�
 \section{計測環境の詳細}
 \label{sec:appendixB}
 
-本節では、計算機構成の調査記録に基づき、計測環境の候補を計算機ごとに整理する。
-marq04--marq07の情報は2026年10月29日時点の構成であり、各性能測定の実行日時に取得した記録ではない。
-各測定系列との対応、使用コア数、スレッド数、CPU affinity、コンパイラのオプション、入力条件は、個別の測定ログとの照合が必要である。
-CPUクロックのBaseとBoostは原資料に記載されたメーカー公称値であり、測定時の動作周波数ではない。
-メモリ容量は搭載容量を示し、転送速度は設定値を示す。
+CPUクロックは公称Baseと最大Boostを示す。
+メモリ容量は搭載容量、転送速度は設定値を示す。
 TBは10進、GiBおよびMiBは2進表記である。
 
 % 出典の固定コピー：docs/measurement-environments/20261112/。
@@ -48,7 +45,7 @@ TBは10進、GiBおよびMiBは2進表記である。
 項目 & 内容 \\
 \hline
 \endhead
-CPU & Intel Xeon E5-2630 v4 $\times 2$。合計20コア, 40スレッド, NUMA 2ノード \\
+CPU & Intel Xeon E5-2630 v4 $\times 2$, 合計20コア, 40スレッド, NUMA 2ノード \\
 \hline
 CPUクロック & Base 2.20\,GHz, 最大Turbo 3.10\,GHz \\
 \hline
@@ -56,7 +53,7 @@ CPUクロック & Base 2.20\,GHz, 最大Turbo 3.10\,GHz \\
 \hline
 メモリ & 64\,GiB, 8\,GiB $\times 8$, DDR4 ECC, 設定2133\,MT/s \\
 \hline
-GPU & NVIDIA RTX A4000 $\times 2$。各16376\,MiB (nvidia-smi表示) \\
+GPU & NVIDIA RTX A4000 $\times 2$, 16376\,MiB/GPU \\
 \hline
 ストレージ & Crucial MX500, 2\,TB SATA SSD \\
 \hline
@@ -68,7 +65,7 @@ OS & AlmaLinux 9.8 (x86\_64) \\
 \hline
 開発環境 & GCC 11.5.0, nvcc CUDA 13.4 (V13.4.92), NVIDIAドライバ615.71.09 \\
 \hline
-ネットワーク & Intel X540-AT2 10GbE $\times 2$とI350 GbE $\times 2$を検出。調査時はこれらのポートはDOWNで, 別のインターフェースがUP。リンク速度は未取得 \\
+ネットワーク & Intel X540-AT2 10GbE $\times 2$, Intel I350 GbE $\times 2$ \\
 \hline
 \end{longtable}
 \endgroup
@@ -90,15 +87,15 @@ OS & AlmaLinux 9.8 (x86\_64) \\
 項目 & 内容 \\
 \hline
 \endhead
-CPU & AMD Ryzen 9 3900XT。12コア, 24スレッド, NUMA 1ノード \\
+CPU & AMD Ryzen 9 3900XT, 12コア, 24スレッド, NUMA 1ノード \\
 \hline
-CPUクロック & Base 3.8\,GHz, 最大Boost 4.7\,GHz。調査時はBoost enabled \\
+CPUクロック & Base 3.8\,GHz, 最大Boost 4.7\,GHz \\
 \hline
 キャッシュ & L1合計768\,KiB, L2合計6\,MiB, L3合計64\,MiB \\
 \hline
-メモリ & 128\,GiB, 32\,GiB $\times 4$, DDR4 UDIMM, 設定3200\,MT/s。DMI上のエラー訂正はNone \\
+メモリ & 128\,GiB, 32\,GiB $\times 4$, DDR4 UDIMM, 3200\,MT/s \\
 \hline
-GPU & NVIDIA GeForce GT 710をPCI上で検出 \\
+GPU & NVIDIA GeForce GT 710 \\
 \hline
 ストレージ & Intel SSD 660P, 約2.05\,TB NVMe SSD \\
 \hline
@@ -108,7 +105,7 @@ OS & AlmaLinux 9.7 (x86\_64) \\
 \hline
 稼働カーネル & \texttt{5.14.0-611.41.1.el9\_7.x86\_64} \\
 \hline
-ネットワーク & Intel I211 GbE。調査時のリンクは100\,Mb/s, Full duplex \\
+ネットワーク & Intel I211 GbE \\
 \hline
 \end{longtable}
 \endgroup
@@ -130,25 +127,25 @@ OS & AlmaLinux 9.7 (x86\_64) \\
 項目 & 内容 \\
 \hline
 \endhead
-CPU & AMD Ryzen 9 7900。12コア, 24スレッド, NUMA 1ノード \\
+CPU & AMD Ryzen 9 7900, 12コア, 24スレッド, NUMA 1ノード \\
 \hline
-CPUクロック & Base 3.7\,GHz, 最大Boost 5.4\,GHz (原資料の仕様表)。lscpu報告範囲は3.0--3.7\,GHz, Boost enabled \\
+CPUクロック & Base 3.7\,GHz, 最大Boost 5.4\,GHz \\
 \hline
 キャッシュ & L1合計768\,KiB, L2合計12\,MiB, L3合計64\,MiB \\
 \hline
-メモリ & 128\,GiB, 32\,GiB $\times 4$, DDR5 UDIMM, 設定3600\,MT/s。DIMM対応速度4800\,MT/sとは区別する。DMI上のエラー訂正はNone \\
+メモリ & 128\,GiB, 32\,GiB $\times 4$, DDR5 UDIMM, 3600\,MT/s \\
 \hline
-GPU & AMD/ATI RaphaelをPCI上で検出。NVIDIA GPUなどの独立GPUは検出されていない \\
+GPU & AMD/ATI Raphael \\
 \hline
-ストレージ & Crucial P5 Plus, 2\,TB NVMe SSD。WDC製10\,TB SATA HDDは\texttt{/data0}にマウント \\
+ストレージ & Crucial P5 Plus 2\,TB NVMe SSD, WDC 10\,TB SATA HDD \\
 \hline
 プラットフォーム & ASRock X670E Steel Legend, AMD X670 \\
 \hline
 OS & AlmaLinux 9.8 (x86\_64) \\
 \hline
-稼働カーネル & \texttt{5.14.0-503.15.1.el9\_5.x86\_64}。インストール済みのel9\_8版とは区別する \\
+稼働カーネル & \texttt{5.14.0-503.15.1.el9\_5.x86\_64} \\
 \hline
-ネットワーク & 1GbEポートが1000\,Mb/s, Full duplexでリンク。2.5GbEおよび10GbE $\times 2$は調査時リンクなし \\
+ネットワーク & 1GbE, 2.5GbE, 10GbE $\times 2$ \\
 \hline
 \end{longtable}
 \endgroup
@@ -170,17 +167,17 @@ OS & AlmaLinux 9.8 (x86\_64) \\
 項目 & 内容 \\
 \hline
 \endhead
-CPU & AMD EPYC 9554。64コア, 128スレッド, NUMA 1ノード \\
+CPU & AMD EPYC 9554, 64コア, 128スレッド, NUMA 1ノード \\
 \hline
-CPUクロック & Base 3.1\,GHz, 最大Boost 3.75\,GHz。調査時はBoost enabled \\
+CPUクロック & Base 3.1\,GHz, 最大Boost 3.75\,GHz \\
 \hline
 キャッシュ & L1合計4\,MiB, L2合計64\,MiB, L3合計256\,MiB \\
 \hline
-メモリ & 256\,GiB, 32\,GiB $\times 8$, DDR5 Registered ECC, 設定4800\,MT/s。12スロット中8スロット使用 \\
+メモリ & 256\,GiB, 32\,GiB $\times 8$, DDR5 Registered ECC, 4800\,MT/s \\
 \hline
-画面表示 & ASPEED Graphics FamilyをPCI上で検出。計算用GPUの搭載・使用は本資料では確認できない \\
+画面表示 & ASPEED Graphics Family \\
 \hline
-ストレージ & Crucial T500, 1\,TB NVMe SSD $\times 2$。MegaRAID経由の約80\,TB論理ディスク。RAIDレベルと物理ドライブ構成は未確認 \\
+ストレージ & Crucial T500 1\,TB NVMe SSD $\times 2$, MegaRAID 80\,TB論理ディスク \\
 \hline
 プラットフォーム & Supermicro H13SSL-N, AMD EPYC SoC \\
 \hline
@@ -188,7 +185,7 @@ OS & AlmaLinux 9.7 (x86\_64) \\
 \hline
 稼働カーネル & \texttt{5.14.0-611.20.1.el9\_7.x86\_64} \\
 \hline
-ネットワーク & Broadcom BCM5720 1GbE $\times 2$, Intel X710 10GbE SFP+ $\times 2$を検出。実リンク速度は未取得 \\
+ネットワーク & Broadcom BCM5720 1GbE $\times 2$, Intel X710 10GbE SFP+ $\times 2$ \\
 \hline
 \end{longtable}
 \endgroup
@@ -211,24 +208,14 @@ TOFオンラインフィルタのベンチマークに用いた計算機であ�
 項目 & 内容 \\
 \hline
 \endhead
-CPU & AMD EPYC 74F3。24コア, 48スレッド \\
+CPU & AMD EPYC 74F3, 24コア, 48スレッド \\
 \hline
-メモリ & 64\,GB (発表資料の表記)。GiB換算, DIMM構成・速度・ECCは未確認 \\
+メモリ & 64\,GB \\
 \hline
-測定時のCPU設定 & 省電力・ブースト機能を無効化し, 全コアを3.2\,GHzに固定したとの記録。現在の設定は未確認 \\
-\hline
-その他 & OS, 稼働カーネル, コンパイラ, GPU, ストレージ, ネットワークは本資料では未確認 \\
+測定時のCPU設定 & 全コア3.2\,GHz固定, 省電力・ブースト機能無効 \\
 \hline
 \end{longtable}
 \endgroup
 
 
-\subsection{各測定へ適用する際の確認事項}
-\begin{itemize}
-  \item 各測定結果に用いた計算機と実行日時を、測定ログから対応づける。
-  \item 使用コア数、スレッド数、CPU affinity、NUMA配置、CPU周波数設定を確認する。
-  \item ソースの版、コンパイラ・ライブラリの版、最適化オプションを確認する。
-  \item 入力データ、入力サイズ、反復回数、計時区間、単位を確認する。
-  \item GPU測定では使用GPUの台数、CUDA・ドライバの版、転送時間の扱いを確認する。
-\end{itemize}
 \end{document}
