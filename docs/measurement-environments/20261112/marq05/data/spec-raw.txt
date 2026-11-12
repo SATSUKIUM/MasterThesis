@@ -1,0 +1,202 @@
+$ ssh nestdaq@marq05
+Remote commands:
+date -Is; hostname; uname -a; cat /etc/os-release; lscpu; free -b; lsblk -b -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINTS,ROTA,TRAN,MODEL; df -hT; lspci -nn; ip -br addr; uptime; rpm -q kernel; for f in sys_vendor product_name board_vendor board_name bios_vendor bios_version bios_date; do printf "%s: " "$f"; cat /sys/class/dmi/id/$f 2>/dev/null; done; for n in $(ls /sys/class/net); do echo "--- $n"; ethtool "$n" 2>/dev/null; done; sudo -n dmidecode -t memory 2>&1
+
+2026-10-29T18:12:56+09:00
+marq05
+Linux marq05 5.14.0-611.41.1.el9_7.x86_64 #1 SMP PREEMPT_DYNAMIC Thu Mar 19 03:50:11 EDT 2026 x86_64 x86_64 x86_64 GNU/Linux
+NAME="AlmaLinux"
+VERSION="9.7 (Moss Jungle Cat)"
+ID="almalinux"
+ID_LIKE="rhel centos fedora"
+VERSION_ID="9.7"
+PLATFORM_ID="platform:el9"
+PRETTY_NAME="AlmaLinux 9.7 (Moss Jungle Cat)"
+ANSI_COLOR="0;34"
+LOGO="fedora-logo-icon"
+CPE_NAME="cpe:/o:almalinux:almalinux:9::baseos"
+HOME_URL="https://almalinux.org/"
+DOCUMENTATION_URL="https://wiki.almalinux.org/"
+BUG_REPORT_URL="https://bugs.almalinux.org/"
+
+ALMALINUX_MANTISBT_PROJECT="AlmaLinux-9"
+ALMALINUX_MANTISBT_PROJECT_VERSION="9.7"
+REDHAT_SUPPORT_PRODUCT="AlmaLinux"
+REDHAT_SUPPORT_PRODUCT_VERSION="9.7"
+SUPPORT_END=2032-06-01
+Architecture:                            x86_64
+CPU op-mode(s):                          32-bit, 64-bit
+Address sizes:                           43 bits physical, 48 bits virtual
+Byte Order:                              Little Endian
+CPU(s):                                  24
+On-line CPU(s) list:                     0-23
+Vendor ID:                               AuthenticAMD
+Model name:                              AMD Ryzen 9 3900XT 12-Core Processor
+CPU family:                              23
+Model:                                   113
+Thread(s) per core:                      2
+Core(s) per socket:                      12
+Socket(s):                               1
+Stepping:                                0
+Frequency boost:                         enabled
+CPU(s) scaling MHz:                      99%
+CPU max MHz:                             3800.0000
+CPU min MHz:                             2200.0000
+BogoMIPS:                                7585.77
+Flags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid aperfmperf rapl pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand lahf_lm cmp_legacy extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core perfctr_nb bpext perfctr_llc mwaitx cpb cat_l3 cdp_l3 hw_pstate ssbd mba ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 cqm rdt_a rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local clzero irperf xsaveerptr rdpru wbnoinvd arat npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold avic v_vmsave_vmload vgif v_spec_ctrl umip rdpid overflow_recov succor smca sev sev_es
+L1d cache:                               384 KiB (12 instances)
+L1i cache:                               384 KiB (12 instances)
+L2 cache:                                6 MiB (12 instances)
+L3 cache:                                64 MiB (4 instances)
+NUMA node(s):                            1
+NUMA node0 CPU(s):                       0-23
+Vulnerability Gather data sampling:      Not affected
+Vulnerability Indirect target selection: Not affected
+Vulnerability Itlb multihit:             Not affected
+Vulnerability L1tf:                      Not affected
+Vulnerability Mds:                       Not affected
+Vulnerability Meltdown:                  Not affected
+Vulnerability Mmio stale data:           Not affected
+Vulnerability Reg file data sampling:    Not affected
+Vulnerability Retbleed:                  Mitigation; untrained return thunk; SMT enabled with STIBP protection
+Vulnerability Spec rstack overflow:      Mitigation; Safe RET
+Vulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl
+Vulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+Vulnerability Spectre v2:                Mitigation; Retpolines; IBPB conditional; STIBP always-on; RSB filling; PBRSB-eIBRS Not affected; BHI Not affected
+Vulnerability Srbds:                     Not affected
+Vulnerability Tsa:                       Not affected
+Vulnerability Tsx async abort:           Not affected
+Vulnerability Vmscape:                   Mitigation; IBPB before exit to userspace
+               total        used        free      shared  buff/cache   available
+Mem:     134470537216  3739754496  1820872704   240386048 130426478592 130730782720
+Swap:    32002535424      262144 32002273280
+NAME                                 SIZE TYPE FSTYPE      MOUNTPOINTS ROTA TRAN   MODEL
+nvme0n1                     2048408248320 disk                            0 nvme   INTEL SSDPEKNW020T8
+|-nvme0n1p1                    1023410176 part ext4        /boot          0 nvme   
+|-nvme0n1p2                     599785472 part vfat        /boot/efi      0 nvme   
+`-nvme0n1p3                 1882017759232 part LVM2_member                0 nvme   
+  |-almalinux_nlabdaq5-root   70002933760 lvm  ext4        /              0        
+  |-almalinux_nlabdaq5-swap   32002539520 lvm  swap        [SWAP]         0        
+  |-almalinux_nlabdaq5-home 1680003301376 lvm  xfs         /home          0        
+  `-almalinux_nlabdaq5-var   100000595968 lvm  ext4        /var           0        
+Filesystem                          Type      Size  Used Avail Use% Mounted on
+devtmpfs                            devtmpfs  4.0M     0  4.0M   0% /dev
+tmpfs                               tmpfs      63G     0   63G   0% /dev/shm
+tmpfs                               tmpfs      26G  220M   25G   1% /run
+/dev/mapper/almalinux_nlabdaq5-root ext4       64G   27G   34G  45% /
+/dev/mapper/almalinux_nlabdaq5-var  ext4       92G  5.6G   81G   7% /var
+/dev/nvme0n1p1                      ext4      943M  597M  282M  68% /boot
+/dev/nvme0n1p2                      vfat      571M   24K  571M   1% /boot/efi
+/dev/mapper/almalinux_nlabdaq5-home xfs       1.6T  934G  631G  60% /home
+tmpfs                               tmpfs      13G  140K   13G   1% /run/user/1001
+00:00.0 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Starship/Matisse Root Complex [1022:1480]
+00:00.2 IOMMU [0806]: Advanced Micro Devices, Inc. [AMD] Starship/Matisse IOMMU [1022:1481]
+00:01.0 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge [1022:1482]
+00:01.1 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] Starship/Matisse GPP Bridge [1022:1483]
+00:01.2 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] Starship/Matisse GPP Bridge [1022:1483]
+00:02.0 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge [1022:1482]
+00:03.0 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge [1022:1482]
+00:03.1 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] Starship/Matisse GPP Bridge [1022:1483]
+00:04.0 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge [1022:1482]
+00:05.0 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge [1022:1482]
+00:07.0 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge [1022:1482]
+00:07.1 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] Starship/Matisse Internal PCIe GPP Bridge 0 to bus[E:B] [1022:1484]
+00:08.0 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge [1022:1482]
+00:08.1 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] Starship/Matisse Internal PCIe GPP Bridge 0 to bus[E:B] [1022:1484]
+00:14.0 SMBus [0c05]: Advanced Micro Devices, Inc. [AMD] FCH SMBus Controller [1022:790b] (rev 61)
+00:14.3 ISA bridge [0601]: Advanced Micro Devices, Inc. [AMD] FCH LPC Bridge [1022:790e] (rev 51)
+00:18.0 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Matisse/Vermeer Data Fabric: Device 18h; Function 0 [1022:1440]
+00:18.1 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Matisse/Vermeer Data Fabric: Device 18h; Function 1 [1022:1441]
+00:18.2 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Matisse/Vermeer Data Fabric: Device 18h; Function 2 [1022:1442]
+00:18.3 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Matisse/Vermeer Data Fabric: Device 18h; Function 3 [1022:1443]
+00:18.4 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Matisse/Vermeer Data Fabric: Device 18h; Function 4 [1022:1444]
+00:18.5 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Matisse/Vermeer Data Fabric: Device 18h; Function 5 [1022:1445]
+00:18.6 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Matisse/Vermeer Data Fabric: Device 18h; Function 6 [1022:1446]
+00:18.7 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Matisse/Vermeer Data Fabric: Device 18h; Function 7 [1022:1447]
+01:00.0 Non-Volatile memory controller [0108]: Intel Corporation SSD 660P Series [8086:f1a8] (rev 03)
+02:00.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] Matisse Switch Upstream [1022:57ad]
+03:02.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] Matisse PCIe GPP Bridge [1022:57a3]
+03:04.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] Matisse PCIe GPP Bridge [1022:57a3]
+03:08.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] Matisse PCIe GPP Bridge [1022:57a4]
+03:09.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] Matisse PCIe GPP Bridge [1022:57a4]
+03:0a.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] Matisse PCIe GPP Bridge [1022:57a4]
+05:00.0 Ethernet controller [0200]: Intel Corporation I211 Gigabit Network Connection [8086:1539] (rev 03)
+06:00.0 Non-Essential Instrumentation [1300]: Advanced Micro Devices, Inc. [AMD] Starship/Matisse Reserved SPP [1022:1485]
+06:00.1 USB controller [0c03]: Advanced Micro Devices, Inc. [AMD] Matisse USB 3.0 Host Controller [1022:149c]
+06:00.3 USB controller [0c03]: Advanced Micro Devices, Inc. [AMD] Matisse USB 3.0 Host Controller [1022:149c]
+07:00.0 SATA controller [0106]: Advanced Micro Devices, Inc. [AMD] FCH SATA Controller [AHCI mode] [1022:7901] (rev 51)
+08:00.0 SATA controller [0106]: Advanced Micro Devices, Inc. [AMD] FCH SATA Controller [AHCI mode] [1022:7901] (rev 51)
+09:00.0 VGA compatible controller [0300]: NVIDIA Corporation GK208B [GeForce GT 710] [10de:128b] (rev a1)
+09:00.1 Audio device [0403]: NVIDIA Corporation GK208 HDMI/DP Audio Controller [10de:0e0f] (rev a1)
+0a:00.0 Non-Essential Instrumentation [1300]: Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Function [1022:148a]
+0b:00.0 Non-Essential Instrumentation [1300]: Advanced Micro Devices, Inc. [AMD] Starship/Matisse Reserved SPP [1022:1485]
+0b:00.1 Encryption controller [1080]: Advanced Micro Devices, Inc. [AMD] Starship/Matisse Cryptographic Coprocessor PSPCPP [1022:1486]
+0b:00.3 USB controller [0c03]: Advanced Micro Devices, Inc. [AMD] Matisse USB 3.0 Host Controller [1022:149c]
+0b:00.4 Audio device [0403]: Advanced Micro Devices, Inc. [AMD] Starship/Matisse HD Audio Controller [1022:1487]
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+enp5s0           UP             172.16.205.169/19 fe80::1ac0:4dff:fe07:f43f/64 
+enp11s0f3u4      DOWN           192.168.10.44/16 fe80::a86c:7118:5091:7b8b/64 
+ 18:12:56 up 204 days,  5:50,  2 users,  load average: 0.22, 0.05, 0.02
+kernel-5.14.0-611.16.1.el9_7.x86_64
+kernel-5.14.0-611.24.1.el9_7.x86_64
+kernel-5.14.0-611.41.1.el9_7.x86_64
+sys_vendor: Gigabyte Technology Co., Ltd.
+product_name: X570 AORUS ELITE
+board_vendor: Gigabyte Technology Co., Ltd.
+board_name: X570 AORUS ELITE
+bios_vendor: American Megatrends Inc.
+bios_version: F31e
+bios_date: 10/29/2020
+--- enp11s0f3u4
+Settings for enp11s0f3u4:
+	Supported ports: [ TP	 MII ]
+	Supported link modes:   10baseT/Half 10baseT/Full
+	                        100baseT/Half 100baseT/Full
+	                        1000baseT/Half 1000baseT/Full
+	Supported pause frame use: No
+	Supports auto-negotiation: Yes
+	Supported FEC modes: Not reported
+	Advertised link modes:  10baseT/Half 10baseT/Full
+	                        100baseT/Half 100baseT/Full
+	                        1000baseT/Full
+	Advertised pause frame use: No
+	Advertised auto-negotiation: Yes
+	Advertised FEC modes: Not reported
+	Speed: 10Mb/s
+	Duplex: Half
+	Auto-negotiation: on
+	Port: MII
+	PHYAD: 3
+	Transceiver: internal
+        Current message level: 0x00000007 (7)
+                               drv probe link
+	Link detected: no
+--- enp5s0
+Settings for enp5s0:
+	Supported ports: [ TP ]
+	Supported link modes:   10baseT/Half 10baseT/Full
+	                        100baseT/Half 100baseT/Full
+	                        1000baseT/Full
+	Supported pause frame use: Symmetric
+	Supports auto-negotiation: Yes
+	Supported FEC modes: Not reported
+	Advertised link modes:  10baseT/Half 10baseT/Full
+	                        100baseT/Half 100baseT/Full
+	                        1000baseT/Full
+	Advertised pause frame use: Symmetric
+	Advertised auto-negotiation: Yes
+	Advertised FEC modes: Not reported
+	Speed: 100Mb/s
+	Duplex: Full
+	Auto-negotiation: on
+	Port: Twisted Pair
+	PHYAD: 1
+	Transceiver: internal
+	MDI-X: on (auto)
+        Current message level: 0x00000007 (7)
+                               drv probe link
+	Link detected: yes
+--- lo
+Settings for lo:
+	Link detected: yes
+sudo: a password is required

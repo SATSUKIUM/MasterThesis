@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>サーバースペック | marq06</title><link rel="icon" type="image/png" sizes="64x64" href="../assets/icons/favicon-local.png" data-kashimashi-local-icon><link rel="stylesheet" href="assets/style.css"></head>
+<body><main><nav aria-label="資料ナビゲーション"><a href="../index.html">サーバー一覧</a><a href="#hardware">ハードウェア</a><a href="#storage">ストレージ</a><a href="#network">ネットワーク</a><a href="data/spec-raw.txt">実機取得ログ</a></nav>
+<header><div class="label">MARQ06 · LAB SERVER · 2026-10-29</div><h1>marq06 サーバースペック</h1><p>nestdaq@marq06 にSSH接続して確認した実機構成。Ryzen 9 7900の12コア／24スレッド、128GiBメモリ（OS認識約124GiB）、2TB NVMe SSDと10TB SATA HDDを搭載。</p></header>
+<section id="hardware"><h2>ハードウェア概要</h2><table><thead><tr><th>項目</th><th>実機情報</th></tr></thead><tbody>
+<tr><td>ホスト／接続先</td><td>marq06 ／ <code>ssh nestdaq@marq06</code></td></tr>
+<tr><td>システム・マザーボード</td><td>ASRock X670E Steel Legend（DMIの製品名・ボード名）。筐体型番は未確認。</td></tr>
+<tr><td>BIOS</td><td>American Megatrends International, LLC. ／ 2.02 ／ 2023-11-17</td></tr>
+<tr><td>CPU</td><td>AMD Ryzen 9 7900 12-Core Processor ×1<br>12物理コア／24スレッド（SMT 2）、x86_64、NUMA 1ノード</td></tr>
+<tr><td>CPU周波数</td><td>lscpu報告の最小3.0GHz／最大3.7GHz、Boost enabled。OSが示す周波数範囲であり、公称最大ブースト値や実測性能を示すものではない。</td></tr>
+<tr><td>キャッシュ・命令</td><td>L1d 384KiB＋L1i 384KiB、L2合計12MiB、L3合計64MiB（2インスタンス）。AVX2、AVX-512、AES、AMD-VをCPUフラグで確認。</td></tr>
+<tr><td>メモリ</td><td>OS認識 133,595,090,944 bytes ≒ 124.42GiB。物理搭載容量は<strong>128GiB（32GiB×4枚）</strong>。P0 CHANNEL A・BそれぞれDIMM 0・1に搭載。全4枚ともDDR5、型番CT32G48C40U5.C16A1、2 Rank、対応速度4800MT/s、<strong>設定速度3600MT/s</strong>で一致。DMIのManufacturer欄はUnknown。全4枚ともSynchronous Unbuffered（Unregistered）のUDIMM、設定電圧1.1V（最小・最大電圧も1.1V）。Physical Memory ArrayはNumber Of Devices: 4、Maximum Capacity: 128GiB、Error Correction Type: None。4スロットすべて使用中で、搭載容量はDMI報告の最大容量に達している（将来のBIOS対応を含む増設可否を保証する値ではない）。全4枚のTotal Width／Data Widthはともに64 bitsで、DMI上はシステム側のECCなし。</td></tr>
+<tr><td>Swap</td><td>4GiB（NVMe上のLVM）</td></tr>
+<tr><td>GPU</td><td>AMD/ATI Raphael（PCI ID 1002:164e）。lspci上、NVIDIA GPUやその他の独立GPUは検出されていない。</td></tr>
+<tr><td>光学ドライブ</td><td>DRW-24D5MT（SATA、/dev/sr0）</td></tr>
+<tr><td>OS</td><td>AlmaLinux 9.8 (Olive Jaguar)</td></tr>
+<tr><td>稼働中カーネル</td><td><code>5.14.0-503.15.1.el9_5.x86_64</code></td></tr>
+<tr><td>インストール済みカーネル</td><td>5.14.0-427.20.1.el9_4、5.14.0-503.15.1.el9_5、5.14.0-687.25.1.el9_8（各x86_64）。el9_8版はインストール済みだが現在の稼働版ではない。</td></tr>
+</tbody></table></section>
+<section id="storage"><h2>ストレージ構成</h2><table><thead><tr><th>デバイス</th><th>モデル・接続</th><th>物理容量</th><th>用途</th></tr></thead><tbody>
+<tr><td>nvme0n1</td><td>Crucial CT2000P5PSSD8（P5 Plus）<br>NVMe SSD／ROTA=0</td><td>2,000,398,934,016 bytes<br>約2.00TB／1.82TiB</td><td>OS、/home、Swap。EFI＋/boot＋LVM。</td></tr>
+<tr><td>sda</td><td>WDC WD102KRYZ-01A5AB0<br>SATA HDD／ROTA=1</td><td>10,000,831,348,736 bytes<br>約10.00TB／9.10TiB</td><td>/data0（ディスク全体をext4で使用）</td></tr>
+</tbody></table>
+<h3>マウントと使用状況</h3><table><thead><tr><th>マウント</th><th>デバイス／形式</th><th>容量</th><th>使用済み</th><th>空き</th><th>使用率</th></tr></thead><tbody>
+<tr><td>/</td><td>almalinux-root／XFS</td><td>70GiB</td><td>9.3GiB</td><td>61GiB</td><td>14%</td></tr>
+<tr><td>/home</td><td>almalinux-home／XFS</td><td>約1.8TiB</td><td>約1.6TiB</td><td>184GiB</td><td><strong>90%</strong></td></tr>
+<tr><td>/data0</td><td>sda／ext4</td><td>9.1TiB</td><td>5.8TiB</td><td>2.9TiB</td><td>67%</td></tr>
+<tr><td>/boot</td><td>nvme0n1p2／XFS</td><td>1014MiB</td><td>584MiB</td><td>431MiB</td><td>58%</td></tr>
+<tr><td>/boot/efi</td><td>nvme0n1p1／vfat</td><td>599MiB</td><td>7.7MiB</td><td>592MiB</td><td>2%</td></tr>
+</tbody></table><p>容量・使用状況はdf -hTの丸め値。TBは10進、TiB／GiBは2進表記。ファイルシステムの管理領域・予約領域により、物理容量や「容量−使用済み」と空きは一致しない場合がある。</p><p class="note">取得時点で/homeは90%使用、空き約184GiB。大容量データの配置では/data0の空き約2.9TiBと併せて確認する。</p></section>
+<section id="network"><h2>ネットワーク</h2><table><thead><tr><th>インターフェース</th><th>コントローラー</th><th>対応速度</th><th>取得時点の状態／IPv4</th></tr></thead><tbody>
+<tr><td>enp5s0</td><td>Realtek RTL8111/8168/8211/8411</td><td>1GbE</td><td><strong>リンクあり、1,000Mb/s、Full duplex</strong><br>172.16.214.213/19</td></tr>
+<tr><td>enp8s0</td><td>Realtek RTL8125</td><td>2.5GbE</td><td>リンクなし／IPv4なし</td></tr>
+<tr><td>enp1s0f0</td><td>Intel 82599ES SFI/SFP+</td><td>10GbE</td><td>リンクなし／IPv4なし</td></tr>
+<tr><td>enp1s0f1</td><td>Intel 82599ES SFI/SFP+</td><td>10GbE</td><td>リンクなし／192.168.2.23/24</td></tr>
+<tr><td>wlp7s0</td><td>MediaTek MT7922 802.11ax</td><td>無線LAN</td><td>DOWN／IPv4なし</td></tr>
+</tbody></table><p>有線4ポートのMTUは1500。10GbEポートは2つ検出されているが、取得時点では双方ともキャリアなし。設定済みIPアドレスは疎通可能であることを意味しない。通信性能のベンチマークは未実施。</p></section>
+<section><h2>取得条件と未確認項目</h2><p>2026-10-29 17:45〜17:47 JST頃、nestdaqユーザーでSSH接続して取得。調査では参照コマンドのみを実行し、サーバーの設定変更・再起動・負荷試験は行っていない。</p><p>参考状態：稼働時間157日、load averageは約4.2、メモリ使用約8.2GiB／available約116GiB、Swap使用約19MiB（初回取得時点）。これらは構成値ではなく、その時点の稼働状況。</p><p>DIMM情報を確認するsudo -n dmidecodeは「a password is required」で取得できなかった。その後、ユーザーが実行したdmidecodeの抜粋を受領し、上記のDIMM情報を追記した。ユーザーから提供された全4スロットとPhysical Memory Arrayの出力により、32GiB×4枚の搭載構成、型番、設定速度、DMI上のECCなしを確認済み。電源／筐体型番、全機消費電力、ディスク健全性も未確認。</p><p>根拠：<a href="data/spec-raw.txt">実機取得ログ</a>。主な取得元はlscpu、free、lsblk、df、lspci、ethtool、ip、/sys/class/dmi/id、/etc/os-release、uname、rpm。DIMM詳細はユーザー提供のsudo dmidecode -t memory全文（dmidecode 3.6、SMBIOS 3.4.0、全4スロット・Physical Memory Array）に基づく（シリアル番号は記載省略）。外部の公称スペックによる補完は行っていない。</p></section>
+<footer>取得日：2026-10-29 JST · 対象：nestdaq@marq06</footer></main></body></html>

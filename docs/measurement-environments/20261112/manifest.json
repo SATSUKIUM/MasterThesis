@@ -1,0 +1,83 @@
+{
+  "source": "/Users/kashima/codex-cli-workspace/marq06-spec",
+  "source_head": "a95a267f243e54c851c3143ab2620ca137738513",
+  "note": "Source working tree includes uncommitted report edits; hashes identify the actual referenced files.",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "2397f980017aaca802414aa4eba6147c5bd518fd77384d24ebf1ebc7a3fc1e1c"
+    },
+    {
+      "path": "index.html",
+      "sha256": "0f154143d02cdc0692605a665386653efd8adcad8d98b96a3d23882e6ace2aa8"
+    },
+    {
+      "path": "assets/icons/favicon-local.png",
+      "sha256": "23d1a7ec7558573bd3c167a654755a39aa81b03c332aab6e103bfcc688bad747"
+    },
+    {
+      "path": "marq04/index.html",
+      "sha256": "89d25cf789806149aac8f7bc99e6456e27be7ff7c10946672f2bbf9fc1c6fa89"
+    },
+    {
+      "path": "marq04/assets/style.css",
+      "sha256": "32dd934ad00ef0addfe1ff9f9560b63750232d72cd755e748345be82adb0e36c"
+    },
+    {
+      "path": "marq04/slide-assets/marq04-spec-paper-body.tex",
+      "sha256": "72ab82287e9d629ce1e665b48c156907484dea143aa4376175506141ccec467e"
+    },
+    {
+      "path": "marq04/data/spec-raw.txt",
+      "sha256": "5f7dc1be479bae0b5a0da49bb20ae0ddbc837d28e2784bfa33312915f4838c91"
+    },
+    {
+      "path": "marq05/index.html",
+      "sha256": "897c3054b4373bfce567a3e7842cbcecdeec3be1bf69e90f6d31c6bfd5d4893f"
+    },
+    {
+      "path": "marq05/assets/style.css",
+      "sha256": "32dd934ad00ef0addfe1ff9f9560b63750232d72cd755e748345be82adb0e36c"
+    },
+    {
+      "path": "marq05/slide-assets/marq05-spec-paper-body.tex",
+      "sha256": "8143ddcb45342bfdb81fa90df85b8ce323a77973ac7481a9f54c1cba31fd6354"
+    },
+    {
+      "path": "marq05/data/spec-raw.txt",
+      "sha256": "3fb3dfe160e0cddd7beb83cf6ef4fefefe6f95d85ea1ed7765c5ddefd601ac39"
+    },
+    {
+      "path": "marq06/index.html",
+      "sha256": "2a79f6e41ab3d1188036d180eaba58180d8a5035a2edb67d47e998be3139dc17"
+    },
+    {
+      "path": "marq06/assets/style.css",
+      "sha256": "32dd934ad00ef0addfe1ff9f9560b63750232d72cd755e748345be82adb0e36c"
+    },
+    {
+      "path": "marq06/slide-assets/marq06-spec-paper-body.tex",
+      "sha256": "0aaf6a1e8b14e3df7ec5493806b4cfe5d7c55bc552ef47def6f3d2066b3ddc28"
+    },
+    {
+      "path": "marq06/data/spec-raw.txt",
+      "sha256": "ffb559e6510cf6b85fa223042daf6f7cfc5c2009f92141d65fba4c89cc771a56"
+    },
+    {
+      "path": "marq07/index.html",
+      "sha256": "21a324b4a9a57f07bb95a48d5d1272a95b2746c345820ee84dbf759a2daf7a4a"
+    },
+    {
+      "path": "marq07/assets/style.css",
+      "sha256": "32dd934ad00ef0addfe1ff9f9560b63750232d72cd755e748345be82adb0e36c"
+    },
+    {
+      "path": "marq07/slide-assets/marq07-spec-paper-body.tex",
+      "sha256": "382e7162288ca85f19f0898036b3e3d35c07f35ea85a4715305efede3ed46656"
+    },
+    {
+      "path": "e50server03/index.html",
+      "sha256": "c567a4684a0c95f223a5d98ca61ee80d2382abb5805c15e9440f1fca85c4a610"
+    }
+  ]
+}

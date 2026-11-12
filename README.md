@@ -91,3 +91,10 @@ VSCodeでは **MasterThesisフォルダーを開く**。`.vscode/settings.json` 
 
 subfilesのファイル名には、main.texでの読み込み順に01〜11の番号を付ける。
 番号は文書内の章番号ではなく、執筆メモ・概要・付録などを含むファイルの表示順を表す。
+
+## 付録Bの計測環境 (試作)
+
+`src/subfiles/10-appendix.tex` の付録Bにmarq04〜07とe50server03の構成記録を整理。
+出典の固定コピーとハッシュは `docs/measurement-environments/20261112/`、
+判断・未確認事項は `workspace/20261112/appendix-b-environments/index.html` を参照。
+構成調査日とベンチマーク実行日時は区別し、各測定系列との対応は未確認。

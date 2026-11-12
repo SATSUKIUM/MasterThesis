@@ -20,4 +20,231 @@ C++ STLのコンテナには二種類のアルゴリズムのマップが提供�
 
 \section{計測環境の詳細}
 \label{sec:appendixB}
+
+本節では、計算機構成の調査記録に基づき、計測環境の候補を計算機ごとに整理する。
+marq04--marq07の情報は2026年10月29日時点の構成であり、各性能測定の実行日時に取得した記録ではない。
+各測定系列との対応、使用コア数、スレッド数、CPU affinity、コンパイラのオプション、入力条件は、個別の測定ログとの照合が必要である。
+CPUクロックのBaseとBoostは原資料に記載されたメーカー公称値であり、測定時の動作周波数ではない。
+メモリ容量は搭載容量を示し、転送速度は設定値を示す。
+TBは10進、GiBおよびMiBは2進表記である。
+
+% 出典の固定コピー：docs/measurement-environments/20261112/。
+% 原本：/Users/kashima/codex-cli-workspace/marq06-spec/。
+% 正確な参照内容はmanifest.jsonのSHA-256で識別する。
+
+\subsection{marq04}
+\label{sec:environment-marq04}
+2026年10月29日18時19分頃 (JST) のSSH調査と、ユーザー提供のDIMM情報。GPU・開発環境は取得ログに記録されている。
+
+\begingroup
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{longtable}{|p{0.21\linewidth}|p{0.70\linewidth}|}
+\caption{marq04の構成記録}\label{tab:environment-marq04}\\
+\hline
+項目 & 内容 \\
+\hline
+\endfirsthead
+\hline
+項目 & 内容 \\
+\hline
+\endhead
+CPU & Intel Xeon E5-2630 v4 $\times 2$。合計20コア、40スレッド、NUMA 2ノード。 \\
+\hline
+CPUクロック & Base 2.20\,GHz、最大Turbo 3.10\,GHz。 \\
+\hline
+キャッシュ & L1合計1.25\,MiB、L2合計5\,MiB、L3合計50\,MiB。 \\
+\hline
+メモリ & 64\,GiB、8\,GiB $\times 8$、DDR4 ECC、設定2133\,MT/s。 \\
+\hline
+GPU & NVIDIA RTX A4000 $\times 2$。各16376\,MiB (nvidia-smi表示)。 \\
+\hline
+ストレージ & Crucial MX500、2\,TB SATA SSD。 \\
+\hline
+プラットフォーム & ASRockRack 3U8G+、Intel C610/X99。 \\
+\hline
+OS & AlmaLinux 9.8 (x86\_64)。 \\
+\hline
+稼働カーネル & \texttt{5.14.0-687.57.1.el9\_8.x86\_64}。 \\
+\hline
+開発環境 & GCC 11.5.0、nvcc CUDA 13.4 (V13.4.92)、NVIDIAドライバ615.71.09。 \\
+\hline
+ネットワーク & Intel X540-AT2 10GbE $\times 2$とI350 GbE $\times 2$を検出。調査時はこれらのポートはDOWNで、別のインターフェースがUP。リンク速度は未取得。 \\
+\hline
+\end{longtable}
+\endgroup
+
+出典：\path{docs/measurement-environments/20261112/marq04/index.html}。
+実機取得ログは同ディレクトリの\path{data/spec-raw.txt}を参照。
+公称クロックなどの要約値は同ディレクトリの\path{slide-assets/marq04-spec-paper-body.tex}も参照。
+
+\subsection{marq05}
+\label{sec:environment-marq05}
+2026年10月29日18時12分頃 (JST) のSSH調査と、ユーザー提供のDIMM情報。コンパイラの版・ビルド条件は本資料では未確認。
+
+\begingroup
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{longtable}{|p{0.21\linewidth}|p{0.70\linewidth}|}
+\caption{marq05の構成記録}\label{tab:environment-marq05}\\
+\hline
+項目 & 内容 \\
+\hline
+\endfirsthead
+\hline
+項目 & 内容 \\
+\hline
+\endhead
+CPU & AMD Ryzen 9 3900XT。12コア、24スレッド、NUMA 1ノード。 \\
+\hline
+CPUクロック & Base 3.8\,GHz、最大Boost 4.7\,GHz。調査時はBoost enabled。 \\
+\hline
+キャッシュ & L1合計768\,KiB、L2合計6\,MiB、L3合計64\,MiB。 \\
+\hline
+メモリ & 128\,GiB、32\,GiB $\times 4$、DDR4 UDIMM、設定3200\,MT/s。DMI上のエラー訂正はNone。 \\
+\hline
+GPU & NVIDIA GeForce GT 710をPCI上で検出。 \\
+\hline
+ストレージ & Intel SSD 660P、約2.05\,TB NVMe SSD。 \\
+\hline
+プラットフォーム & GIGABYTE X570 AORUS ELITE、AMD X570。 \\
+\hline
+OS & AlmaLinux 9.7 (x86\_64)。 \\
+\hline
+稼働カーネル & \texttt{5.14.0-611.41.1.el9\_7.x86\_64}。 \\
+\hline
+ネットワーク & Intel I211 GbE。調査時のリンクは100\,Mb/s、Full duplex。 \\
+\hline
+\end{longtable}
+\endgroup
+
+出典：\path{docs/measurement-environments/20261112/marq05/index.html}。
+実機取得ログは同ディレクトリの\path{data/spec-raw.txt}を参照。
+公称クロックなどの要約値は同ディレクトリの\path{slide-assets/marq05-spec-paper-body.tex}も参照。
+
+\subsection{marq06}
+\label{sec:environment-marq06}
+2026年10月29日17時45--47分頃 (JST) のSSH調査と、ユーザー提供のDIMM情報。コンパイラの版・ビルド条件は本資料では未確認。
+
+\begingroup
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{longtable}{|p{0.21\linewidth}|p{0.70\linewidth}|}
+\caption{marq06の構成記録}\label{tab:environment-marq06}\\
+\hline
+項目 & 内容 \\
+\hline
+\endfirsthead
+\hline
+項目 & 内容 \\
+\hline
+\endhead
+CPU & AMD Ryzen 9 7900。12コア、24スレッド、NUMA 1ノード。 \\
+\hline
+CPUクロック & Base 3.7\,GHz、最大Boost 5.4\,GHz (原資料の仕様表)。lscpu報告範囲は3.0--3.7\,GHz、Boost enabled。 \\
+\hline
+キャッシュ & L1合計768\,KiB、L2合計12\,MiB、L3合計64\,MiB。 \\
+\hline
+メモリ & 128\,GiB、32\,GiB $\times 4$、DDR5 UDIMM、設定3600\,MT/s。DIMM対応速度4800\,MT/sとは区別する。DMI上のエラー訂正はNone。 \\
+\hline
+GPU & AMD/ATI RaphaelをPCI上で検出。NVIDIA GPUなどの独立GPUは検出されていない。 \\
+\hline
+ストレージ & Crucial P5 Plus、2\,TB NVMe SSD。WDC製10\,TB SATA HDDは\texttt{/data0}にマウント。 \\
+\hline
+プラットフォーム & ASRock X670E Steel Legend、AMD X670。 \\
+\hline
+OS & AlmaLinux 9.8 (x86\_64)。 \\
+\hline
+稼働カーネル & \texttt{5.14.0-503.15.1.el9\_5.x86\_64}。インストール済みのel9\_8版とは区別する。 \\
+\hline
+ネットワーク & 1GbEポートが1000\,Mb/s、Full duplexでリンク。2.5GbEおよび10GbE $\times 2$は調査時リンクなし。 \\
+\hline
+\end{longtable}
+\endgroup
+
+出典：\path{docs/measurement-environments/20261112/marq06/index.html}。
+実機取得ログは同ディレクトリの\path{data/spec-raw.txt}を参照。
+公称クロックなどの要約値は同ディレクトリの\path{slide-assets/marq06-spec-paper-body.tex}も参照。
+
+\subsection{marq07}
+\label{sec:environment-marq07}
+2026年10月29日18時15分 (JST) にユーザーが取得したコマンド出力に基づく報告。シリアル番号を含む元出力は参照ディレクトリには保存されていない。コンパイラの版・ビルド条件は本資料では未確認。
+
+\begingroup
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{longtable}{|p{0.21\linewidth}|p{0.70\linewidth}|}
+\caption{marq07の構成記録}\label{tab:environment-marq07}\\
+\hline
+項目 & 内容 \\
+\hline
+\endfirsthead
+\hline
+項目 & 内容 \\
+\hline
+\endhead
+CPU & AMD EPYC 9554。64コア、128スレッド、NUMA 1ノード。 \\
+\hline
+CPUクロック & Base 3.1\,GHz、最大Boost 3.75\,GHz。調査時はBoost enabled。 \\
+\hline
+キャッシュ & L1合計4\,MiB、L2合計64\,MiB、L3合計256\,MiB。 \\
+\hline
+メモリ & 256\,GiB、32\,GiB $\times 8$、DDR5 Registered ECC、設定4800\,MT/s。12スロット中8スロット使用。 \\
+\hline
+画面表示 & ASPEED Graphics FamilyをPCI上で検出。計算用GPUの搭載・使用は本資料では確認できない。 \\
+\hline
+ストレージ & Crucial T500、1\,TB NVMe SSD $\times 2$。MegaRAID経由の約80\,TB論理ディスク。RAIDレベルと物理ドライブ構成は未確認。 \\
+\hline
+プラットフォーム & Supermicro H13SSL-N、AMD EPYC SoC。 \\
+\hline
+OS & AlmaLinux 9.7 (x86\_64)。 \\
+\hline
+稼働カーネル & \texttt{5.14.0-611.20.1.el9\_7.x86\_64}。 \\
+\hline
+ネットワーク & Broadcom BCM5720 1GbE $\times 2$、Intel X710 10GbE SFP+ $\times 2$を検出。実リンク速度は未取得。 \\
+\hline
+\end{longtable}
+\endgroup
+
+出典：\path{docs/measurement-environments/20261112/marq07/index.html}。
+公称クロックなどの要約値は同ディレクトリの\path{slide-assets/marq07-spec-paper-body.tex}も参照。
+
+\subsection{e50server03}
+\label{sec:environment-e50server03}
+原資料のe50server03報告によると、計測システム研究会2025の発表資料8ページに仕様、19ページにCPU設定が記載されている。TOFオンラインフィルタのベンチマーク環境がe50server03であることは、同報告にユーザー確認済みとして記録されている。実機調査による情報ではない。
+
+\begingroup
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{longtable}{|p{0.21\linewidth}|p{0.70\linewidth}|}
+\caption{e50server03の構成記録}\label{tab:environment-e50server03}\\
+\hline
+項目 & 内容 \\
+\hline
+\endfirsthead
+\hline
+項目 & 内容 \\
+\hline
+\endhead
+CPU & AMD EPYC 74F3。24コア、48スレッド。 \\
+\hline
+メモリ & 64\,GB (発表資料の表記)。GiB換算、DIMM構成・速度・ECCは未確認。 \\
+\hline
+測定時のCPU設定 & 省電力・ブースト機能を無効化し、全コアを3.2\,GHzに固定したとの記録。現在の設定は未確認。 \\
+\hline
+その他 & OS、稼働カーネル、コンパイラ、GPU、ストレージ、ネットワークは本資料では未確認。 \\
+\hline
+\end{longtable}
+\endgroup
+
+出典：\path{docs/measurement-environments/20261112/e50server03/index.html}。
+
+\subsection{各測定へ適用する際の確認事項}
+\begin{itemize}
+  \item 各測定結果に用いた計算機と実行日時を、測定ログから対応づける。
+  \item 使用コア数、スレッド数、CPU affinity、NUMA配置、CPU周波数設定を確認する。
+  \item ソースの版、コンパイラ・ライブラリの版、最適化オプションを確認する。
+  \item 入力データ、入力サイズ、反復回数、計時区間、単位を確認する。
+  \item GPU測定では使用GPUの台数、CUDA・ドライバの版、転送時間の扱いを確認する。
+\end{itemize}
 \end{document}

@@ -1,0 +1,263 @@
+$ ssh nestdaq@marq06
+Remote commands:
+date -Is; hostname; uname -a; cat /etc/os-release; lscpu; free -b; lsblk -b -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINTS,ROTA,TRAN,MODEL; df -hT; lspci -nn; ip -br addr; uptime; rpm -q kernel; for f in sys_vendor product_name board_vendor board_name bios_vendor bios_version bios_date; do printf "%s: " "$f"; cat /sys/class/dmi/id/$f 2>/dev/null; done; for n in enp5s0 enp8s0 enp1s0f0 enp1s0f1; do echo "--- $n"; ethtool "$n" 2>/dev/null; done
+
+2026-10-29T17:45:46+09:00
+marq06
+Linux marq06 5.14.0-503.15.1.el9_5.x86_64 #1 SMP PREEMPT_DYNAMIC Thu Nov 28 07:25:19 EST 2024 x86_64 x86_64 x86_64 GNU/Linux
+NAME="AlmaLinux"
+VERSION="9.8 (Olive Jaguar)"
+ID="almalinux"
+ID_LIKE="rhel centos fedora"
+VERSION_ID="9.8"
+PLATFORM_ID="platform:el9"
+PRETTY_NAME="AlmaLinux 9.8 (Olive Jaguar)"
+ANSI_COLOR="0;34"
+LOGO="fedora-logo-icon"
+CPE_NAME="cpe:/o:almalinux:almalinux:9::baseos"
+HOME_URL="https://almalinux.org/"
+DOCUMENTATION_URL="https://wiki.almalinux.org/"
+BUG_REPORT_URL="https://bugs.almalinux.org/"
+
+ALMALINUX_MANTISBT_PROJECT="AlmaLinux-9"
+ALMALINUX_MANTISBT_PROJECT_VERSION="9.8"
+REDHAT_SUPPORT_PRODUCT="AlmaLinux"
+REDHAT_SUPPORT_PRODUCT_VERSION="9.8"
+SUPPORT_END=2032-06-01
+Architecture:                         x86_64
+CPU op-mode(s):                       32-bit, 64-bit
+Address sizes:                        48 bits physical, 48 bits virtual
+Byte Order:                           Little Endian
+CPU(s):                               24
+On-line CPU(s) list:                  0-23
+Vendor ID:                            AuthenticAMD
+Model name:                           AMD Ryzen 9 7900 12-Core Processor
+CPU family:                           25
+Model:                                97
+Thread(s) per core:                   2
+Core(s) per socket:                   12
+Socket(s):                            1
+Stepping:                             2
+Frequency boost:                      enabled
+CPU(s) scaling MHz:                   100%
+CPU max MHz:                          3700.0000
+CPU min MHz:                          3000.0000
+BogoMIPS:                             7385.75
+Flags:                                fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good amd_lbr_v2 nopl nonstop_tsc cpuid extd_apicid aperfmperf rapl pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core perfctr_nb bpext perfctr_llc mwaitx cpb cat_l3 cdp_l3 hw_pstate ssbd mba perfmon_v2 ibrs ibpb stibp ibrs_enhanced vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid cqm rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local avx512_bf16 clzero irperf xsaveerptr rdpru wbnoinvd cppc arat npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold avic v_vmsave_vmload vgif x2avic v_spec_ctrl vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid overflow_recov succor smca fsrm flush_l1d amd_lbr_pmc_freeze
+Virtualization:                       AMD-V
+L1d cache:                            384 KiB (12 instances)
+L1i cache:                            384 KiB (12 instances)
+L2 cache:                             12 MiB (12 instances)
+L3 cache:                             64 MiB (2 instances)
+NUMA node(s):                         1
+NUMA node0 CPU(s):                    0-23
+Vulnerability Gather data sampling:   Not affected
+Vulnerability Itlb multihit:          Not affected
+Vulnerability L1tf:                   Not affected
+Vulnerability Mds:                    Not affected
+Vulnerability Meltdown:               Not affected
+Vulnerability Mmio stale data:        Not affected
+Vulnerability Reg file data sampling: Not affected
+Vulnerability Retbleed:               Not affected
+Vulnerability Spec rstack overflow:   Mitigation; Safe RET
+Vulnerability Spec store bypass:      Mitigation; Speculative Store Bypass disabled via prctl
+Vulnerability Spectre v1:             Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+Vulnerability Spectre v2:             Mitigation; Enhanced / Automatic IBRS; IBPB conditional; STIBP always-on; RSB filling; PBRSB-eIBRS Not affected; BHI Not affected
+Vulnerability Srbds:                  Not affected
+Vulnerability Tsx async abort:        Not affected
+               total        used        free      shared  buff/cache   available
+Mem:     133595090944  8743477248 66438856704   829026304 60514508800 124851613696
+Swap:     4294963200    20185088  4274778112
+NAME                         SIZE TYPE FSTYPE      MOUNTPOINTS ROTA TRAN   MODEL
+sda                10000831348736 disk ext4        /data0         1 sata   WDC WD102KRYZ-01A5AB0
+sr0                    1073741312 rom                             1 sata   DRW-24D5MT
+nvme0n1             2000398934016 disk                            0 nvme   CT2000P5PSSD8
+├─nvme0n1p1             629145600 part vfat        /boot/efi      0 nvme   
+├─nvme0n1p2            1073741824 part xfs         /boot          0 nvme   
+└─nvme0n1p3         1998694907904 part LVM2_member                0 nvme   
+  ├─almalinux-root    75161927680 lvm  xfs         /              0        
+  ├─almalinux-swap     4294967296 lvm  swap        [SWAP]         0        
+  └─almalinux-home  1919233818624 lvm  xfs         /home          0        
+Filesystem                 Type      Size  Used Avail Use% Mounted on
+devtmpfs                   devtmpfs  4.0M     0  4.0M   0% /dev
+tmpfs                      tmpfs      63G     0   63G   0% /dev/shm
+tmpfs                      tmpfs      25G  809M   25G   4% /run
+efivarfs                   efivarfs  128K   16K  108K  13% /sys/firmware/efi/efivars
+/dev/mapper/almalinux-root xfs        70G  9.3G   61G  14% /
+/dev/mapper/almalinux-home xfs       1.8T  1.6T  184G  90% /home
+/dev/nvme0n1p2             xfs      1014M  584M  431M  58% /boot
+/dev/nvme0n1p1             vfat      599M  7.7M  592M   2% /boot/efi
+/dev/sda                   ext4      9.1T  5.8T  2.9T  67% /data0
+tmpfs                      tmpfs      13G  140K   13G   1% /run/user/1001
+00:00.0 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge Root Complex [1022:14d8]
+00:00.2 IOMMU [0806]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge IOMMU [1022:14d9]
+00:01.0 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge Dummy Host Bridge [1022:14da]
+00:01.1 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge GPP Bridge [1022:14db]
+00:02.0 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge Dummy Host Bridge [1022:14da]
+00:02.1 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge GPP Bridge [1022:14db]
+00:02.2 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge GPP Bridge [1022:14db]
+00:03.0 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge Dummy Host Bridge [1022:14da]
+00:04.0 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge Dummy Host Bridge [1022:14da]
+00:08.0 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge Dummy Host Bridge [1022:14da]
+00:08.1 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge Internal GPP Bridge to Bus [C:A] [1022:14dd]
+00:08.3 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge Internal GPP Bridge to Bus [C:A] [1022:14dd]
+00:14.0 SMBus [0c05]: Advanced Micro Devices, Inc. [AMD] FCH SMBus Controller [1022:790b] (rev 71)
+00:14.3 ISA bridge [0601]: Advanced Micro Devices, Inc. [AMD] FCH LPC Bridge [1022:790e] (rev 51)
+00:18.0 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge Data Fabric; Function 0 [1022:14e0]
+00:18.1 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge Data Fabric; Function 1 [1022:14e1]
+00:18.2 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge Data Fabric; Function 2 [1022:14e2]
+00:18.3 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge Data Fabric; Function 3 [1022:14e3]
+00:18.4 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge Data Fabric; Function 4 [1022:14e4]
+00:18.5 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge Data Fabric; Function 5 [1022:14e5]
+00:18.6 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge Data Fabric; Function 6 [1022:14e6]
+00:18.7 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge Data Fabric; Function 7 [1022:14e7]
+01:00.0 Ethernet controller [0200]: Intel Corporation 82599ES 10-Gigabit SFI/SFP+ Network Connection [8086:10fb] (rev 01)
+01:00.1 Ethernet controller [0200]: Intel Corporation 82599ES 10-Gigabit SFI/SFP+ Network Connection [8086:10fb] (rev 01)
+02:00.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset PCIe Switch Upstream Port [1022:43f4] (rev 01)
+03:00.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset PCIe Switch Downstream Port [1022:43f5] (rev 01)
+03:04.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset PCIe Switch Downstream Port [1022:43f5] (rev 01)
+03:05.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset PCIe Switch Downstream Port [1022:43f5] (rev 01)
+03:06.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset PCIe Switch Downstream Port [1022:43f5] (rev 01)
+03:07.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset PCIe Switch Downstream Port [1022:43f5] (rev 01)
+03:08.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset PCIe Switch Downstream Port [1022:43f5] (rev 01)
+03:0c.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset PCIe Switch Downstream Port [1022:43f5] (rev 01)
+03:0d.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset PCIe Switch Downstream Port [1022:43f5] (rev 01)
+05:00.0 Ethernet controller [0200]: Realtek Semiconductor Co., Ltd. RTL8111/8168/8211/8411 PCI Express Gigabit Ethernet Controller [10ec:8168] (rev 15)
+07:00.0 Network controller [0280]: MEDIATEK Corp. MT7922 802.11ax PCI Express Wireless Network Adapter [14c3:0616]
+08:00.0 Ethernet controller [0200]: Realtek Semiconductor Co., Ltd. RTL8125 2.5GbE Controller [10ec:8125] (rev 05)
+09:00.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset PCIe Switch Upstream Port [1022:43f4] (rev 01)
+0a:00.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset PCIe Switch Downstream Port [1022:43f5] (rev 01)
+0a:04.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset PCIe Switch Downstream Port [1022:43f5] (rev 01)
+0a:05.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset PCIe Switch Downstream Port [1022:43f5] (rev 01)
+0a:06.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset PCIe Switch Downstream Port [1022:43f5] (rev 01)
+0a:07.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset PCIe Switch Downstream Port [1022:43f5] (rev 01)
+0a:08.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset PCIe Switch Downstream Port [1022:43f5] (rev 01)
+0a:0c.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset PCIe Switch Downstream Port [1022:43f5] (rev 01)
+0a:0d.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset PCIe Switch Downstream Port [1022:43f5] (rev 01)
+11:00.0 USB controller [0c03]: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset USB 3.2 Controller [1022:43f7] (rev 01)
+12:00.0 SATA controller [0106]: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset SATA Controller [1022:43f6] (rev 01)
+13:00.0 USB controller [0c03]: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset USB 3.2 Controller [1022:43f7] (rev 01)
+14:00.0 SATA controller [0106]: Advanced Micro Devices, Inc. [AMD] 600 Series Chipset SATA Controller [1022:43f6] (rev 01)
+15:00.0 Non-Volatile memory controller [0108]: Micron/Crucial Technology P5 Plus NVMe PCIe SSD [c0a9:5407]
+16:00.0 VGA compatible controller [0300]: Advanced Micro Devices, Inc. [AMD/ATI] Raphael [1002:164e] (rev c4)
+16:00.1 Audio device [0403]: Advanced Micro Devices, Inc. [AMD/ATI] Radeon High Definition Audio Controller [1002:1640]
+16:00.2 Encryption controller [1080]: Advanced Micro Devices, Inc. [AMD] Family 19h PSP/CCP [1022:1649]
+16:00.3 USB controller [0c03]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge USB 3.1 xHCI [1022:15b6]
+16:00.4 USB controller [0c03]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge USB 3.1 xHCI [1022:15b7]
+16:00.6 Audio device [0403]: Advanced Micro Devices, Inc. [AMD] Ryzen HD Audio Controller [1022:15e3]
+17:00.0 USB controller [0c03]: Advanced Micro Devices, Inc. [AMD] Raphael/Granite Ridge USB 2.0 xHCI [1022:15b8]
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+enp5s0           UP             172.16.214.213/19 fe80::9e6b:ff:fe34:f82c/64 
+enp8s0           DOWN           
+enp1s0f0         DOWN           
+enp1s0f1         DOWN           192.168.2.23/24 fe80::1139:219e:6c3c:23d7/64 
+wlp7s0           DOWN           
+ 17:45:46 up 157 days,  2:53,  0 users,  load average: 4.14, 4.24, 4.17
+kernel-5.14.0-427.20.1.el9_4.x86_64
+kernel-5.14.0-503.15.1.el9_5.x86_64
+kernel-5.14.0-687.25.1.el9_8.x86_64
+sys_vendor: ASRock
+product_name: X670E Steel Legend
+board_vendor: ASRock
+board_name: X670E Steel Legend
+bios_vendor: American Megatrends International, LLC.
+bios_version: 2.02
+bios_date: 11/17/2023
+--- enp5s0
+Settings for enp5s0:
+	Supported ports: [ TP	 MII ]
+	Supported link modes:   10baseT/Half 10baseT/Full
+	                        100baseT/Half 100baseT/Full
+	                        1000baseT/Full
+	Supported pause frame use: Symmetric Receive-only
+	Supports auto-negotiation: Yes
+	Supported FEC modes: Not reported
+	Advertised link modes:  10baseT/Half 10baseT/Full
+	                        100baseT/Half 100baseT/Full
+	                        1000baseT/Full
+	Advertised pause frame use: Symmetric Receive-only
+	Advertised auto-negotiation: Yes
+	Advertised FEC modes: Not reported
+	Link partner advertised link modes:  10baseT/Half 10baseT/Full
+	                                     100baseT/Half 100baseT/Full
+	                                     1000baseT/Full
+	Link partner advertised pause frame use: Symmetric
+	Link partner advertised auto-negotiation: Yes
+	Link partner advertised FEC modes: Not reported
+	Speed: 1000Mb/s
+	Duplex: Full
+	Auto-negotiation: on
+	master-slave cfg: preferred slave
+	master-slave status: slave
+	Port: Twisted Pair
+	PHYAD: 0
+	Transceiver: external
+	MDI-X: Unknown
+	Link detected: yes
+--- enp8s0
+Settings for enp8s0:
+	Supported ports: [ TP	 MII ]
+	Supported link modes:   10baseT/Half 10baseT/Full
+	                        100baseT/Half 100baseT/Full
+	                        1000baseT/Full
+	                        2500baseT/Full
+	Supported pause frame use: Symmetric Receive-only
+	Supports auto-negotiation: Yes
+	Supported FEC modes: Not reported
+	Advertised link modes:  10baseT/Half 10baseT/Full
+	                        100baseT/Half 100baseT/Full
+	                        1000baseT/Full
+	                        2500baseT/Full
+	Advertised pause frame use: Symmetric Receive-only
+	Advertised auto-negotiation: Yes
+	Advertised FEC modes: Not reported
+	Speed: Unknown!
+	Duplex: Unknown! (255)
+	Auto-negotiation: on
+	master-slave cfg: preferred slave
+	master-slave status: unknown
+	Port: Twisted Pair
+	PHYAD: 0
+	Transceiver: external
+	MDI-X: Unknown
+	Link detected: no
+--- enp1s0f0
+Settings for enp1s0f0:
+	Supported ports: [ FIBRE ]
+	Supported link modes:   10000baseT/Full
+	Supported pause frame use: Symmetric
+	Supports auto-negotiation: No
+	Supported FEC modes: Not reported
+	Advertised link modes:  10000baseT/Full
+	Advertised pause frame use: Symmetric
+	Advertised auto-negotiation: No
+	Advertised FEC modes: Not reported
+	Speed: Unknown!
+	Duplex: Unknown! (255)
+	Auto-negotiation: off
+	Port: Other
+	PHYAD: 0
+	Transceiver: internal
+        Current message level: 0x00000007 (7)
+                               drv probe link
+	Link detected: no
+--- enp1s0f1
+Settings for enp1s0f1:
+	Supported ports: [ FIBRE ]
+	Supported link modes:   10000baseT/Full
+	Supported pause frame use: Symmetric
+	Supports auto-negotiation: No
+	Supported FEC modes: Not reported
+	Advertised link modes:  10000baseT/Full
+	Advertised pause frame use: Symmetric
+	Advertised auto-negotiation: No
+	Advertised FEC modes: Not reported
+	Speed: Unknown!
+	Duplex: Unknown! (255)
+	Auto-negotiation: off
+	Port: FIBRE
+	PHYAD: 0
+	Transceiver: internal
+        Current message level: 0x00000007 (7)
+                               drv probe link
+	Link detected: no

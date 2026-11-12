@@ -1,0 +1,329 @@
+$ ssh nestdaq@172.16.204.43
+Remote commands:
+date -Is; hostname; uname -a; cat /etc/os-release; lscpu; free -b; lsblk -b -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINTS,ROTA,TRAN,MODEL; df -hT; lspci -nn; ip -br addr; uptime; for f in sys_vendor product_name board_vendor board_name bios_vendor bios_version bios_date; do printf "%s: " "$f"; cat /sys/class/dmi/id/$f 2>/dev/null; done; command -v gcc; gcc --version; command -v nvcc; nvcc --version; nvidia-smi; nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv; sudo -n dmidecode -t memory 2>&1
+
+2026-10-29T05:19:52-04:00
+marq04
+Linux marq04 5.14.0-687.57.1.el9_8.x86_64 #1 SMP PREEMPT_DYNAMIC Wed Oct 14 12:29:14 EDT 2026 x86_64 x86_64 x86_64 GNU/Linux
+NAME="AlmaLinux"
+VERSION="9.8 (Olive Jaguar)"
+ID="almalinux"
+ID_LIKE="rhel centos fedora"
+VERSION_ID="9.8"
+PLATFORM_ID="platform:el9"
+PRETTY_NAME="AlmaLinux 9.8 (Olive Jaguar)"
+ANSI_COLOR="0;34"
+LOGO="fedora-logo-icon"
+CPE_NAME="cpe:/o:almalinux:almalinux:9::baseos"
+HOME_URL="https://almalinux.org/"
+DOCUMENTATION_URL="https://wiki.almalinux.org/"
+BUG_REPORT_URL="https://bugs.almalinux.org/"
+
+ALMALINUX_MANTISBT_PROJECT="AlmaLinux-9"
+ALMALINUX_MANTISBT_PROJECT_VERSION="9.8"
+REDHAT_SUPPORT_PRODUCT="AlmaLinux"
+REDHAT_SUPPORT_PRODUCT_VERSION="9.8"
+SUPPORT_END=2032-06-01
+Architecture:                            x86_64
+CPU op-mode(s):                          32-bit, 64-bit
+Address sizes:                           46 bits physical, 48 bits virtual
+Byte Order:                              Little Endian
+CPU(s):                                  40
+On-line CPU(s) list:                     0-39
+Vendor ID:                               GenuineIntel
+Model name:                              Intel(R) Xeon(R) CPU E5-2630 v4 @ 2.20GHz
+CPU family:                              6
+Model:                                   79
+Thread(s) per core:                      2
+Core(s) per socket:                      10
+Socket(s):                               2
+Stepping:                                1
+CPU(s) scaling MHz:                      95%
+CPU max MHz:                             3100.0000
+CPU min MHz:                             1200.0000
+BogoMIPS:                                4399.72
+Flags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 pti intel_ppin tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts vnmi
+Virtualization:                          VT-x
+L1d cache:                               640 KiB (20 instances)
+L1i cache:                               640 KiB (20 instances)
+L2 cache:                                5 MiB (20 instances)
+L3 cache:                                50 MiB (2 instances)
+NUMA node(s):                            2
+NUMA node0 CPU(s):                       0-9,20-29
+NUMA node1 CPU(s):                       10-19,30-39
+Vulnerability Gather data sampling:      Not affected
+Vulnerability Indirect target selection: Not affected
+Vulnerability Itlb multihit:             KVM: Mitigation: Split huge pages
+Vulnerability L1tf:                      Mitigation; PTE Inversion; VMX conditional cache flushes, SMT vulnerable
+Vulnerability Mds:                       Vulnerable: Clear CPU buffers attempted, no microcode; SMT vulnerable
+Vulnerability Meltdown:                  Mitigation; PTI
+Vulnerability Mmio stale data:           Vulnerable: Clear CPU buffers attempted, no microcode; SMT vulnerable
+Vulnerability Old microcode:             Not affected
+Vulnerability Reg file data sampling:    Not affected
+Vulnerability Retbleed:                  Not affected
+Vulnerability Spec rstack overflow:      Not affected
+Vulnerability Spec store bypass:         Vulnerable
+Vulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+Vulnerability Spectre v2:                Mitigation; Retpolines; STIBP disabled; RSB filling; PBRSB-eIBRS Not affected; BHI Not affected
+Vulnerability Srbds:                     Not affected
+Vulnerability Tsa:                       Not affected
+Vulnerability Tsx async abort:           Vulnerable: Clear CPU buffers attempted, no microcode; SMT vulnerable
+Vulnerability Vmscape:                   Vulnerable
+               total        used        free      shared  buff/cache   available
+Mem:     66861727744  3019837440 25174609920    21512192 39324864512 63841890304
+Swap:     8589930496   489734144  8100196352
+NAME                        SIZE TYPE FSTYPE      MOUNTPOINTS ROTA TRAN   MODEL
+sda                2000398934016 disk                            0 sata   CT2000MX500SSD1
+├─sda1                1073741824 part vfat        /boot/efi      0        
+├─sda2                2147483648 part xfs         /boot          0        
+└─sda3              652837126144 part LVM2_member                0        
+  ├─almalinux-root  107374182400 lvm  xfs         /              0        
+  ├─almalinux-swap    8589934592 lvm  swap        [SWAP]         0        
+  └─almalinux-home  536870912000 lvm  xfs         /home          0        
+Filesystem                 Type      Size  Used Avail Use% Mounted on
+devtmpfs                   devtmpfs   32G     0   32G   0% /dev
+tmpfs                      tmpfs      32G     0   32G   0% /dev/shm
+tmpfs                      tmpfs      13G  2.4M   13G   1% /run
+efivarfs                   efivarfs  128K   47K   77K  38% /sys/firmware/efi/efivars
+/dev/mapper/almalinux-root xfs       100G   14G   87G  14% /
+/dev/sda2                  xfs       2.0G  760M  1.2G  39% /boot
+/dev/mapper/almalinux-home xfs       500G   47G  454G  10% /home
+/dev/sda1                  vfat     1022M  7.7M 1015M   1% /boot/efi
+tmpfs                      tmpfs     6.3G  104K  6.3G   1% /run/user/1000
+00:00.0 Host bridge [0600]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DMI2 [8086:6f00] (rev 01)
+00:01.0 PCI bridge [0604]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D PCI Express Root Port 1 [8086:6f02] (rev 01)
+00:02.0 PCI bridge [0604]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D PCI Express Root Port 2 [8086:6f04] (rev 01)
+00:03.0 PCI bridge [0604]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D PCI Express Root Port 3 [8086:6f08] (rev 01)
+00:05.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Map/VTd_Misc/System Management [8086:6f28] (rev 01)
+00:05.1 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D IIO Hot Plug [8086:6f29] (rev 01)
+00:05.2 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D IIO RAS/Control Status/Global Errors [8086:6f2a] (rev 01)
+00:05.4 PIC [0800]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D I/O APIC [8086:6f2c] (rev 01)
+00:11.0 Unassigned class [ff00]: Intel Corporation C610/X99 series chipset SPSR [8086:8d7c] (rev 05)
+00:14.0 USB controller [0c03]: Intel Corporation C610/X99 series chipset USB xHCI Host Controller [8086:8d31] (rev 05)
+00:16.0 Communication controller [0780]: Intel Corporation C610/X99 series chipset MEI Controller #1 [8086:8d3a] (rev 05)
+00:16.1 Communication controller [0780]: Intel Corporation C610/X99 series chipset MEI Controller #2 [8086:8d3b] (rev 05)
+00:1a.0 USB controller [0c03]: Intel Corporation C610/X99 series chipset USB Enhanced Host Controller #2 [8086:8d2d] (rev 05)
+00:1c.0 PCI bridge [0604]: Intel Corporation C610/X99 series chipset PCI Express Root Port #1 [8086:8d10] (rev d5)
+00:1c.3 PCI bridge [0604]: Intel Corporation C610/X99 series chipset PCI Express Root Port #4 [8086:8d16] (rev d5)
+00:1c.4 PCI bridge [0604]: Intel Corporation C610/X99 series chipset PCI Express Root Port #5 [8086:8d18] (rev d5)
+00:1d.0 USB controller [0c03]: Intel Corporation C610/X99 series chipset USB Enhanced Host Controller #1 [8086:8d26] (rev 05)
+00:1f.0 ISA bridge [0601]: Intel Corporation C610/X99 series chipset LPC Controller [8086:8d44] (rev 05)
+00:1f.2 SATA controller [0106]: Intel Corporation C610/X99 series chipset 6-Port SATA Controller [AHCI mode] [8086:8d02] (rev 05)
+00:1f.3 SMBus [0c05]: Intel Corporation C610/X99 series chipset SMBus Controller [8086:8d22] (rev 05)
+01:00.0 Ethernet controller [0200]: Intel Corporation Ethernet Controller 10-Gigabit X540-AT2 [8086:1528] (rev 01)
+01:00.1 Ethernet controller [0200]: Intel Corporation Ethernet Controller 10-Gigabit X540-AT2 [8086:1528] (rev 01)
+02:00.0 PCI bridge [0604]: PLX Technology, Inc. PEX 8747 48-Lane, 5-Port PCI Express Gen 3 (8.0 GT/s) Switch [10b5:8747] (rev ca)
+03:08.0 PCI bridge [0604]: PLX Technology, Inc. PEX 8747 48-Lane, 5-Port PCI Express Gen 3 (8.0 GT/s) Switch [10b5:8747] (rev ca)
+03:10.0 PCI bridge [0604]: PLX Technology, Inc. PEX 8747 48-Lane, 5-Port PCI Express Gen 3 (8.0 GT/s) Switch [10b5:8747] (rev ca)
+06:00.0 PCI bridge [0604]: PLX Technology, Inc. PEX 8747 48-Lane, 5-Port PCI Express Gen 3 (8.0 GT/s) Switch [10b5:8747] (rev ca)
+07:08.0 PCI bridge [0604]: PLX Technology, Inc. PEX 8747 48-Lane, 5-Port PCI Express Gen 3 (8.0 GT/s) Switch [10b5:8747] (rev ca)
+07:10.0 PCI bridge [0604]: PLX Technology, Inc. PEX 8747 48-Lane, 5-Port PCI Express Gen 3 (8.0 GT/s) Switch [10b5:8747] (rev ca)
+07:11.0 PCI bridge [0604]: PLX Technology, Inc. PEX 8747 48-Lane, 5-Port PCI Express Gen 3 (8.0 GT/s) Switch [10b5:8747] (rev ca)
+09:00.0 VGA compatible controller [0300]: NVIDIA Corporation GA104GL [RTX A4000] [10de:24b0] (rev a1)
+09:00.1 Audio device [0403]: NVIDIA Corporation GA104 High Definition Audio Controller [10de:228b] (rev a1)
+0a:00.0 VGA compatible controller [0300]: NVIDIA Corporation GA104GL [RTX A4000] [10de:24b0] (rev a1)
+0a:00.1 Audio device [0403]: NVIDIA Corporation GA104 High Definition Audio Controller [10de:228b] (rev a1)
+0c:00.0 PCI bridge [0604]: ASPEED Technology, Inc. AST1150 PCI-to-PCI Bridge [1a03:1150] (rev 03)
+0d:00.0 VGA compatible controller [0300]: ASPEED Technology, Inc. ASPEED Graphics Family [1a03:2000] (rev 30)
+0e:00.0 Ethernet controller [0200]: Intel Corporation I350 Gigabit Network Connection [8086:1521] (rev 01)
+0e:00.1 Ethernet controller [0200]: Intel Corporation I350 Gigabit Network Connection [8086:1521] (rev 01)
+7f:08.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D QPI Link 0 [8086:6f80] (rev 01)
+7f:08.2 Performance counters [1101]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D QPI Link 0 [8086:6f32] (rev 01)
+7f:08.3 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D QPI Link 0 [8086:6f83] (rev 01)
+7f:09.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D QPI Link 1 [8086:6f90] (rev 01)
+7f:09.2 Performance counters [1101]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D QPI Link 1 [8086:6f33] (rev 01)
+7f:09.3 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D QPI Link 1 [8086:6f93] (rev 01)
+7f:0b.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D R3 QPI Link 0/1 [8086:6f81] (rev 01)
+7f:0b.1 Performance counters [1101]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D R3 QPI Link 0/1 [8086:6f36] (rev 01)
+7f:0b.2 Performance counters [1101]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D R3 QPI Link 0/1 [8086:6f37] (rev 01)
+7f:0b.3 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D R3 QPI Link Debug [8086:6f76] (rev 01)
+7f:0c.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6fe0] (rev 01)
+7f:0c.1 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6fe1] (rev 01)
+7f:0c.2 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6fe2] (rev 01)
+7f:0c.3 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6fe3] (rev 01)
+7f:0c.4 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6fe4] (rev 01)
+7f:0c.5 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6fe5] (rev 01)
+7f:0c.6 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6fe6] (rev 01)
+7f:0c.7 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6fe7] (rev 01)
+7f:0d.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6fe8] (rev 01)
+7f:0d.1 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6fe9] (rev 01)
+7f:0f.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6ff8] (rev 01)
+7f:0f.1 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6ff9] (rev 01)
+7f:0f.4 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6ffc] (rev 01)
+7f:0f.5 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6ffd] (rev 01)
+7f:0f.6 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6ffe] (rev 01)
+7f:10.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D R2PCIe Agent [8086:6f1d] (rev 01)
+7f:10.1 Performance counters [1101]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D R2PCIe Agent [8086:6f34] (rev 01)
+7f:10.5 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Ubox [8086:6f1e] (rev 01)
+7f:10.6 Performance counters [1101]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Ubox [8086:6f7d] (rev 01)
+7f:10.7 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Ubox [8086:6f1f] (rev 01)
+7f:12.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Home Agent 0 [8086:6fa0] (rev 01)
+7f:12.1 Performance counters [1101]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Home Agent 0 [8086:6f30] (rev 01)
+7f:13.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Target Address/Thermal/RAS [8086:6fa8] (rev 01)
+7f:13.1 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Target Address/Thermal/RAS [8086:6f71] (rev 01)
+7f:13.2 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel Target Address Decoder [8086:6faa] (rev 01)
+7f:13.3 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel Target Address Decoder [8086:6fab] (rev 01)
+7f:13.4 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel Target Address Decoder [8086:6fac] (rev 01)
+7f:13.5 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel Target Address Decoder [8086:6fad] (rev 01)
+7f:13.6 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Channel 0/1 Broadcast [8086:6fae] (rev 01)
+7f:13.7 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Global Broadcast [8086:6faf] (rev 01)
+7f:14.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel 0 Thermal Control [8086:6fb0] (rev 01)
+7f:14.1 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel 1 Thermal Control [8086:6fb1] (rev 01)
+7f:14.2 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel 0 Error [8086:6fb2] (rev 01)
+7f:14.3 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel 1 Error [8086:6fb3] (rev 01)
+7f:14.4 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Channel 0/1 Interface [8086:6fbc] (rev 01)
+7f:14.5 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Channel 0/1 Interface [8086:6fbd] (rev 01)
+7f:14.6 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Channel 0/1 Interface [8086:6fbe] (rev 01)
+7f:14.7 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Channel 0/1 Interface [8086:6fbf] (rev 01)
+7f:15.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel 2 Thermal Control [8086:6fb4] (rev 01)
+7f:15.1 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel 3 Thermal Control [8086:6fb5] (rev 01)
+7f:15.2 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel 2 Error [8086:6fb6] (rev 01)
+7f:15.3 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel 3 Error [8086:6fb7] (rev 01)
+7f:16.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Target Address/Thermal/RAS [8086:6f68] (rev 01)
+7f:16.6 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Channel 2/3 Broadcast [8086:6f6e] (rev 01)
+7f:16.7 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Global Broadcast [8086:6f6f] (rev 01)
+7f:17.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 1 - Channel 0 Thermal Control [8086:6fd0] (rev 01)
+7f:17.4 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Channel 2/3 Interface [8086:6fb8] (rev 01)
+7f:17.5 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Channel 2/3 Interface [8086:6fb9] (rev 01)
+7f:17.6 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Channel 2/3 Interface [8086:6fba] (rev 01)
+7f:17.7 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Channel 2/3 Interface [8086:6fbb] (rev 01)
+7f:1e.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Power Control Unit [8086:6f98] (rev 01)
+7f:1e.1 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Power Control Unit [8086:6f99] (rev 01)
+7f:1e.2 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Power Control Unit [8086:6f9a] (rev 01)
+7f:1e.3 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Power Control Unit [8086:6fc0] (rev 01)
+7f:1e.4 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Power Control Unit [8086:6f9c] (rev 01)
+7f:1f.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Power Control Unit [8086:6f88] (rev 01)
+7f:1f.2 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Power Control Unit [8086:6f8a] (rev 01)
+80:02.0 PCI bridge [0604]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D PCI Express Root Port 2 [8086:6f04] (rev 01)
+80:03.0 PCI bridge [0604]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D PCI Express Root Port 3 [8086:6f08] (rev 01)
+80:05.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Map/VTd_Misc/System Management [8086:6f28] (rev 01)
+80:05.1 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D IIO Hot Plug [8086:6f29] (rev 01)
+80:05.2 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D IIO RAS/Control Status/Global Errors [8086:6f2a] (rev 01)
+80:05.4 PIC [0800]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D I/O APIC [8086:6f2c] (rev 01)
+81:00.0 PCI bridge [0604]: PLX Technology, Inc. PEX 8747 48-Lane, 5-Port PCI Express Gen 3 (8.0 GT/s) Switch [10b5:8747] (rev ca)
+82:08.0 PCI bridge [0604]: PLX Technology, Inc. PEX 8747 48-Lane, 5-Port PCI Express Gen 3 (8.0 GT/s) Switch [10b5:8747] (rev ca)
+82:10.0 PCI bridge [0604]: PLX Technology, Inc. PEX 8747 48-Lane, 5-Port PCI Express Gen 3 (8.0 GT/s) Switch [10b5:8747] (rev ca)
+85:00.0 PCI bridge [0604]: PLX Technology, Inc. PEX 8747 48-Lane, 5-Port PCI Express Gen 3 (8.0 GT/s) Switch [10b5:8747] (rev ca)
+86:08.0 PCI bridge [0604]: PLX Technology, Inc. PEX 8747 48-Lane, 5-Port PCI Express Gen 3 (8.0 GT/s) Switch [10b5:8747] (rev ca)
+86:10.0 PCI bridge [0604]: PLX Technology, Inc. PEX 8747 48-Lane, 5-Port PCI Express Gen 3 (8.0 GT/s) Switch [10b5:8747] (rev ca)
+ff:08.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D QPI Link 0 [8086:6f80] (rev 01)
+ff:08.2 Performance counters [1101]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D QPI Link 0 [8086:6f32] (rev 01)
+ff:08.3 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D QPI Link 0 [8086:6f83] (rev 01)
+ff:09.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D QPI Link 1 [8086:6f90] (rev 01)
+ff:09.2 Performance counters [1101]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D QPI Link 1 [8086:6f33] (rev 01)
+ff:09.3 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D QPI Link 1 [8086:6f93] (rev 01)
+ff:0b.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D R3 QPI Link 0/1 [8086:6f81] (rev 01)
+ff:0b.1 Performance counters [1101]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D R3 QPI Link 0/1 [8086:6f36] (rev 01)
+ff:0b.2 Performance counters [1101]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D R3 QPI Link 0/1 [8086:6f37] (rev 01)
+ff:0b.3 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D R3 QPI Link Debug [8086:6f76] (rev 01)
+ff:0c.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6fe0] (rev 01)
+ff:0c.1 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6fe1] (rev 01)
+ff:0c.2 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6fe2] (rev 01)
+ff:0c.3 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6fe3] (rev 01)
+ff:0c.4 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6fe4] (rev 01)
+ff:0c.5 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6fe5] (rev 01)
+ff:0c.6 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6fe6] (rev 01)
+ff:0c.7 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6fe7] (rev 01)
+ff:0d.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6fe8] (rev 01)
+ff:0d.1 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6fe9] (rev 01)
+ff:0f.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6ff8] (rev 01)
+ff:0f.1 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6ff9] (rev 01)
+ff:0f.4 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6ffc] (rev 01)
+ff:0f.5 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6ffd] (rev 01)
+ff:0f.6 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Caching Agent [8086:6ffe] (rev 01)
+ff:10.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D R2PCIe Agent [8086:6f1d] (rev 01)
+ff:10.1 Performance counters [1101]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D R2PCIe Agent [8086:6f34] (rev 01)
+ff:10.5 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Ubox [8086:6f1e] (rev 01)
+ff:10.6 Performance counters [1101]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Ubox [8086:6f7d] (rev 01)
+ff:10.7 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Ubox [8086:6f1f] (rev 01)
+ff:12.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Home Agent 0 [8086:6fa0] (rev 01)
+ff:12.1 Performance counters [1101]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Home Agent 0 [8086:6f30] (rev 01)
+ff:13.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Target Address/Thermal/RAS [8086:6fa8] (rev 01)
+ff:13.1 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Target Address/Thermal/RAS [8086:6f71] (rev 01)
+ff:13.2 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel Target Address Decoder [8086:6faa] (rev 01)
+ff:13.3 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel Target Address Decoder [8086:6fab] (rev 01)
+ff:13.4 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel Target Address Decoder [8086:6fac] (rev 01)
+ff:13.5 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel Target Address Decoder [8086:6fad] (rev 01)
+ff:13.6 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Channel 0/1 Broadcast [8086:6fae] (rev 01)
+ff:13.7 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Global Broadcast [8086:6faf] (rev 01)
+ff:14.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel 0 Thermal Control [8086:6fb0] (rev 01)
+ff:14.1 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel 1 Thermal Control [8086:6fb1] (rev 01)
+ff:14.2 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel 0 Error [8086:6fb2] (rev 01)
+ff:14.3 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel 1 Error [8086:6fb3] (rev 01)
+ff:14.4 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Channel 0/1 Interface [8086:6fbc] (rev 01)
+ff:14.5 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Channel 0/1 Interface [8086:6fbd] (rev 01)
+ff:14.6 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Channel 0/1 Interface [8086:6fbe] (rev 01)
+ff:14.7 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Channel 0/1 Interface [8086:6fbf] (rev 01)
+ff:15.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel 2 Thermal Control [8086:6fb4] (rev 01)
+ff:15.1 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel 3 Thermal Control [8086:6fb5] (rev 01)
+ff:15.2 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel 2 Error [8086:6fb6] (rev 01)
+ff:15.3 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 0 - Channel 3 Error [8086:6fb7] (rev 01)
+ff:16.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Target Address/Thermal/RAS [8086:6f68] (rev 01)
+ff:16.6 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Channel 2/3 Broadcast [8086:6f6e] (rev 01)
+ff:16.7 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Global Broadcast [8086:6f6f] (rev 01)
+ff:17.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Memory Controller 1 - Channel 0 Thermal Control [8086:6fd0] (rev 01)
+ff:17.4 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Channel 2/3 Interface [8086:6fb8] (rev 01)
+ff:17.5 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Channel 2/3 Interface [8086:6fb9] (rev 01)
+ff:17.6 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Channel 2/3 Interface [8086:6fba] (rev 01)
+ff:17.7 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D DDRIO Channel 2/3 Interface [8086:6fbb] (rev 01)
+ff:1e.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Power Control Unit [8086:6f98] (rev 01)
+ff:1e.1 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Power Control Unit [8086:6f99] (rev 01)
+ff:1e.2 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Power Control Unit [8086:6f9a] (rev 01)
+ff:1e.3 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Power Control Unit [8086:6fc0] (rev 01)
+ff:1e.4 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Power Control Unit [8086:6f9c] (rev 01)
+ff:1f.0 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Power Control Unit [8086:6f88] (rev 01)
+ff:1f.2 System peripheral [0880]: Intel Corporation Xeon E7 v4/Xeon E5 v4/Xeon E3 v4/Xeon D Power Control Unit [8086:6f8a] (rev 01)
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+enp14s0f0        DOWN           
+enp14s0f1        DOWN           
+ens11f0          DOWN           
+enp0s20u3        UP             172.16.204.43/19 
+ens11f1          DOWN           
+ 05:19:53 up 7 days,  5:26,  1 user,  load average: 0.00, 0.00, 0.00
+sys_vendor: ASRockRack
+product_name: 3U8G+
+board_vendor: ASRockRack
+board_name: 3U8G+
+bios_vendor: American Megatrends Inc.
+bios_version: P1.40
+bios_date: 12/14/2017
+/usr/bin/gcc
+gcc (GCC) 11.5.0 20240719 (Red Hat 11.5.0-14)
+Copyright (C) 2021 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+/usr/local/cuda-13.4/bin/nvcc
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2026 NVIDIA Corporation
+Built on Tue_Sep_01_08:45:21_PDT_2026
+Cuda compilation tools, release 13.4, V13.4.92
+Build cuda_13.4.r13.4/compiler.38855100_0
+Thu Oct 29 05:19:53 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 615.71.09              KMD Version: 615.71.09     CUDA UMD Version: 13.4     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX A4000               On  |   00000000:09:00.0 Off |                  Off |
+| 41%   34C    P8             13W /  140W |       0MiB /  16376MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  NVIDIA RTX A4000               On  |   00000000:0A:00.0 Off |                  Off |
+| 41%   35C    P8             11W /  140W |       0MiB /  16376MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+name, memory.total [MiB], driver_version
+NVIDIA RTX A4000, 16376 MiB, 615.71.09
+NVIDIA RTX A4000, 16376 MiB, 615.71.09
+sudo: a password is required
