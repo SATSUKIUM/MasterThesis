@@ -1,0 +1,9 @@
+{
+  "source_hashes": 25,
+  "changed_tex_files": 5,
+  "parallel_cases": 9,
+  "per_process_records": 35,
+  "bibliography_entries": 6,
+  "all_checks": "passed",
+  "pdf_build": "not run"
+}

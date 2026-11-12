@@ -1,0 +1,813 @@
+
+FILE K-sys-symp2025 PAGE 8
+TOFフィルターの性能評価
+—
+測定対象 7/18
+• TOFフィルターの性能評価 ⇨ 処理にかかった時間(elapsed time)の計測
+タイマー(1)
+TOFフィルター処理内容
+純粋なTOF判定時間
+Coin. & Slicerのメッセージ受け取り
+コンテナにメッセージ展開
+タイマー(2)
+全体の処理にかかる
+時間
+TOF計算・条件判定
+後段プロセスにメッセージキュー送信
+• 処理できるデータレート : 処理したデータ [byte] / タイマー(1)
+計測環境
+計算機のスペック
+CPU AMD EPYC 74F3
+#Cores 24 コア / 48 スレッド
+メモリ 64 GB
+
+FILE K-sys-symp2025 PAGE 12
+結果
+-
+TOF判定の処理時間とビーム強度 11/18
+• タイマー(1)でTOF計算・判定時間を評価
+※ spill on
+Elapsed time (us)
+3000
+3
+処理時間 [ms]
+2500
+2000
+2
+1500
+1000
+1
+3000
+3 ※ spill on
+Elapsed time (us)
+2500
+2000
+2
+1500
+1000
+1
+500
+500
+0
+0 1000 2000 3000
+0 500 1000 1500 2000 2500 3000 3500 4000
+sizeSlice
+4000
+Sliceの合計データ量 [kB]
+0
+0
+0 100 200 300 400 500 600 700 800 900 1000
+300 600 900
+Number of slices
+Sliceの数
+• データ量と処理時間の相関 : 時間はちゃんと測れてそう
+• TOF計算の組み合わせが2次的関数的に増えることを反映した増加傾向
+• T1ヒット数xUTOFヒット数で増えていく
+• もっとビーム強度が高いときの処理時間は今後評価が必要
+• GPUによる並列TOF計算の活用も視野に
+
+FILE K-sys-symp2025 PAGE 13
+結果
+-
+フィルター全体とTOF判定のスループット 12/18
+TOF判定処理にはまだ余裕がある
+• TOF calc以外はオンラインフィルターの動作に必要な処理
+• もっと高度な処理を行う余地あり
+• 複数カウンター間のTOFなど
+elapsed_before_Recv (us)
+Recv [us]
+2 10
+2 10
+10
+全体の時間との相関
+60%
+elapsed_before_Recv (us)
+3000
+2500
+2000
+1500
+1000
+500
+※ spill on
+2 10
+elapsed_Recv (us)
+20
+0.4%
+18
+16
+14
+elapsed_Recv (us)
+20
+18
+16
+14
+2 10
+10
+12
+12
+10
+10
+8
+8
+10
+6
+6
+1
+4
+4
+2
+2
+1
+0
+0
+0 500 1000 1500 2000 2500 3000 3500 4000 4500 5000
+0 500 1000 1500 2000 2500 3000 3500 4000 4500 5000
+0 5000 [us]
+elapsed_CondRun (us)
+elapsed_CondRun (us)
+0
+0
+0 500 1000 1500 2000 2500 3000 3500 4000 4500 5000
+0
+0 500 1000 1500 2000 2500 3000 3500 4000 4500 5000
+elapsed_CondRun (us)
+elapsed_CondRun (us)
+5000 [us]
+3000
+Clear [us] 2500
+2000
+1500
+1000
+Send
+0.5%
+other
+13.9%
+Receive
+0.5%
+TOF calc
+32.6%
+Initialize
+18.1%
+10
+1
+500
+1
+elapsed_Parse (us)
+3000
+2500
+Parse [us] 2000
+1500
+1000
+500
+TOFc [us]
+2 10
+2 10
+Parse
+34.5%
+60%
+elapsed_Parse (us)
+3000
+2500
+2000
+1500
+1000
+500
+elapsed_TOF_calc (us)
+3000
+60%
+2500
+2 10
+2000
+elapsed_TOF_calc (us)
+3000
+2500
+2000
+1500
+10
+1000
+500
+1
+1500
+1000
+500
+2 10
+10
+1
+0
+0
+0 500 1000 1500 2000 2500 3000 3500 4000 4500 5000
+0 500 1000 1500 2000 2500 3000 3500 4000 4500 5000
+elapsed_CondRun (us)
+elapsed_CondRun (us)
+0 5000 [us]
+0
+0
+0 500 1000 1500 2000 2500 3000 3500 4000 4500 5000
+0 500 1000 1500 2000 2500 3000 3500 4000 4500 5000
+0
+elapsed_CondRun (us)
+elapsed_CondRun (us)
+5000 [us]
+10
+1
+10
+1
+elapsed_Send (us)
+20
+18
+Send [us] 16
+14
+12
+10
+8
+6
+2 10
+10
+other [us]
+2 10
+0.4%
+elapsed_Send (us)
+20
+18
+16
+14
+12
+10
+8
+6
+4
+2
+2
+the others (us)
+600
+2 10
+500
+the others (us)
+600
+12%
+500
+10
+400
+400
+300
+300
+1
+200
+200
+100
+100
+2 10
+10
+1
+0
+0
+0 500 1000 1500 2000 2500 3000 3500 4000 4500 5000
+0 500 1000 1500 2000 2500 3000 3500 4000 4500 5000
+elapsed_CondRun (us)
+elapsed_CondRun (us)
+0 5000 [us]
+0
+0
+0 500 1000 1500 2000 2500 3000 3500 4000 4500 5000
+0 500 1000 1500 2000 2500 3000 3500 4000 4500 5000
+0
+elapsed_CondRun (us)
+elapsed_CondRun (us)
+5000 [us]
+1
+4
+10
+1
+※ spill on
+横軸 : 全体の時間 [us]
+
+FILE K-sys-symp2025 PAGE 14
+結果
+-
+処理できるデータレート 13/18
+TOFフィルター全体のスループット
+オンサイトで送られてくるデータレート
+エントリ数
+タイマー(2)
+※ spill on 1000
+Entries/5 (MB/s)
+1200
+1000
+※ spill on
+800
+800
+600
+400
+Entries/5 (MB/s)
+400
+350
+300
+300
+250
+200
+200
+150
+100
+100
+50
+0
+0
+0 100 200 300 400 500 600 700 800 900 1000
+0 0
+200 400 600 800 1000
+0 200 400 600 800 1000 1200 1400 1600 1800 2000
+400 800 1200 1600 2000
+Throughput (MB/s)
+Data rate (MB/real sec)
+スループット [MB/s]
+データレート[MB/s]
+400
+400
+200
+avg 594.9 MB/s
+処理できるデータレート
+1.08 MB / TF
+= 515 MB / real sec
+処理すべきデータレート
+
+FILE K-sys-symp2025 PAGE 19
+評価方法の改善
+—
+実行環境の動作速度の固定 17/18
+TOF calc. elapsed time Throughput
+処理時間 [ms]
+4
+3
+2
+1
+0 2000 4000
+Sliceの合計データ量 [kB]
+処理時間 [ms]
+4
+3
+2
+1
+0 2000 4000 MB/s
+• 処理速度に複数の系列
+• CPUの省電力&ブースト機能
+• どちらもオフ & 全コア3.2 GHz固定
+• ソフトウェアの性能評価に貢献
+Discussion
+• 適切に負荷がかかっていれば省電力
+とハイパフォーマンスは両立するか?
+0 2000 4000
+Sliceの合計データ量 [kB]
+
+FILE JPS2026Spring PAGE 8
+オンラインフィルターの性能評価
+—
+測定対象 5/12
+処理にかかった時間(elapsed time)の計測
+タイマー
+多重度計算, 条件
+判定時間
+オンラインフィルター処理内容
+Coin. & Slicerのメッセージ受け取り
+コンテナにメッセージ展開
+タイマー
+全体の処理にか
+かる
+多重度計算・条件判定の関数
+後段プロセスにメッセージキュー送信
+• 処理できるデータレート : 処理したデータ [byte] / タイマー(1)
+計測環境
+計算機のスペック
+CPU AMD EPYC 74F3
+#Cores 24 コア / 48 スレッド
+メモリ 64 GB
+
+FILE JPS2026Spring PAGE 10
+研究の原理 多重度フィルター
+—
+/20
+処理内容 7/12
+ドリフトチェンバーKLDC spec.
+• U, U’, V, V’ (±45°)、それぞれ128ワイヤ
+• 六角セル(対角線10.4 mm) 同一視
+⇨2台, 合計4レイヤとみなす
+処理内容
+• 生データ(TDCヒットの集まり)
+• DCヒットを探して集める
+• 読み出しモジュールの種類(DC用TDCモジュール)
+• Coin. < TDC < Coin. + 150 ns
+• 検出器名”KLDC”
+• 各レイヤでヒットのクラスタリング(最小単位は1ワイヤ)
+• クラスター数について条件判定, return bool
+⇨『クラスター数が2つ以上のレイヤがN枚以上』を課す
+
+FILE JPS2026Spring PAGE 11
+/20
+研究の原理 結果 — オフライン解析でのチェック 8/12
+フィルター条件: 『クラスター数が2つ以上のレイヤがN枚以上』
+nEntries
+nEntries
+# of events
+3 10
+×
+450
+400
+All events
+nEntries
+# of track: 0 or 1
+nt is 0 or 1
+# of track 2
+nt is 2 or more
+≥
+350
+300
+250
+200
+150
+21659 (5.6% of # of entries)
+20308 (6.9%) 18118 (10.8%)
+100
+50
+0
+0.5− 0 0.5 1 1.5 2 2.5
+0 1 2
+filter: min # of layers with Ncluster>=2
+N : クラスター数が2つ以上のレイヤ N ≥
+データ総量は約半分
+トラック数が2以上のイベントの純度が約2倍
+
+FILE JPS2026Spring PAGE 12
+/20
+研究の原理 結果 — スループット 9/12
+Throughput
+Throughput
+※ spill on 全体
+count
+count
+900
+800
+800
+700
+600
+600
+500
+400
+400
+300
+200
+200
+100
+0
+0 100 200 300 400 500 600 700 800
+0 200 400 600 800
+throughput [MB/s]
+throughput [MB/s]
+※ spill on
+判定関数
+× 103
+3 10
+×
+count
+count
+800
+800
+700
+600
+600
+500
+400
+400
+300
+200
+200
+100
+0
+0 600 1200
+0 200 400 600 800 1000 1200 1400 1600 1800 2000
+1800
+throughput [MB/s]
+throughput [MB/s]
+1096.9 MB/s
+avg 442.9 MB/s
+処理できるデータレート
+Clustering Time
+clustering
+Other Time
+other
+Total Elapsed Time
+判定関数 処理内容
+total
+Clustering Time ↓teardown
+× 103
+3 10
+×
+count
+count
+1600
+1600
+1400
+1200
+1200
+1000
+800
+800
+600
+400
+400
+200
+0
+0
+0 1 2 3 4 5 6
+2
+4
+6
+clusteringTime [microseconds]
+elapsed time [us]
+
+FILE JPS2026Spring PAGE 23
+/20
+研究の原理 多重度フィルター: オフライン解析でのチェック 8/12
+Run611: all entries: 387974
+nEntries
+Run610: all entries: 295491
+3 10
+×
+Run609: all entries: 168213
+Run611: nt==0 or 1: 366315/387974 (94.4174%)
+nEntries
+Run610: nt==0 or 1: 275183/295491 (93.1274%)
+nEntries
+nt is 0 or 1
+nt is 2 or more
+Run609: nt==0 or 1: 150095/168213 (89.2291%)
+Run611: nt==0: 93106/387974 (23.998%)
+Run610: nt==0: 53795/295491 (18.2053%)
+Run609: nt==0: 27767/168213 (16.507%)
+Run611: nt==1: 273209/387974 (70.4194%)
+Run610: nt==1: 221388/295491 (74.9221%)
+Run609: nt==1: 122328/168213 (72.7221%)
+Run611: nt==2 or more: 21659/387974 (5.58259%)
+Run610: nt==2 or more: 20308/295491 (6.87263%)
+Run609: nt==2 or more: 18118/168213 (10.7709%)
+450
+400
+350
+300
+250
+200
+150
+100
+50
+0
+0.5− 0 0.5 1 1.5 2 2.5
+filter: min # of layers with Ncluster>=2
+Run630: all entries: 387974
+Run631: all entries: 367085
+Run632: all entries: 312190
+⇦時間制限なし
+Run611: nt==0 or 1: 366315/387974 (94.4174%)
+Run610: nt==0 or 1: 345560/367085 (94.1362%)
+Run609: nt==0 or 1: 291146/312190 (93.2592%)
+Run611: nt==0: 93106/387974 (23.998%)
+Run610: nt==0: 80612/367085 (21.96%)
+Run609: nt==0: 62705/312190 (20.0855%)
+Run611: nt==1: 273209/387974 (70.4194%)
+Run610: nt==1: 264948/367085 (72.1762%)
+Run609: nt==1: 228441/312190 (73.1737%)
+Run611: nt==2 or more: 21659/387974 (5.58259%)
+Run610: nt==2 or more: 21525/367085 (5.86376%)
+Run609: nt==2 or more: 21044/312190 (6.74077%)
+
+FILE JPS2026Autumn PAGE 6
+オンラインフィルターの性能評価 — 測定対象 4/9
+処理にかかった時間(elapsed time)の計測
+オンラインフィルター処理内容
+処理時間
+全体の処理にかかる
+時間
+処理時間
+生データ処理, フィ
+ッティング
+前段デバイスからのメッセージ受け取り
+コンテナにメッセージ展開
+トラッキング・条件判定の関数
+後段デバイスにメッセージキュー送信
+⇨ 処理できるデータレート : 処理したデータ量 / 処理時間
+計測環境 CPU AMD Ryzen9 7900
+(※省電力機能はオフ)
+#Cores 3.7 GHz, 12c/24t
+メモリ DDR5-4800, 128 GB
+OS AlmaLinux 9.8
+日本物理学会 2026 Autumn @ 東大駒場キャンパス 2026.09.14 14aE524-9 S. Kashima, RCNP, U-Osaka
+
+FILE JPS2026Autumn PAGE 8
+/20
+研究の原理 トラッキングフィルター — 処理内容 6/9
+ドリフトチェンバー spec.
+•U, U’, V, V’ (±45°), それぞれ128ワイヤ
+•六角セル(対角線10.4 mm)
+処理内容の概要
+•生データ(TDC) ⇨ ドリフトチェンバーのヒット情報
+U layer
+U’ layer
+センスワイヤ
+シールドワイヤ
+10.4 mm
+•各ペア面のヒットのクラスタリング(隣接ワイヤヒットのみ)
+•トラックとドリフトチェンバーのヒット位置との残差について最小二乗法フィッティング
+• 掃き出し法で直線の切片( , )と傾き(dx/dz, dy/dz)を求める
+X0 Y0
+<latexit sha1_base64="LHJUnxUeZ3DWJBPQagmZUEcEUzw=">AAAC5HichVHPS9xQEP5Ma9WodVsvghfpoijKMivFlkJB9NKjP7q6xciSZN+uj80mIckuZsP+A+JNxINQUPAg/TNKobeeCt0/QTwq9NJDJ9mAqKjzSN68b+ab970Zw7WkHxB1epRnz3tf9PUPqINDwy9HMq9eb/hOwzNFwXQsxysaui8saYtCIANLFF1P6HXDEptGbTmObzaF50vH/hyErtiu61VbVqSpBwyVMsuaIarSjkyu4bfV3enWzMdiiWa1cjPabUetdkvT1DBGv6RomKCqJuxyyiplspSjxCbuO/nUySK1FSfzAxrKcGCigToEbATsW9Dh89pCHgSXsW1EjHnsySQu0IbK3AZnCc7QGa3xv8qnrRS1+RzX9BO2ybdY/HnMnMAk/aZzuqKf9I0u6N+DtaKkRqwl5N3ocoVbGtkbW//7JKvOe4CdG9ajmgNU8D7RKlm7myDxK8wuv9k6ulr/sDYZTdEpXbL+E+rQd36B3bw2z1bF2vEjelxWEXIk7p6POa7XYKzK3RC8anE3eXj5u6O672zM5/ILuYXVt9nFpXSM/RjHG0zzrN5hEZ+wggLfco5f+IOOUlH2lQPlsJuq9KScUdwy5et/yN+xdw==</latexit>
+x(z) = X0 + dx
+z
+dz
+y(z) = Y0 + dy
+dz
+⇨飛跡情報を用いてビームと散乱粒子の判別
+z
+日本物理学会 2026 Autumn @ 東大駒場キャンパス 2026.09.14 14aE524-9 S. Kashima, RCNP, U-Osaka
+
+FILE JPS2026Autumn PAGE 9
+/20
+処理性能の測定結果 7/9
+全体 : 処理できるデータレート
+Throughput(ConditionalRun()) Throughput(ConditionalRun())
+Entry
+Entries
+500
+500
+トラッキング・条件判定関数
+※ spill on
+400
+300
+300
+avg 123.4 MB/s
+処理時間の内訳
+Ratio, SetStandardTime/ElapsedTime
+Ratio, SetStandardTime/ElapsedTime
+200
+100
+100
+Rawdata decode
+Rawdata decode
+Clustering
+Clustering
+MakeTrack + Fitting
+Fitting
+0
+0 100 200 300 400 500 600 700 800
+0 200 400 600 800
+Throughput [MB/s]
+throughput [MB/s]
+オンラインフィルター処理内容
+Entries
+Entry
+45000
+1600
+40000
+× 103
+35000
+1200
+30000
+25000
+800
+20000
+15000
+400
+10000
+5000
+0
+0
+0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1
+0.2
+0.4 0.6 0.8
+Ratio
+1
+Proportion of Elapsed Time
+大部分がフィッティングの計算の時間
+処理時間 : 処理時間 = 1 : 0.9
+ほとんどが本質的な条件判定の時間
+日本物理学会 2026 Autumn @ 東大駒場キャンパス 2026.09.14 14aE524-9 S. Kashima, RCNP, U-Osaka
+
+FILE SPADI2026_kashima PAGE 6
+Comparison — Algorithms and implementations
+4/10
+Existing: Hash Map
+• Implemented Using a Hash Map
+New 1: Binary Search
+uint32_t
+• Use the Raw-Data “Key” to Find the Detector via Binary Search in the on-memory
+Map Data
+New 2: Direct Array Access
+uint32_t
+• Directly Access an Array Indexed by the Raw-Data “Key” to Obtain Detector
+Information
+Front-End
+raw data
+Existing: Tuple (IP, Ch)
+New: Unsigned 32-bit Integer
+channel mapping
+0xF F F F F F F F
+AMANEQ IP addr. 192.168.2.161
+AMANEQ Ch. 10
+検出器
+検出器
+検出器
+検出器
+・・・
+
+FILE SPADI2026_kashima PAGE 8
+Comparison — Pros・Cons
+5/10
+Existing: Hash Map
+• Average Lookup time is Independent of # of channels ( ), See “hash map” for
+𝒪 (1)
+details
+New 1: Binary Search
+• Average Lookup time, Minimal Memory Usage
+∝ 𝒪 (log (N ))
+New 2: Direct Array Access
+• Direct Array Access (Minimal Computation), Very High Memory Usage (Not
+Smart)
+# of
+calculation
+# of ch
+dependency
+memory
+consumption
+Existing
+hash map avg. O(1) no normal
+New 1
+binary
+search O(log(N)) yes minimum
+New 2
+direct access fixed 1 no quite heavy
+Red ⇨ pros
+Blue ⇨ cons
+
+FILE SPADI2026_kashima PAGE 9
+Comparison — Processing Speed
+6/10
+• Tested with Map Data for a 4,500-Channel Setup
+• Execution Environment Specs (in Right Table)
+• Average Time for 1 Million Loop Iterations
+CPU AMD EPYC 74F3
+hash map
+0.36 us/mapping
+~1/20 time
+binary search
+0.0175 us/mapping
+#Cores 24 Core / 48 Thread
+Memory 64 GB
+~1/3 time
+direct access
+0.0056 us/mapping
+同じ時間
+メモリ使用量25% 減dope vector access
+0.0056 us/mapping
+
+FILE SPADI2026_kashima PAGE 11
+Consideration — Memory Usage
+8/10
+Key
+Is Memory Usage Acceptable?
+• Tested with Map Data for a 4,500-Channel Setup
+• New 2: Direct Access approach
+• std::vector<Detector Info>
+• Detector Info: 11 byte
+• Allocate Memory with # of Element Equal to the Key Space
+maxId: 0x03ff04ff - minId: 0x02650000 = 26871040(dec)
+• 295.5 MB
+• check by “ps” command ⇨ 309 MB
+Sparse array problem
+• Not smart approach
+0.017 % full
+• Allocate vector with 27 Mega elements to store just 4500 CH
+Future prospects
+• Share one map object with multiple NestDAQ online filtering processes
+2
+0 ≤ ≤ 255
+161
+0 ≤ ≤ 255
+10
+0 ≤ ≤ 1024
+
+FILE SPADI2026_kashima PAGE 12
+Comparison — Best approach
+9/10
+Direct Access
+• Fastest in Lookup time
+• 0.0056 us/mapping ⇆ 180 Mega hits/s ⇆ 1430 MB/s throughput
+• Feasible in Memory Usage
+• 300 MB for 4500 CH mapping (but 0.017% sparse)
+Only one Drawback
+• Memory usage issue
+• Ignore
+• Setup hardwares more dense IP address and CH
+• Share map object with multiple threads
+• Most reasnable solution?
+Parent process
+Read only access
+Map object
+Child thread
+Child thread
+Child thread

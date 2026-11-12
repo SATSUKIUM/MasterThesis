@@ -1,7 +1,7 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
 \section{テスト実験データを用いたハイレベルフィルタの性能評価}
-\label{sec:methods}
+\label{sec:hlf-evaluation}
 \begin{tcolorbox}
 [
   title=執筆メモ,
@@ -32,7 +32,33 @@
 \end{tcolorbox}
 MARQスペクトロメータで用いることを想定したハイレベルフィルタを複数実装し、連続読み出し式DAQテスト実験T103で取得したデータを用いてハイレベルフィルタの性能評価を行った。
 
+
+\subsection{評価方法}
+記録済みのT103データをリプレイヤーから入力し、1プロセスのオンラインフィルタが処理したデータ量と処理時間を測定した。
+TOFフィルタとクラスター数フィルタの評価にはAMD EPYC 74F3、64\,GBメモリの計算機を用いた。
+トラッキングフィルタの評価にはAMD Ryzen 9 7900、128\,GBメモリ、AlmaLinux 9.8の計算機を用い、省電力機能を無効化した\cite{kashima:tof2025,kashima:cluster2026,kashima:tracking2026}。
+以下の処理性能は、spill on中のフィルタ全体について求めたスループット分布の平均値である。
+データの展開や送受信を含む全体処理と、判定関数のみの処理時間を区別する。
+ここではMBを$10^6$\,byteとする。
+
 \subsection{TOFフィルタ}
+
+タイミングカウンタのヒット時刻の差から飛行時間を求め、その範囲を条件として事象を選別する。
+T103データでは飛行時間の分布を用いて$K^{-}$ビームの事象を選別した。
+図\ref{fig:hlf-tof-selection}に飛行時間分布と選別範囲を示す。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.78\linewidth]{performance-results/tof-selection.png}
+  \caption{T103データの飛行時間分布と$K^{-}$ビームの選別範囲\cite{kashima:interim2026}}
+  \label{fig:hlf-tof-selection}
+\end{figure}
+
+フィルタ全体の平均スループットは594.9\,MB/sであった\cite{kashima:tof2025}。
+CPUの省電力・ブースト機能を無効化し、全コアを3.2\,GHzに固定した評価である。
+TOF計算・判定だけでなく、受信データの展開や送信などを含むフィルタ全体の値を用いた。
+ヒット数が増えるとカウンタ間の組み合わせも増えるため、高ビーム強度への適用では処理性能の入力密度依存性を考慮する必要がある。
+
 \begin{tcolorbox}[
   title=執筆メモ,
   colback=yellow!8,
@@ -51,6 +77,25 @@ MARQスペクトロメータで用いることを想定したハイレベルフ�
 \end{tcolorbox}
 
 \subsection{クラスタリングフィルタ}
+
+KLDCのヒットをレイヤごとにクラスタリングし、クラスター数が2以上のレイヤが$N$枚以上であることを選別条件とした。
+UとU$'$、VとV$'$のペアをそれぞれ同一視し、2台のKLDCを計4レイヤとして扱った。
+対象はコインシデンス時刻から150\,ns以内のヒットであり、1ワイヤのヒットからクラスターとして数えた\cite{kashima:cluster2026}。
+
+$N=2$の条件では、全エントリ数は387974から168213へ減少した。
+オフライン解析で再構成トラック数が2以上となる事象の割合は約5.6\%から約10.8\%へ増加した。
+一方で、その件数は21659から18118へ減少している。
+この割合の増加は選別後の試料中の構成比の変化であり、目的事象の保持効率を表すものではない。
+図\ref{fig:hlf-cluster-selection}に選別条件とエントリ数の関係を示す。
+フィルタ全体の平均スループットは442.9\,MB/sであった\cite{kashima:cluster2026}。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.85\linewidth]{performance-results/cluster-selection.png}
+  \caption{クラスター数による選別とオフライン再構成トラック数の関係。$N$はクラスター数が2以上のレイヤに課す最小枚数\cite{kashima:cluster2026}}
+  \label{fig:hlf-cluster-selection}
+\end{figure}
+
 \begin{tcolorbox}[
   title=執筆メモ,
   colback=yellow!8,
@@ -63,6 +108,16 @@ MARQスペクトロメータで用いることを想定したハイレベルフ�
 \end{tcolorbox}
 
 \subsection{トラッキングフィルタ}
+
+ドリフトチェンバーのTDCデータをヒット情報に変換し、ペア面の隣接ワイヤヒットをクラスタリングする。
+ヒット位置と直線飛跡との残差に対する最小二乗フィッティングにより、飛跡の切片$(x_0,y_0)$と傾き$(dx/dz,dy/dz)$を求める。
+再構成した位置と傾きは、ビーム粒子と散乱粒子を判別するための情報となる\cite{kashima:tracking2026}。
+
+フィルタ全体の平均スループットは123.4\,MB/sであった。
+処理時間の大部分は飛跡候補の生成とフィッティングに費やされた\cite{kashima:tracking2026}。
+クラスター数による選別と比べて詳細な飛跡情報を得られるが、計算負荷も大きい。
+両フィルタの性能測定ではCPUが異なるため、処理時間の差をアルゴリズムの違いだけに帰することはできない。
+
 
 \begin{tcolorbox}
 [
@@ -79,5 +134,24 @@ MARQスペクトロメータで用いることを想定したハイレベルフ�
   \end{itemize}
 \end{itemize}
 \end{tcolorbox}
+
+
+\subsection{処理性能のまとめ}
+表\ref{tab:hlf-performance}に各フィルタの処理性能を示す。
+いずれも1プロセスあたりの評価である。
+\begin{table}[htbp]
+  \centering
+  \caption{spill on中のオンラインフィルタ全体の平均スループット}
+  \label{tab:hlf-performance}
+  \begin{tabular}{lll}
+    \hline
+    フィルタ & CPU & スループット [MB/s] \\
+    \hline
+    TOF & EPYC 74F3 & 594.9 \\
+    クラスター数 & EPYC 74F3 & 442.9 \\
+    ローカルトラッキング & Ryzen 9 7900 & 123.4 \\
+    \hline
+  \end{tabular}
+\end{table}
 
 \end{document}

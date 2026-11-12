@@ -14,9 +14,43 @@ C++ STLのコンテナには二種類のアルゴリズムのマップが提供�
   \item 高速に動作すること
 \end{itemize}
 \subsection{二分探索木を用いたマップアルゴリズムの検討}
+フロントエンドのアドレスとチャンネル番号を整数キーへ変換し、検出器情報との対応を検索する。
+ハッシュマップ、二分探索、直接配列参照、dope vectorによる参照を、T103用の約4500チャンネルの対応表で比較した。
+測定にはe50server03のAMD EPYC 74F3、64\,GBメモリを用い、100万回のループの平均検索時間を求めた\cite{kashima:channel2026}。
+
+\begin{table}[htbp]
+  \centering
+  \caption{約4500チャンネルの対応表を用いた検索時間の比較}
+  \label{tab:channel-map-lookup}
+  \begin{tabular}{lr}
+    \hline
+    検索方式 & 平均検索時間 [$\mu$s/検索] \\
+    \hline
+    ハッシュマップ & 0.36 \\
+    二分探索 & 0.0175 \\
+    直接配列参照 & 0.0056 \\
+    dope vector & 0.0056 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+表\ref{tab:channel-map-lookup}に示すように、二分探索の検索時間はハッシュマップより短かった。
+直接配列参照とdope vectorの検索時間は、さらに短い0.0056\,$\mu$s/検索であった。
+
 \subsection{計算量$\mathcal{O}(1)$のマップアルゴリズムの比較}
-\subsubsection{}
+直接配列参照とdope vectorでは、整数キーから参照先を求め、対応表へ直接アクセスする。
+0.0056\,$\mu$s/検索は5.6\,ns/検索に相当し、逆数は約$1.8\times10^8$検索/sとなる。
+これは検索処理単独の性能であり、デコード、ジオメトリ・較正情報の参照、イベント処理を含むオンラインフィルタ全体のスループットではない。
+
+直接配列参照では、キー範囲の疎な配列を確保することによるメモリ消費が課題となる。
+当時の約4500チャンネルの対応表では、約2687万要素に11\,byte/要素を割り当てる方式で約295.5\,MBと見積もられた\cite{kashima:channel2026}。
+この値は当該直接参照方式の見積もりであり、現在の位置・較正情報を統合したマップ全体のメモリ使用量ではない。
+
 \subsection{CUDAでも使用可能な同様のアルゴリズムのマップライブラリ}
+GPU上のLogicFilterでは\lstinline|light-map-in-cuda|を用い、ヒットから所属グループ、時間幅、遅延を参照する\cite{kashima:wg4current}。
+GPU版LogicFilter全体の処理性能は\ref{sec:LogicFilter}節で評価する。
+表\ref{tab:channel-map-lookup}のCPU検索時間を、GPU上の検索単独の実測値として用いることはしない。
+
 
 \section{計測環境の詳細}
 \label{sec:appendixB}

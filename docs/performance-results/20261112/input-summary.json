@@ -1,0 +1,14 @@
+{
+  "input_file": "/home/nestdaq/GitHub/nestdaq-run/data/run000668.dat",
+  "file_bytes": 25699508544,
+  "frames": 72121,
+  "input_bytes": 25699507936,
+  "input_parts": 14135716,
+  "payload_bytes": 25202738488,
+  "header_delimiter_bytes_per_TF": 6888,
+  "sources_per_TF": 39,
+  "HBFs_per_TF": 156,
+  "main_run000400_HTML_and_PDF_unchanged": true,
+  "daq_measurement_started": false,
+  "pending": "four shared-mmap senders or single sender comparison only"
+}

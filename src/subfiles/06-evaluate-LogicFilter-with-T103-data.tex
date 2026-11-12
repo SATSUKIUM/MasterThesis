@@ -2,6 +2,134 @@
 \begin{document}
 \section{テスト実験データを用いたコインシデンス判定プロセスの性能評価}
 \label{sec:LogicFilter}
-LogicFilterとその役割、オリジナルの実装、GPUによる加速の検討
 
+\subsection{LogicFilterの役割とGPU実装}
+LogicFilterは連続読み出しデータ中のヒット時刻からタイミング一致を判定し、イベントパケットを切り出す基準時刻を求める。
+ヒットをグループ化することにより、32チャンネルを超える入力に対するタイミング一致条件を記述できる。
+GPU実装では、チャンネル情報の参照、時刻ビンへのマーク、条件判定、一致時刻の一覧作成をGPU上で実行する\cite{kashima:wg4current}。
+
+条件が成立し始める時刻ビンにフラグを付け、exclusive scanで出力位置を決定する。
+stream compactionによって成立時刻を連続した配列へ格納する。
+ヒットの所属先、時間幅、遅延の参照には\lstinline|light-map-in-cuda|を用いる。
+複数のHBFをまとめたバッチ処理により、GPU呼び出しなどのオーバーヘッドを抑える。
+
+\subsection{測定条件と指標}
+測定にはmarq04のIntel Xeon E5-2630 v4 $\times 2$とNVIDIA RTX A4000を用いた。
+入力は\lstinline|run000668.dat|の72121 TF、総入力25699507936\,byteである。
+1 TFは39 FEE、各4 HBFから構成される。
+ここでTFの時間長は$4\times2^{19}$\,ns、すなわち2.097152\,msである。
+入力ファイルは測定前にRAMへ配置し、共有mmapの全ページを参照した上でリプレイヤーから供給した。
+モニター表示は無効とし、バッチサイズは4 HBFとした\cite{kashima:wg4current}。
+
+トリガー条件は$(0\mathbin{\&}1)\mathbin{\&}2$とした。
+group 0と1は同一FEEのch8とch10、group 2は別FEEの6組のチャンネル対のANDをORでまとめた条件である。
+チャンネル対は(16,17)、(18,19)、(20,21)、(22,23)、(24,25)、(27,28)である。
+時間幅は4\,ns単位で30、すなわち120\,nsとし、offsetは$-12$に設定した。
+各条件の測定は1 RUNであり、RUN間変動は評価していない。
+
+\subsection{単一LogicFilterのCPU/GPU比較}
+1リプレイヤー、1 LF、4 Sinkの構成で、CPU版とGPU版をそれぞれ1 RUN測定した。
+各TFの主Receive直後から主Send直前までの処理時間\lstinline|process_us|を記録した。
+処理率は総入力データ量を処理時間の総和で割って求めた。
+主送受信は計時区間に含めず、GPU転送・同期とホスト側処理は含める。
+MBは$10^6$\,byteとする。
+
+\begin{table}[htbp]
+  \centering
+  \caption{単一LFの処理率と平均処理時間。CPU/GPU各72121 TF、各1 RUN}
+  \label{tab:lf-single-performance}
+  \begin{tabular}{lrr}
+    \hline
+    実装 & 処理率 [MB/s] & 平均処理時間 [ms/TF] \\
+    \hline
+    CPU & 68.19 & 5.226 \\
+    GPU & 575.19 & 0.620 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+表\ref{tab:lf-single-performance}に示すように、GPU版の処理率はCPU版の約8.4倍となった。
+図\ref{fig:lf-input-time}に各TFの入力データ量と処理時間の分布を示す。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\linewidth]{performance-results/overlay-balanced-display.png}
+  \caption{単一LFにおける入力データ量と処理時間。CPU/GPU各1 RUNの全受信成功TFを用いた\cite{kashima:wg4current}}
+  \label{fig:lf-input-time}
+\end{figure}
+
+入力データ量$S$ [MB/TF]と処理時間$t$ [ms/TF]の関係を$t=a+bS$で近似した。
+外れ値を除外せず、全TFを一次フィットした結果を表\ref{tab:lf-input-fit}に示す。
+GPUの傾きはCPUより小さいが、GPU側の$R^2$も小さく、入力サイズだけでは処理時間の変動を十分に説明できない。
+このフィットを測定範囲外へ適用した本番性能の推定は行わない。
+
+\begin{table}[htbp]
+  \centering
+  \caption{入力データ量に対する処理時間の一次フィット}
+  \label{tab:lf-input-fit}
+  \begin{tabular}{lrrr}
+    \hline
+    実装 & $a$ [ms] & $b$ [ms/MB] & $R^2$ \\
+    \hline
+    CPU & 4.5695 & 1.8425 & 0.6482 \\
+    GPU & 0.5421 & 0.2173 & 0.0970 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\subsection{複数LF・GPUによる並列処理}
+4リプレイヤー、複数LF、4 Sinkの構成で、1 GPUあたりLF数1--5、2 GPUでLF数2、4、6、8の計9条件を測定した。
+各リプレイヤーは同じ入力ファイルを1回ずつ供給し、各条件の総入力は288484 TF、102798031744\,byteである。
+この測定は単一LF比較とは独立したRUNであり、計時方法も異なる。
+
+\lstinline|std::chrono::steady_clock::time_point|をメンバー変数に保持し、ConditionalRunの開始・終了とReceive・Sendの時間を測定した。
+メッセージの後片付け後に終了時刻を取得し、処理時間を
+\begin{equation}
+  T_{\mathrm{net}}=(t_1-t_0)-\Delta t_{\mathrm{Receive}}-\sum_k\Delta t_{\mathrm{Send},k}
+\end{equation}
+と定義した。
+Sendが再試行された場合は全呼び出しを差し引く。
+処理時間の差分計算、結果のvectorへの追加、進捗出力は終了時刻の後で行い、LF別の測定CSVはPostRunで保存した。
+受信データのなかった呼び出しも、各LFの$T_{\mathrm{net}}$の総和に含める。
+
+LF $i$の総入力データ量を$B_i$ [MB]、処理時間の総和を$T_i$ [s]として、処理率合計を
+\begin{equation}
+  R_{\mathrm{LF}}=\sum_i\frac{B_i}{T_i}
+\end{equation}
+で求めた。
+これは各LFの記録から算出した処理率の合計であり、全LFをまとめた比にLF数を掛けた換算値とは異なる。
+また、一括RUN指示から最終Sink受信までの実経過時間で求める全体スループットとも異なる。
+
+\begin{table}[htbp]
+  \centering
+  \caption{メンバー時刻方式による各LFの処理率合計。各条件1 RUN}
+  \label{tab:lf-parallel-performance}
+  \begin{tabular}{rrr}
+    \hline
+    GPU数 & LF数 & 処理率合計 [MB/s] \\
+    \hline
+    1 & 1 & 491.7 \\
+    1 & 2 & 805.1 \\
+    1 & 3 & 919.5 \\
+    1 & 4 & 907.9 \\
+    1 & 5 & 894.1 \\
+    2 & 2 & 964.9 \\
+    2 & 4 & 1531.5 \\
+    2 & 6 & 1826.7 \\
+    2 & 8 & 1830.5 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.85\linewidth]{performance-results/lf-member-clock-total.png}
+  \caption{LF数と各LFの処理率合計の関係\cite{kashima:wg4current}}
+  \label{fig:lf-parallel-performance}
+\end{figure}
+
+1 GPUではLF数3で919.5\,MB/sとなり、LF数4、5ではこれを上回らなかった。
+2 GPUではLF数6で1826.7\,MB/s、LF数8で1830.5\,MB/sとなり、LF数6以降の増加は小さかった。
+本条件では、GPUあたりのLF数を増やすことによる処理率の向上は3 LF付近から緩やかになった。
+ただし、各条件1 RUNの測定であり、反復間のばらつきを含む評価は今後の課題である。
 \end{document}

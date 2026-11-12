@@ -1,0 +1,12 @@
+{
+  "source": "/Users/kashima/codex-cli-workspace/misc/zst-compression/results/20261109T055014Z-daq-rate/analysis/summary.json",
+  "source_sha256": "b28ab02679ca1abe540395efda84126c0f4a992757f54d0eb032ce3d34bf9bc0",
+  "run": "668",
+  "rate_MB_s": 169.91556719038684,
+  "recorded_exposure_s": 151.24869939200002,
+  "file_bytes": 25699508544,
+  "recorded_hbfs": 288484,
+  "nominal_hbf_period_s": 0.000524288,
+  "definition": "Raw file bytes / (recorded HBF count * nominal HBF period); normalized to recorded data time, accounting for file distribution; not replay throughput",
+  "slide_display": "約170 MB/s"
+}

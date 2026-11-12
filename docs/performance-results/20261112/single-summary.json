@@ -1,0 +1,32 @@
+{
+  "CPU": {
+    "input_bytes": 25699507936,
+    "frames": 72121,
+    "process_us_sum": 376907527.70500004,
+    "mean_process_ms": 5.226044116207484,
+    "process_MB_s": 68.18518083861308,
+    "wall_seconds": 385.799532552,
+    "wall_MB_s": 66.61363160811007,
+    "fit": {
+      "intercept_ms": 4.569494416999954,
+      "slope_ms_MB": 1.842487450517166,
+      "R2": 0.6482238686759745
+    },
+    "profile_sha256": "4919592e69d909558f7fccf1293be786d21ae0bc3992e43bd4eb2074ec5ffd3b"
+  },
+  "GPU": {
+    "input_bytes": 25699507936,
+    "frames": 72121,
+    "process_us_sum": 44680035.867,
+    "mean_process_ms": 0.619514924460282,
+    "process_MB_s": 575.1899576020991,
+    "wall_seconds": 53.532550563,
+    "wall_MB_s": 480.0725477437401,
+    "fit": {
+      "intercept_ms": 0.5420860437061068,
+      "slope_ms_MB": 0.21729008675101552,
+      "R2": 0.09699394286553265
+    },
+    "profile_sha256": "e6864c923b8acbe3adb79bc80a49cdbf8de8dc2bb6e53cc334d1a0d31ba63644"
+  }
+}

@@ -98,3 +98,10 @@ subfilesのファイル名には、main.texでの読み込み順に01〜11の番
 出典の固定コピーとハッシュは `docs/measurement-environments/20261112/`、
 判断・未確認事項は `workspace/20261112/appendix-b-environments/index.html` を参照。
 構成調査日とベンチマーク実行日時は区別し、各測定系列との対応は未確認。
+
+## 発表資料からの性能評価の取り込み (2026-11-12)
+
+05にオンラインフィルタ、06に現行WG4のLogicFilter評価、10付録Aにchannel-map検索性能を追記。
+07にT103の平均負荷換算、09に参考文献を追加。
+出典・旧版との区別は `workspace/20261112/performance-results/index.html`、
+集計値の固定コピーは `docs/performance-results/20261112/` を参照。

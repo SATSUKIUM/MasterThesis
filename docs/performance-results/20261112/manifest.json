@@ -1,0 +1,174 @@
+{
+  "date": "2026-11-12",
+  "sources": [
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261031/K-project-interim-report/発表資料/index.html",
+      "copy": "docs/performance-results/20261112/interim-slides.html",
+      "sha256": "0dbbcaaa1ce1d092ca7ff9af253b601d800b4b74a04ceed0a2e1594a68a65d82"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261102/LogicFilter-GPU-SPADI-A-WG4/slides/index.html",
+      "copy": "docs/performance-results/20261112/wg4-current-slides.html",
+      "sha256": "6a0883e25bbefe5bda792e4667b7a48d3f4b5b217d57d608ebb252fc63901da8"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261102/LogicFilter-GPU-SPADI-A-WG4/AGENTS.md",
+      "copy": "docs/performance-results/20261112/wg4-source-policy.md",
+      "sha256": "d51648d7716da1f5bbd1d27db9ca8996ae5fdb5af531ad49485f737780d6ea8a"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261102/LogicFilter-GPU-SPADI-A-WG4/measurements/20261111-run000668/data/misc/single-summary.json",
+      "copy": "docs/performance-results/20261112/single-summary.json",
+      "sha256": "72ec1a3a5d09153548869cd91a7fabf629c601e921d717675f28d54c931c2d09"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261102/LogicFilter-GPU-SPADI-A-WG4/measurements/20261111-run000668/data/misc/input-summary.json",
+      "copy": "docs/performance-results/20261112/input-summary.json",
+      "sha256": "b6fe6c94b03f9a0fd1b6d07560611a57a6e41d6d34daa919878cb1cc27a0248d"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261102/LogicFilter-GPU-SPADI-A-WG4/measurements/20261111-run000668/data/misc/input-data-rate-reference.json",
+      "copy": "docs/performance-results/20261112/input-data-rate-reference.json",
+      "sha256": "222860863c2628fb586c87a4d85b0844a3f97089b5dafd03ce1da3e5f3291f10"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261102/LogicFilter-GPU-SPADI-A-WG4/measurements/20261112-member-clock/data/misc/member-clock-summary.json",
+      "copy": "docs/performance-results/20261112/member-clock-summary.json",
+      "sha256": "17acd7a18377ea1e02b4322b2130f8302d8577daee69b85f5f11e566063bb017"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261102/LogicFilter-GPU-SPADI-A-WG4/measurements/20261112-member-clock/data/misc/member-clock-summary.csv",
+      "copy": "docs/performance-results/20261112/member-clock-summary.csv",
+      "sha256": "456fd987c0021c59b5441e5d9963c8f9a55518dd614085700b47b1cc4b0e06be"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261102/LogicFilter-GPU-SPADI-A-WG4/measurements/20261112-member-clock/data/misc/member-clock-per-process.csv",
+      "copy": "docs/performance-results/20261112/member-clock-per-process.csv",
+      "sha256": "a69774c619ff80eca4e28793fb72f18bb135ce6b2ce6de362cb5ada8c72014a1"
+    },
+    {
+      "original": "/tmp/performance-pdf-text.txt",
+      "copy": "docs/performance-results/20261112/original-pdf-selected-pages.txt",
+      "sha256": "3941a63fc85aad1f8bad6d7ad43839e30c706f022a64e3d28c9b2094d68cef66"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261031/K-project-interim-report/発表資料/image/tof-selection.png",
+      "copy": "figure/performance-results/tof-selection.png",
+      "sha256": "07d5ea84a6dafb5b1235aecb5ba134e7db3de2a865767d09d835ab22f2414735"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261031/K-project-interim-report/発表資料/image/cluster-selection.png",
+      "copy": "figure/performance-results/cluster-selection.png",
+      "sha256": "551910a55ae3c24da1b34468ff53e7590421c9530015efbbbafec4aa1f7973fd"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261102/LogicFilter-GPU-SPADI-A-WG4/measurements/20261111-run000668/image/overlay-balanced-display.png",
+      "copy": "figure/performance-results/overlay-balanced-display.png",
+      "sha256": "6c67d60fca5f2d3516992303655cb88be2e52fa31a5024aea7eb395d342380c2"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261102/LogicFilter-GPU-SPADI-A-WG4/measurements/20261111-run000668/image/cpu-fit-display.png",
+      "copy": "figure/performance-results/cpu-fit-display.png",
+      "sha256": "84bdf3b0ebb2bb214bbabda9da93780f0f2525549e95413135d6ee1d8016bed4"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261102/LogicFilter-GPU-SPADI-A-WG4/measurements/20261111-run000668/image/gpu-fit-display.png",
+      "copy": "figure/performance-results/gpu-fit-display.png",
+      "sha256": "fd365b5b89d0c8705d3d56e016dd2f71359a1c1642d71d5f6954dfaf4a29a296"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261102/LogicFilter-GPU-SPADI-A-WG4/measurements/20261112-member-clock/image/member-clock-total.png",
+      "copy": "figure/performance-results/lf-member-clock-total.png",
+      "sha256": "cff531207cb7b714d0bf801c3d27233f869ce3ca0154b3417771e3d5e509b3c9"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261031/K-project-interim-report/オンラインフィルター/TOF/資料2抜粋/page-14.png",
+      "copy": "workspace/20261112/performance-results/excerpts/tof-performance.png",
+      "sha256": "251ec32a30290e59ad7af004929f3e163a9b41ccce00e98ffa9cef743714ffcd"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261031/K-project-interim-report/オンラインフィルター/TOF/資料2抜粋/page-19.png",
+      "copy": "workspace/20261112/performance-results/excerpts/tof-conditions.png",
+      "sha256": "b02048e3ba2020c224e940d09af33cc191d29df62650bc6237136a15132f6828"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261031/K-project-interim-report/オンラインフィルター/ドリフトチェンバーのヒットクラスター数/資料3抜粋/page-11.png",
+      "copy": "workspace/20261112/performance-results/excerpts/cluster-selection.png",
+      "sha256": "d34d24dea46fe7d833f192659b5182df197b26b78078aafcef716ae0827c3728"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261031/K-project-interim-report/オンラインフィルター/ドリフトチェンバーのヒットクラスター数/資料3抜粋/page-12.png",
+      "copy": "workspace/20261112/performance-results/excerpts/cluster-performance.png",
+      "sha256": "544a139e2f2d160b439f749d5f091b46cdd078b78f788eb29d7cc2cce37a06b3"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261031/K-project-interim-report/オンラインフィルター/ドリフトチェンバーのヒットクラスター数/資料3抜粋/page-23.png",
+      "copy": "workspace/20261112/performance-results/excerpts/cluster-counts.png",
+      "sha256": "67c950f766574b08df0e1dfeb1454a29ae4901f4f7ecbc88703d7f47dbd0cd20"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261031/K-project-interim-report/オンラインフィルター/ドリフトチェンバーのローカルトラッキング/資料5抜粋/page-6.png",
+      "copy": "workspace/20261112/performance-results/excerpts/tracking-conditions.png",
+      "sha256": "fee80c1ea1807ba043e196f881df71d72d07472b6e721be48087e60c25a5b9bf"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261031/K-project-interim-report/オンラインフィルター/ドリフトチェンバーのローカルトラッキング/資料5抜粋/page-9.png",
+      "copy": "workspace/20261112/performance-results/excerpts/tracking-performance.png",
+      "sha256": "578b7977b05baebeb9fc064d91b5fd89892d53bf28505b36b66727532b956a74"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261031/K-project-interim-report/検出器チャンネルマッピング/資料抜粋/spadi-9.png",
+      "copy": "workspace/20261112/performance-results/excerpts/channel-performance.png",
+      "sha256": "5d2fdbb1d198d5346861ee8cb00a0c135ed149c0fc21be8fd7f9ede1528a61d3"
+    },
+    {
+      "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261031/K-project-interim-report/検出器チャンネルマッピング/資料抜粋/spadi-11.png",
+      "copy": "workspace/20261112/performance-results/excerpts/channel-memory.png",
+      "sha256": "66c1228da9436baf711cd6394e17b617b0d9b510ce46ea12569a2eb14c3ca4c7"
+    }
+  ],
+  "original_pdfs": [
+    {
+      "path": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261031/K-project-interim-report/Keynote/output/K-sys-symp2025.pdf",
+      "sha256": "d86a03058b65b0116e28d50f6587b7e1096a37aae897bf7380bf82ba21bb3b90",
+      "pages": [
+        8,
+        12,
+        13,
+        14,
+        19
+      ]
+    },
+    {
+      "path": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261031/K-project-interim-report/Keynote/output/JPS2026Spring.pdf",
+      "sha256": "9015609ec4fd064b37345ca5aa561c620cd281b3c2cca7ab675434c427c07d5e",
+      "pages": [
+        8,
+        10,
+        11,
+        12,
+        23
+      ]
+    },
+    {
+      "path": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261031/K-project-interim-report/Keynote/output/JPS2026Autumn.pdf",
+      "sha256": "609c193f0d338e26b3ffd745e5408a108ad02041bbe40054fb7dc236708d4ad1",
+      "pages": [
+        6,
+        8,
+        9
+      ]
+    },
+    {
+      "path": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261031/K-project-interim-report/Keynote/output/SPADI2026_kashima.pdf",
+      "sha256": "40d7b2a844bf387529705fb4902d665bad6b72d9e0c80f1192104fbd0b0c07f6",
+      "pages": [
+        6,
+        8,
+        9,
+        11,
+        12
+      ]
+    }
+  ]
+}
