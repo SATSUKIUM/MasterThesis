@@ -16,7 +16,7 @@ TeX Live 等の `platex`, `latexmk`, `dvipdfmx` と原稿が読み込むパッ�
 <!-- 章のみのビルド例：
 
 ```sh
-latexmk -r .latexmkrc -outdir=../../out/introduction src/subfiles/introduction.tex
+latexmk -r .latexmkrc -outdir=../../out/introduction src/subfiles/03-introduction.tex
 ``` -->
 
 図は `\includegraphics{example.pdf}` のように `figure/` 内の名前を指定する。
@@ -37,7 +37,7 @@ latexmk -r .latexmkrc -outdir=../../out/introduction src/subfiles/introduction.t
 
 ## 表記検討メモ
 
-`src/subfiles/notation-notes.tex` を表紙の前に表示する。
+`src/subfiles/01-notation-notes.tex` を表紙の前に表示する。
 表は「現在使っている表記／迷っている表記／意図など」の3列。
 長くなると自動的に改ページし、見出しを繰り返す。
 現在の表記と候補、意図を記録する。統一方針の確定は前提としない。
@@ -49,7 +49,7 @@ latexmk -r .latexmkrc -outdir=../../out/introduction src/subfiles/introduction.t
 
 通常の目次に続き、図目次・表目次をそれぞれ別ページに表示する。
 図・表が未登録の間も見出しを表示し、captionを追加すると自動で掲載する。
-付録は `src/subfiles/appendix.tex` 内で `\appendix` に切り替え、
+付録は `src/subfiles/10-appendix.tex` 内で `\appendix` に切り替え、
 `\section` ごとに「付録A」「付録B」…と表示する。本文は未記入。
 
 ## コード表示
@@ -73,9 +73,9 @@ cudaDeviceSynchronize();
 `\Needspace` は必要な場合だけ指定し、短いブロックの直前で改ページを促す。
 
 付録の後は `\clearpage` で改ページし、暫定の参考メモ
-`src/subfiles/reference-notes.tex` を表示する。番号なしの参考ページに、インラインコード・コードブロック・参照・改ページ調整の入力例と表示例を掲載する。
+`src/subfiles/11-reference-notes.tex` を表示する。番号なしの参考ページに、インラインコード・コードブロック・参照・改ページ調整の入力例と表示例を掲載する。
 
-概要は `src/subfiles/abstract.tex` に記述する。タイトルページの直後、
+概要は `src/subfiles/02-abstract.tex` に記述する。タイトルページの直後、
 目次の前に独立ページとして表示する。本文は未記入。
 
 ## VSCodeの出力先（2026-11-12）
@@ -88,3 +88,6 @@ VSCodeでは **MasterThesisフォルダーを開く**。`.vscode/settings.json` 
 `make clean` はPDFを保持して中間ファイルを削除する。
 既存のsrc以下のPDFは削除せず `out/previous/src/` 以下へ移動した。
 編集後のPDF再生成はユーザーの依頼時のみ行う。
+
+subfilesのファイル名には、main.texでの読み込み順に01〜11の番号を付ける。
+番号は文書内の章番号ではなく、執筆メモ・概要・付録などを含むファイルの表示順を表す。

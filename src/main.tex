@@ -78,13 +78,13 @@
 \begin{document}
 \hypersetup{pageanchor=false}
 \ifnotationnotes
-  \subfile{subfiles/notation-notes.tex}
+  \subfile{subfiles/01-notation-notes.tex}
   \clearpage
 \fi
 \maketitle
 \hypersetup{pageanchor=true}
 % 概要
-\subfile{subfiles/abstract.tex}
+\subfile{subfiles/02-abstract.tex}
 \clearpage
 % 目次
 \tableofcontents
@@ -95,22 +95,22 @@
 \clearpage
 
 % イントロ
-\subfile{subfiles/introduction.tex}
+\subfile{subfiles/03-introduction.tex}
 % 研究背景
-\subfile{subfiles/background.tex}
+\subfile{subfiles/04-background.tex}
 % テスト実験データを用いたハイレベルフィルタの性能評価
-\subfile{subfiles/evaluate-HLF-with-T103-data.tex}
+\subfile{subfiles/05-evaluate-HLF-with-T103-data.tex}
 % テスト実験データを用いたLogicFilterの性能評価
-\subfile{subfiles/evaluate-LogicFilter-with-T103-data.tex}
+\subfile{subfiles/06-evaluate-LogicFilter-with-T103-data.tex}
 % E50実験への適用
-\subfile{subfiles/apply-to-E50.tex}
+\subfile{subfiles/07-apply-to-E50.tex}
 % 結論
-\subfile{subfiles/conclusion.tex}
+\subfile{subfiles/08-conclusion.tex}
 % 参照
-\subfile{subfiles/references.tex}
+\subfile{subfiles/09-references.tex}
 % 付録への切り替えはsubfile内で行う（単独ビルドにも対応）。
-\subfile{subfiles/appendix.tex}
+\subfile{subfiles/10-appendix.tex}
 \clearpage
 % 暫定の参考メモ
-\subfile{subfiles/reference-notes.tex}
+\subfile{subfiles/11-reference-notes.tex}
 \end{document}
