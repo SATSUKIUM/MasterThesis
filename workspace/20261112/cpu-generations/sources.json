@@ -1,0 +1,69 @@
+[
+  {
+    "host": "marq04",
+    "generation": "Xeon E5 v4 / Broadwell",
+    "launch": "2016年第1四半期",
+    "sources": [
+      {
+        "title": "Intel製品仕様",
+        "url": "https://www.intel.com/content/www/us/en/products/sku/92981/intel-xeon-processor-e52630-v4-25m-cache-2-20-ghz/specifications.html"
+      }
+    ]
+  },
+  {
+    "host": "marq05",
+    "generation": "第3世代Ryzen / Zen2",
+    "launch": "2020年7月",
+    "sources": [
+      {
+        "title": "AMD 3000XT発表資料",
+        "url": "https://ir.amd.com/news-events/press-releases/detail/955/amd-offers-enthusiasts-more-choice-than-ever-before-with-new-ryzen-3000xt-processors"
+      }
+    ]
+  },
+  {
+    "host": "marq06",
+    "generation": "Ryzen 7000 / Zen4",
+    "launch": "2023年1月",
+    "sources": [
+      {
+        "title": "AMD製品仕様",
+        "url": "https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-9-7900.html"
+      },
+      {
+        "title": "AMD CES 2023発表",
+        "url": "https://www.amd.com/en/newsroom/press-releases/2023-1-4-amd-extends-its-leadership-with-the-introduction-o.html"
+      }
+    ]
+  },
+  {
+    "host": "marq07",
+    "generation": "第4世代EPYC / Zen4",
+    "launch": "2022年11月",
+    "sources": [
+      {
+        "title": "AMD 第4世代EPYC発売発表",
+        "url": "https://www.amd.com/en/newsroom/press-releases/2022-11-10-offering-unmatched-performance-leadership-energy-.html"
+      },
+      {
+        "title": "AMD EPYC 9554を含む解説",
+        "url": "https://www.amd.com/en/blogs/2022/amd-ecosystem-poised-and-ready.html"
+      }
+    ]
+  },
+  {
+    "host": "e50server03",
+    "generation": "第3世代EPYC / Zen3",
+    "launch": "2021年3月",
+    "sources": [
+      {
+        "title": "AMD製品仕様",
+        "url": "https://www.amd.com/en/products/processors/server/epyc/7003-series/amd-epyc-74f3.html"
+      },
+      {
+        "title": "AMD 第3世代EPYC発売発表",
+        "url": "https://www.amd.com/en/newsroom/press-releases/2021-3-15-amd-epyc-7003-series-cpus-set-new-standard-as-hig.html"
+      }
+    ]
+  }
+]
