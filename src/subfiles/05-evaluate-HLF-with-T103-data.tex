@@ -42,9 +42,14 @@ MARQスペクトロメータで用いることを想定したハイレベルフ�
   breakable
 ]
 \begin{itemize}
-  \item 修論として結果をまとめるなら、計測環境がバラバラなのはだめだ
+  \item 修論として結果をまとめるなら、計測環境がバラバラなのはだめだ(run000400というパラメータ調整中のデータでの計測であったことも改善すべき点の一つ。だし、クラスタリングの時は違うランを使っていたような気がしなくなくもない)
   \item 世代が一番新しくて、メモリ転送速度も現代的なmarq07で統一して計測するのが今後の見通しが良さそう
   \item それぞれの環境でなんらかのベンチマークをして計算能力の相互変換をできるようにするものいいと思う
+  \begin{itemize}
+    \item marq07で全部のベンチマークをする
+    \item データは全部marq08(ストレージたくさん)に置いて、marq08からリプレイヤーで飛ばす
+    \item e50server03は赤石さんに大阪へと送ってもらうかも?
+  \end{itemize}
   \item ここ(\lstinline|/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark|)でどこに何のコードがあるかまとめることにする
 \end{itemize}
 \end{tcolorbox}
