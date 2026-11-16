@@ -216,7 +216,7 @@ OS & AlmaLinux 9.7 (x86\_64) \\
 
 \subsection{e50server03}
 \label{sec:environment-e50server03}
-AMD EPYC 74F3は第3世代EPYCであり、Zen3アーキテクチャを採用している。発売時期は2021年3月である。
+AMD EPYC 74F3は第3世代EPYCであり、Zen3アーキテクチャを採用している。発売時期は2021年3月である。表の構成は2026年11月16日の実機確認に基づく。測定時のCPU設定は2025年の発表資料に基づく。
 
 \begingroup
 \small
@@ -233,7 +233,17 @@ AMD EPYC 74F3は第3世代EPYCであり、Zen3アーキテクチャを採用し�
 \endhead
 CPU & AMD EPYC 74F3, 24コア/48スレッド \\
 \hline
-メモリ & 64\,GB \\
+CPU周波数 & ベース3.2\,GHz, 最大ブースト4.0\,GHz（公称） \\
+\hline
+L3キャッシュ & 256\,MB（公称） \\
+\hline
+メモリ & 64\,GiB (8\,GiB $\times 8$), DDR4 ECC RDIMM, 3200\,MT/s \\
+\hline
+プラットフォーム & Supermicro H12SSL-i \\
+\hline
+OS & CentOS Linux 7 (x86\_64) \\
+\hline
+稼働カーネル & \texttt{3.10.0-1160.119.1.el7.x86\_64} \\
 \hline
 測定時のCPU設定 & 全コア3.2\,GHz固定, 省電力・ブースト機能無効 \\
 \hline
