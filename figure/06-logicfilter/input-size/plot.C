@@ -1,3 +1,4 @@
+#include "../../pdf_output.hxx"
 #include <TCanvas.h>
 #include <TGraph.h>
 #include <TF1.h>
@@ -35,8 +36,8 @@ void plot(){
       long double sx=0,sy=0,sxx=0,sxy=0,syy=0;for(int i=0;i<g.GetN();++i){double x,y;g.GetPoint(i,x,y);sx+=x;sy+=y;sxx+=x*x;sxy+=x*y;syy+=y*y;}
       auto n=g.GetN();double b=(n*sxy-sx*sy)/(n*sxx-sx*sx),a=(sy-b*sx)/n;double r2=(n*sxy-sx*sy)*(n*sxy-sx*sy)/((n*sxx-sx*sx)*(n*syy-sy*sy));
       TF1 fit("fit","[0]+[1]*x",0,1.3);fit.SetParameters(a,b);fit.SetLineColor(kBlack);fit.SetLineWidth(3);fit.Draw("SAME");TLatex note;note.SetNDC();note.SetTextSize(.027);note.DrawLatex(.43,.85,TString::Format("a=%.4f, b=%.4f",a,b));note.DrawLatex(.43,.81,TString::Format("R^{2}=%.4f",r2));
-      stats<<name<<","<<n<<","<<a<<","<<b<<","<<r2<<"\n";c.SaveAs(files[mode]);continue;
+      stats<<name<<","<<n<<","<<a<<","<<b<<","<<r2<<"\n";save_figure_pdf(c, files[mode]);continue;
     }
-    c.SaveAs(files[mode]);
+    save_figure_pdf(c, files[mode]);
   }
 }

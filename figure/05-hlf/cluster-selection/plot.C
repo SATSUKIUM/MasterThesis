@@ -1,3 +1,4 @@
+#include "../../pdf_output.hxx"
 #include <TCanvas.h>
 #include <TGraph.h>
 #include <TLegend.h>
@@ -19,5 +20,5 @@ void plot(){
   TGraph* graphs[]={&all,&low,&high};int colors[]={kGray+2,kTeal+2,kOrange+7};const char* labels[]={"All events","Tracks < 2","Tracks #geq 2"};
   TLegend legend(.57,.72,.93,.93);legend.SetBorderSize(0);legend.SetFillStyle(0);
   for(int k=0;k<3;++k){graphs[k]->SetLineColor(colors[k]);graphs[k]->SetMarkerColor(colors[k]);graphs[k]->SetMarkerStyle(20);graphs[k]->SetLineWidth(3);graphs[k]->Draw("LP SAME");legend.AddEntry(graphs[k],labels[k],"lp");}
-  legend.Draw();TLatex text;text.SetTextSize(.032);for(int j=0;j<3;++j){double x,y,xa,ya;high.GetPoint(j,x,y);all.GetPoint(j,xa,ya);text.DrawLatex(x-(j==2?.20:.07),y+16000,TString::Format("%.1f%%",100*y/ya));}c.SaveAs("cluster-selection.pdf");
+  legend.Draw();TLatex text;text.SetTextSize(.032);for(int j=0;j<3;++j){double x,y,xa,ya;high.GetPoint(j,x,y);all.GetPoint(j,xa,ya);text.DrawLatex(x-(j==2?.20:.07),y+16000,TString::Format("%.1f%%",100*y/ya));}save_figure_pdf(c, "cluster-selection.pdf");
 }

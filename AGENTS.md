@@ -31,3 +31,5 @@
 - 元データがない図は未対応として記録し、旧画像を現行図として掲載しない。原本はdocsの参照アーカイブへ保持する。
 
 - ROOT図は線幅3、横800・縦600を基本とする。includegraphicsはpagebox=cropboxと幅・高さの上限、keepaspectratioを指定し、図とキャプションをページ内に収める。現在の上限は0.95\linewidth・0.70\textheight。
+
+- 図の左右ずれを避けるため、ROOT出力後にfigure/pdf_output.hxxでpdfcropを行いページ座標・回転・余白を正規化する。本文ではmakebox[\linewidth][c]で中央配置し、サイズ上限も保持する。

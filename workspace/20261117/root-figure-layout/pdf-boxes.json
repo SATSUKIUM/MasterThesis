@@ -1,0 +1,52 @@
+[
+  {
+    "height_pt" : 392.85399999999998,
+    "origin" : [
+      0,
+      0
+    ],
+    "path" : "figure\/05-hlf\/cluster-selection\/cluster-selection.pdf",
+    "rotation" : 0,
+    "width_pt" : 517.89999999999998
+  },
+  {
+    "height_pt" : 394.22199999999998,
+    "origin" : [
+      0,
+      0
+    ],
+    "path" : "figure\/06-logicfilter\/input-size\/cpu-fit.pdf",
+    "rotation" : 0,
+    "width_pt" : 512.23699999999997
+  },
+  {
+    "height_pt" : 394.22199999999998,
+    "origin" : [
+      0,
+      0
+    ],
+    "path" : "figure\/06-logicfilter\/input-size\/gpu-fit.pdf",
+    "rotation" : 0,
+    "width_pt" : 516.48500000000001
+  },
+  {
+    "height_pt" : 394.22199999999998,
+    "origin" : [
+      0,
+      0
+    ],
+    "path" : "figure\/06-logicfilter\/input-size\/input-time.pdf",
+    "rotation" : 0,
+    "width_pt" : 512.23699999999997
+  },
+  {
+    "height_pt" : 376.726,
+    "origin" : [
+      0,
+      0
+    ],
+    "path" : "figure\/06-logicfilter\/parallel-rate\/parallel-rate.pdf",
+    "rotation" : 0,
+    "width_pt" : 527.98699999999997
+  }
+]
