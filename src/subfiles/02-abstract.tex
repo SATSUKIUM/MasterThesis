@@ -2,7 +2,7 @@
 \begin{document}
 \section*{\centering 概要}
 \begin{tcolorbox}[
-  title=執筆メモ,
+  title=draft abstract,
   colback=yellow!8,
   colframe=black!30,
   breakable
@@ -10,23 +10,32 @@
 \begin{itemize}
   \item 物理目標
   \begin{itemize}
-    \item ダイクォーク相関
-    \item ハドロン内部の構造
+    \item ハドロンの基底状態や低励起状態はCQMでよく記述できるが、それを超えると説明がつかないことが実験的に報告されている
+    \item それに対してダイクォークを有効自由度とした記述が試みられているが、実験的にはまだ存在が確認されていない
+    \item チャームバリオンの励起状態を包括的に測定することで、内部に発達する2つの軽いクォークの間のダイクォーク相関の情報へアクセスできると考えられている
   \end{itemize}
   \item 計画されている実験と本研究のコントリビューション
   \begin{itemize}
     \item チャームバリオンの分光実験(J-PARC E50)
-    \item 連続読み出し式DAQを使うが、非常に高いデータレートが想定されており、オンラインフィルタを用いてデータ量を削減する必要がある
-    \item 本番で使う想定のオンラインフィルターを実装し、テスト実験データを用いて性能評価を行った
-    \item 性能評価の結果を用いて本番で必要とされる計算資源を見積もった
+    \item 連続読み出し式DAQを使うが、非常に高いデータレートが想定されており、効率良く実験を遂行するためにはオンラインフィルタを用いてデータ量を削減する必要がある
+    \item 本番で使うことを想定した、基本的な機能を持つオンラインフィルターを実装し、テスト実験データを用いて性能評価を行った
+    \item 性能評価の結果を用いて(スケールして)本番で必要とされる計算資源を見積もった
   \end{itemize}
   \item 本研究の内容
   \begin{itemize}
-    \item 3種のハイレベルフィルターを実装
-    \item テスト実験T103のデータを用いて性能評価
-    \item 本番で必要とされる計算資源を見積もった
+    \item ハイレベルフィルター
+    \begin{itemize}
+      \item 3種のハイレベルフィルターを実装
+      \item テスト実験T103のデータを用いて性能評価
+      \item 本番で必要とされる計算資源を見積もった
+    \end{itemize}
+    \item LogicFilter
+    \begin{itemize}
+      \item コインシデンスを見つけるための、既存の実装をGPUにて加速
+      \item 本番で必要とされるGPU計算資源を見積もった
+    \end{itemize}
   \end{itemize}
-  \item 本研究の結果
+  \item まとめ・本研究の結果・見えてきた課題
 \end{itemize}
 \end{tcolorbox}
 
@@ -37,22 +46,31 @@
   breakable
 ]
 \begin{itemize}
-  \item 林
+  \item 林(2024) -- J-PARC におけるチャームバリオン分光実験で用いる飛行時間測定用大型Multigap Resistive Plate Chamber の開発
   \begin{itemize}
-    \item (アブストがしっかりしている)
+    \item (アブストの構成がよく練られている。文章の接続がよく、読みやすい。)
     \item ハドロンの基底状態や低励起状態がCQMで記述できるが、それを超えると説明がつかないことがいくつもある
     \item それに対してダイクォーク相関を有効自由度とした記述が試みられているが、それは実験的に確認されていない
     \item チャームなら見れる(と考えられている)
-    \item 
+    \item 崩壊粒子のうち、1.7 \si{\giga\electronvolt}以下のpi,K粒子識別のためにMultigap RPCを使用する
+    \item 要求性能60 \si{\pico\second}
+    \item 試作をした
+    \item 時間分解能や検出効率といった基本性能
+    \item SP8でビームテスト
+    \item 結果
   \end{itemize}
-  \item 山本
+  \item 山本(2023) -- ドリフトチェンバー用読み出し回路ASAGI ASD カードの性能評価
   \begin{itemize}
     \item (Missing Math法というありえない誤字をしてる)
     \item 計画している実験
     \item 荷電K,piを取りたいからドリフトチェンバーが必要で、その読み出し基板を開発
     \item $\upbeta$線とSP8のビーム試験で性能評価
   \end{itemize}
-  \item 
+  \item 山我(2014) -- チャームバリオン分光実験用粒子識別検出器の設計
+  \begin{itemize}
+    \item (本題までの文章構成が読みづらい。話が入ってこない。)
+    \item CQMは基底状態を説明できるが、説明がつかない
+  \end{itemize}
 \end{itemize}
 \end{tcolorbox}
 
