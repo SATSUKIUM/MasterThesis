@@ -63,6 +63,30 @@
 
 \usepackage{amsthm,amsfonts,amssymb}
 
+% 柱：左に現在の章・付録、右にページ番号。
+\usepackage{fancyhdr}
+% 本文の開始位置を変えず、2行の柱の高さを確保する。
+\addtolength{\topmargin}{\headheight}
+\setlength{\headheight}{32pt}
+\addtolength{\topmargin}{-\headheight}
+\newcommand{\thesisheaderstyle}{%
+  \fancyhf{}%
+  \fancyhead[L]{\parbox[b]{0.86\headwidth}{\small\raggedright\nouppercase{\leftmark}}}%
+  \fancyhead[R]{\small\thepage}%
+  \renewcommand{\headrulewidth}{0.4pt}%
+  \renewcommand{\footrulewidth}{0pt}%
+}
+\pagestyle{fancy}
+\thesisheaderstyle
+\fancypagestyle{plain}{\thesisheaderstyle}
+\fancypagestyle{plainhead}{\thesisheaderstyle}
+\newif\ifthesisappendix
+\AddToHook{cmd/appendix/after}{\global\thesisappendixtrue}
+\renewcommand{\sectionmark}[1]{%
+  \markboth{\ifthesisappendix\thesection\else 第\arabic{section}章\fi\quad #1}{}%
+}
+\renewcommand{\subsectionmark}[1]{}
+
 % 図のパスは章を単独コンパイルする場合にも対応する。
 \graphicspath{{\subfix{../figure/}}}
 
@@ -112,5 +136,6 @@
 \subfile{subfiles/10-appendix.tex}
 \clearpage
 % 暫定の参考メモ
+\markboth{参考(暫定)}{}
 \subfile{subfiles/11-reference-notes.tex}
 \end{document}
