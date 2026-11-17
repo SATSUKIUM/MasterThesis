@@ -1,0 +1,43 @@
+{
+  "date_jst": "20261117",
+  "output": "misc/Meeting-Material/20261117-kashima-MasterThesis.pdf",
+  "sha256": "b15fcf80084be6fb8168e4b4a55a9dfe3e1167699de7ec269a5c485cb87fdc2f",
+  "temporary_workspace": "/var/folders/gb/s46rb46n1cb6gj55f7h27fl80000gn/T/master-thesis-meeting-uzlqr8h4",
+  "includes": [
+    "title",
+    "draft abstract box only",
+    "complete current table of contents"
+  ],
+  "excludes": [
+    "notation notes",
+    "past thesis abstract notes",
+    "figure list",
+    "table list",
+    "body",
+    "appendices"
+  ],
+  "source_files": {
+    "src/main.tex": "681716d2ed064945f180c352e5263441f4f402bfda8c2c8dbfc030c59cfe4384",
+    "src/subfiles/01-notation-notes.tex": "595f6e0ba6de90483634298c5b5dc13ea39ec01eea0f14de854cd1bbf3dc1c23",
+    "src/subfiles/02-abstract.tex": "824c340eb03c1951b0fa05217df3faa849b2e10d686c204cac8b37279423ee05",
+    "src/subfiles/03-introduction.tex": "392de11437d6b1a17d9930ff3a793cea7486378db424b9e3e1f9a79243ad6560",
+    "src/subfiles/04-background.tex": "7cdb9a9df4185e6677f6dc0a9fdcfdc8b3562b8df4e672bd26871ce315004cdc",
+    "src/subfiles/05-evaluate-HLF-with-T103-data.tex": "e328721d338a9a36d782399023618849273ece309ca54ffeaffda947ab8c16e8",
+    "src/subfiles/06-evaluate-LogicFilter-with-T103-data.tex": "4353249654f8aba5eca12bd679d3a5e31ebc4e2298e9f695bc3c1df201ac3174",
+    "src/subfiles/07-apply-to-E50.tex": "5ea64e33a95ea9add406006ce70d12c72fa9002b2a92752bd812ad32d1e90bf6",
+    "src/subfiles/08-conclusion.tex": "2da0e723c09c85977ef58ac12c7bc96eeb347913dfd6eb9e0e6701646c46e125",
+    "src/subfiles/09-references.tex": "aa0e0cf3bc353ac9c540f30c69956b30769c2755e477bf81d99b46f1564d848d",
+    "src/subfiles/10-appendix.tex": "69ffdc2769d2fbbd477c38fb179cbe7a7f6c038b722ff79434872fa1fb7a7039",
+    "src/subfiles/11-reference-notes.tex": "b11f1b2024e6306170e71159f644e1a168ea40811a37188604e0679abe632471"
+  },
+  "original_out_main_pdf_modified": false,
+  "verification": {
+    "pages": 4,
+    "title_pages": 1,
+    "draft_abstract_pages": 1,
+    "toc_pages": 2,
+    "excluded_notes_absent": true,
+    "source_files_unchanged": true,
+    "full_document_links_removed": true
+  }
+}
