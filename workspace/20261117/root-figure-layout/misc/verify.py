@@ -38,4 +38,10 @@ class Links(HTMLParser):
 for p in [r/'docs/index.html',r/'docs/figure-guidelines.html',r/'figure/index.html',r/'workspace/20261117/root-figure-layout/index.html']:
  parser=Links();parser.feed(p.read_text())
  for link in parser.links:assert (p.parent/unquote(link)).exists(),(p,link)
+for macro in (r/'figure').glob('*/*/plot.C'):
+ text=macro.read_text();assert ',600,800)' in text and 'SetCanvasSize(600,800)' in text
+ assert 'SetLineWidth(3)' in text and 'SetLineWidth(2)' not in text
+for name in ['05-evaluate-HLF-with-T103-data.tex','06-evaluate-LogicFilter-with-T103-data.tex']:
+ for options in re.findall(r'\\includegraphics\[([^]]+)\]',(r/'src/subfiles'/name).read_text()):
+  assert all(key in options for key in ['pagebox=cropbox','width=0.95','height=0.70','keepaspectratio'])
 print(json.dumps({'status':'passed','root_version':'6.36.04','cluster_counts':'raw ROOT agrees with published sample','fit_parameters':'agree within 1e-9','parallel_rates':'9 conditions agree within 1e-8','figure_pdfs':5,'active_pdf_references':active,'TOF':'missing input: expected exit 2, no PDF','thesis_build':'not run'},ensure_ascii=False,indent=2))
