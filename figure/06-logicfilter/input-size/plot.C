@@ -20,12 +20,12 @@ TGraph read_profile(const char* filename){
   if(graph.GetN()!=72121)throw std::runtime_error("expected 72121 TF");return graph;
 }
 void plot(){
-  gROOT->SetBatch(kTRUE);gStyle->SetLineWidth(3);gStyle->SetHistLineWidth(3);gStyle->SetFrameLineWidth(3);gStyle->SetPaperSize(15,20);gStyle->SetOptStat(0);auto cpu=read_profile("data/cpu.csv"),gpu=read_profile("data/gpu.csv");
+  gROOT->SetBatch(kTRUE);gStyle->SetLineWidth(3);gStyle->SetHistLineWidth(3);gStyle->SetFrameLineWidth(3);gStyle->SetPaperSize(20,15);gStyle->SetOptStat(0);auto cpu=read_profile("data/cpu.csv"),gpu=read_profile("data/gpu.csv");
   cpu.SetMarkerColor(kBlue+2);gpu.SetMarkerColor(kRed+1);cpu.SetMarkerStyle(20);gpu.SetMarkerStyle(20);cpu.SetMarkerSize(.22);gpu.SetMarkerSize(.22);
   const char* files[]={"input-time.pdf","cpu-fit.pdf","gpu-fit.pdf"};
   std::ofstream stats("data/fit-results.csv");stats<<"implementation,frames,intercept_ms,slope_ms_per_MB,R2\n";stats.precision(16);
   for(int mode=0;mode<3;++mode){
-    TCanvas c(TString::Format("input_%d",mode),"",600,800);c.SetCanvasSize(600,800);c.SetLeftMargin(.14);c.SetBottomMargin(.14);c.SetRightMargin(.04);c.SetTopMargin(.10);
+    TCanvas c(TString::Format("input_%d",mode),"",800,600);c.SetCanvasSize(800,600);c.SetLeftMargin(.14);c.SetBottomMargin(.14);c.SetRightMargin(.04);c.SetTopMargin(.10);
     auto frame=c.DrawFrame(0,0,1.3,mode==2?2:12);frame->SetTitle("run000668.dat / Monitor Off / 1 RUN;LF input size (MB/TF);Processing time (ms/TF)");
     TLegend legend(.18,.78,.47,.89);legend.SetTextSize(.035);legend.SetBorderSize(0);legend.SetFillStyle(0);
     if(mode==0){cpu.Draw("P SAME");gpu.Draw("P SAME");legend.AddEntry(&cpu,"CPU","p");legend.AddEntry(&gpu,"GPU","p");legend.Draw();}

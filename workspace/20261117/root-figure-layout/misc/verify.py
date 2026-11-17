@@ -39,7 +39,7 @@ for p in [r/'docs/index.html',r/'docs/figure-guidelines.html',r/'figure/index.ht
  parser=Links();parser.feed(p.read_text())
  for link in parser.links:assert (p.parent/unquote(link)).exists(),(p,link)
 for macro in (r/'figure').glob('*/*/plot.C'):
- text=macro.read_text();assert ',600,800)' in text and 'SetCanvasSize(600,800)' in text
+ text=macro.read_text();assert ',800,600)' in text and 'SetCanvasSize(800,600)' in text
  assert 'SetLineWidth(3)' in text and 'SetLineWidth(2)' not in text
 for name in ['05-evaluate-HLF-with-T103-data.tex','06-evaluate-LogicFilter-with-T103-data.tex']:
  for options in re.findall(r'\\includegraphics\[([^]]+)\]',(r/'src/subfiles'/name).read_text()):
