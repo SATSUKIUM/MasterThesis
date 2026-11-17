@@ -1,0 +1,16 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>図の制作・管理ガイドライン</title><link rel="icon" href="../../../../../assets/icons/favicon-local.png"><style>body{max-width:1050px;margin:32px auto;padding:0 22px;font:16px/1.9 "A P-OTF Shuei MaruGo StdN",sans-serif;background:#ebebeb;color:#242f5b}a{color:#243d8f}code,pre{font-family:ui-monospace,monospace;overflow-wrap:anywhere}pre{background:white;padding:16px;overflow:auto}td,th{border:1px solid #bbb;padding:10px;text-align:left}table{border-collapse:collapse;width:100%}</style></head><body><header><a href="index.html">資料と制作ガイド</a></header><h1>図の制作・管理ガイドライン</h1><p>2026-11-17制定。ユーザー指定を基に整理。</p><h2>配置</h2><ul><li><code>figure/</code>直下を章ごとのフォルダに分ける。</li><li>章フォルダ内も原則として図ごとに分け、再作図用データ、ROOTマクロ、完成PDFを同じ図フォルダで管理する。</li><li>写真などの画像は図ごとのフォルダを作らず、章フォルダへ直接置いてよい。</li><li>同じデータから作る比較図とフィット図など、一組の評価図は同じ図フォルダで管理してよい。</li></ul><pre>figure/
+  05-hlf/
+    cluster-selection/
+      data/counts.csv
+      extract_counts.C
+      plot.C
+      cluster-selection.pdf
+      README.md
+  06-logicfilter/
+    input-size/
+      data/cpu.csv
+      data/gpu.csv
+      plot.C
+      input-time.pdf
+      cpu-fit.pdf
+      gpu-fit.pdf</pre><h2>持ち込むもの</h2><ul><li>完成した図ファイルだけをコピーせず、作図に必要なデータを持ち込み、ROOTマクロとともに保存する。</li><li>データはROOTファイル、CSV、ヒストグラムのビン情報、再作図に十分な集計値など。生データから集計する場合は集計方法・条件を保存する。</li><li>原本の所在、測定系列、単位、集計条件、入力ファイルのハッシュを記録する。表示範囲と集計範囲を区別する。</li><li>図を画像から推測してデータを作らない。必要なデータが不明なら未対応と記録し、確定図として本文に掲載しない。</li></ul><h2>生成</h2><ul><li>ROOTのバッチモードで作図する。図の生成形式はPDFのみとし、PNG・SVGなどの表示用コピーは作らない。</li><li>各図フォルダで<code>root -l -b -q plot.C</code>を実行する。</li><li>リポジトリのルートで<code>make figures</code>を実行すると、データが揃った図のみ生成する。未対応のTOF図は通常対象に含めない。</li><li>LaTeXは生成されたPDFを参照する。図PDFの生成と論文全体のビルドは別の操作とする。論文PDFは依頼時のみ再生成する。</li></ul><h2>既存資料と表</h2><p>以前取り込んだ完成PNGは<code>docs/figure-archive/20261117/</code>に参照用として保存し、現行図としては使わない。数値表はLaTeXの表として維持し、根拠データを出典資料で管理する。</p><p><a href="../figure/index.html">現在の図一覧・未対応事項</a></p></body></html>

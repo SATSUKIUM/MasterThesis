@@ -53,33 +53,39 @@
     },
     {
       "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261031/K-project-interim-report/発表資料/image/tof-selection.png",
-      "copy": "figure/performance-results/tof-selection.png",
-      "sha256": "07d5ea84a6dafb5b1235aecb5ba134e7db3de2a865767d09d835ab22f2414735"
+      "copy": "docs/figure-archive/20261117/tof-selection.png",
+      "sha256": "07d5ea84a6dafb5b1235aecb5ba134e7db3de2a865767d09d835ab22f2414735",
+      "previous_copy": "figure/performance-results/tof-selection.png"
     },
     {
       "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261031/K-project-interim-report/発表資料/image/cluster-selection.png",
-      "copy": "figure/performance-results/cluster-selection.png",
-      "sha256": "551910a55ae3c24da1b34468ff53e7590421c9530015efbbbafec4aa1f7973fd"
+      "copy": "docs/figure-archive/20261117/cluster-selection.png",
+      "sha256": "551910a55ae3c24da1b34468ff53e7590421c9530015efbbbafec4aa1f7973fd",
+      "previous_copy": "figure/performance-results/cluster-selection.png"
     },
     {
       "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261102/LogicFilter-GPU-SPADI-A-WG4/measurements/20261111-run000668/image/overlay-balanced-display.png",
-      "copy": "figure/performance-results/overlay-balanced-display.png",
-      "sha256": "6c67d60fca5f2d3516992303655cb88be2e52fa31a5024aea7eb395d342380c2"
+      "copy": "docs/figure-archive/20261117/overlay-balanced-display.png",
+      "sha256": "6c67d60fca5f2d3516992303655cb88be2e52fa31a5024aea7eb395d342380c2",
+      "previous_copy": "figure/performance-results/overlay-balanced-display.png"
     },
     {
       "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261102/LogicFilter-GPU-SPADI-A-WG4/measurements/20261111-run000668/image/cpu-fit-display.png",
-      "copy": "figure/performance-results/cpu-fit-display.png",
-      "sha256": "84bdf3b0ebb2bb214bbabda9da93780f0f2525549e95413135d6ee1d8016bed4"
+      "copy": "docs/figure-archive/20261117/cpu-fit-display.png",
+      "sha256": "84bdf3b0ebb2bb214bbabda9da93780f0f2525549e95413135d6ee1d8016bed4",
+      "previous_copy": "figure/performance-results/cpu-fit-display.png"
     },
     {
       "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261102/LogicFilter-GPU-SPADI-A-WG4/measurements/20261111-run000668/image/gpu-fit-display.png",
-      "copy": "figure/performance-results/gpu-fit-display.png",
-      "sha256": "fd365b5b89d0c8705d3d56e016dd2f71359a1c1642d71d5f6954dfaf4a29a296"
+      "copy": "docs/figure-archive/20261117/gpu-fit-display.png",
+      "sha256": "fd365b5b89d0c8705d3d56e016dd2f71359a1c1642d71d5f6954dfaf4a29a296",
+      "previous_copy": "figure/performance-results/gpu-fit-display.png"
     },
     {
       "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261102/LogicFilter-GPU-SPADI-A-WG4/measurements/20261112-member-clock/image/member-clock-total.png",
-      "copy": "figure/performance-results/lf-member-clock-total.png",
-      "sha256": "cff531207cb7b714d0bf801c3d27233f869ce3ca0154b3417771e3d5e509b3c9"
+      "copy": "docs/figure-archive/20261117/lf-member-clock-total.png",
+      "sha256": "cff531207cb7b714d0bf801c3d27233f869ce3ca0154b3417771e3d5e509b3c9",
+      "previous_copy": "figure/performance-results/lf-member-clock-total.png"
     },
     {
       "original": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261031/K-project-interim-report/オンラインフィルター/TOF/資料2抜粋/page-14.png",

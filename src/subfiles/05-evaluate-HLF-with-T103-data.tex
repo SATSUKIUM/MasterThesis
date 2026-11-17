@@ -64,14 +64,8 @@ TOFフィルタとクラスター数フィルタの評価にはAMD EPYC 74F3、6
 
 タイミングカウンタのヒット時刻の差から飛行時間を求め、その範囲を条件として事象を選別する。
 T103データでは飛行時間の分布を用いて$K^{-}$ビームの事象を選別した。
-図\ref{fig:hlf-tof-selection}に飛行時間分布と選別範囲を示す。
+% TODO: 元TOFヒストグラムを確認後、05-hlf/tof-selectionで再作図する。
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.78\linewidth]{performance-results/tof-selection.png}
-  \caption{T103データの飛行時間分布と$K^{-}$ビームの選別範囲\cite{kashima:interim2026}}
-  \label{fig:hlf-tof-selection}
-\end{figure}
 
 フィルタ全体の平均スループットは594.9\,MB/sであった\cite{kashima:tof2025}。
 CPUの省電力・ブースト機能を無効化し、全コアを3.2\,GHzに固定した評価である。
@@ -110,7 +104,7 @@ $N=2$の条件では、全エントリ数は387974から168213へ減少した。
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.85\linewidth]{performance-results/cluster-selection.png}
+  \includegraphics[width=0.85\linewidth]{05-hlf/cluster-selection/cluster-selection.pdf}
   \caption{クラスター数による選別とオフライン再構成トラック数の関係。$N$はクラスター数が2以上のレイヤに課す最小枚数\cite{kashima:cluster2026}}
   \label{fig:hlf-cluster-selection}
 \end{figure}

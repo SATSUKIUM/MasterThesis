@@ -2,7 +2,7 @@
 
 - `src/main.tex`：表紙、共通設定、章の読み込み
 - `src/subfiles/*.tex`：章ごとの本文、参考文献、付録
-- `figure/`：図の原本・画像
+- `figure/`：章別・図別のデータ、ROOTマクロ、生成PDF
 - `docs/`：参考資料・提出版PDF
 - `misc/`：補助スクリプト・メモ
 - `out/`：生成PDF・中間ファイル（Git対象外）
@@ -105,3 +105,9 @@ subfilesのファイル名には、main.texでの読み込み順に01〜11の番
 07にT103の平均負荷換算、09に参考文献を追加。
 出典・旧版との区別は `workspace/20261112/performance-results/index.html`、
 集計値の固定コピーは `docs/performance-results/20261112/` を参照。
+
+## 図の制作・再生成
+
+[資料と制作ガイド](docs/index.html)から[図の管理方針](docs/figure-guidelines.html)と[図一覧](figure/index.html)を参照。
+ルートで `make figures` を実行するとROOTバッチで図PDFのみ再生成する。論文全体のビルドは別操作。
+TOF分布は元データ未特定のため通常の生成対象・本文掲載から除外している。

@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "root_version": "6.36.04",
+  "cluster_counts": "raw ROOT agrees with published sample",
+  "fit_parameters": "agree within 1e-9",
+  "parallel_rates": "9 conditions agree within 1e-8",
+  "figure_pdfs": 5,
+  "active_pdf_references": [
+    "05-hlf/cluster-selection/cluster-selection.pdf",
+    "06-logicfilter/input-size/input-time.pdf",
+    "06-logicfilter/parallel-rate/parallel-rate.pdf"
+  ],
+  "TOF": "missing input: expected exit 2, no PDF",
+  "thesis_build": "not run"
+}

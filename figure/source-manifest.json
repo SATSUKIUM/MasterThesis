@@ -1,0 +1,47 @@
+{
+  "date": "2026-11-17",
+  "inputs": [
+    {
+      "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261102/LogicFilter-GPU-SPADI-A-WG4/measurements/20261111-run000668/single/data/measurement/cpu-monitor-off-r1/profiles/logicfilter-profile-0.csv",
+      "copy": "figure/06-logicfilter/input-size/data/cpu.csv",
+      "sha256": "4919592e69d909558f7fccf1293be786d21ae0bc3992e43bd4eb2074ec5ffd3b"
+    },
+    {
+      "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261102/LogicFilter-GPU-SPADI-A-WG4/measurements/20261111-run000668/single/data/measurement/gpu-monitor-off-r1/profiles/logicfilter-profile-0.csv",
+      "copy": "figure/06-logicfilter/input-size/data/gpu.csv",
+      "sha256": "e6864c923b8acbe3adb79bc80a49cdbf8de8dc2bb6e53cc334d1a0d31ba63644"
+    },
+    {
+      "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261111/GitHub/MasterThesis/docs/performance-results/20261112/member-clock-per-process.csv",
+      "copy": "figure/06-logicfilter/parallel-rate/data/per-process.csv",
+      "sha256": "a69774c619ff80eca4e28793fb72f18bb135ce6b2ce6de362cb5ada8c72014a1"
+    }
+  ],
+  "derived_inputs": [
+    {
+      "copy": "figure/05-hlf/cluster-selection/data/counts.csv",
+      "sha256": "20264a7b17af310bf7dac4eaa269f06596ba2fa02d9307459a12fbffef404230",
+      "sources": [
+        {
+          "source": "/Users/kashima/scp_landing_zone/20260314/data/run000611_KLDCtrack.root",
+          "sha256": "cf7543a35422e52b4f866d23ba1b73f3a8a158037ede34f15f260c0bd8451731",
+          "tree": "tree",
+          "branch": "nt"
+        },
+        {
+          "source": "/Users/kashima/scp_landing_zone/20260314/data/run000610_KLDCtrack.root",
+          "sha256": "01c2712640127c9cf6f10a192978a747fd64dac93e40c71372ddfc80d4016faf",
+          "tree": "tree",
+          "branch": "nt"
+        },
+        {
+          "source": "/Users/kashima/scp_landing_zone/20260314/data/run000609_KLDCtrack.root",
+          "sha256": "952df072d33702fdea09a92a9cc4cf3776b02ced9a40e142770d5e00869c56db",
+          "tree": "tree",
+          "branch": "nt"
+        }
+      ],
+      "method": "entries; entries(nt>=2); tracks_lt2 = total - selected; extraction asserts exact published counts"
+    }
+  ]
+}

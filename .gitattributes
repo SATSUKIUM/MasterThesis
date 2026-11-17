@@ -1,0 +1,3 @@
+
+# Preserve the exact source CSV bytes, including CRLF line endings.
+figure/06-logicfilter/parallel-rate/data/per-process.csv -text whitespace=cr-at-eol
