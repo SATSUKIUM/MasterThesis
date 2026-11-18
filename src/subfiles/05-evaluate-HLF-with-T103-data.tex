@@ -19,6 +19,11 @@
       \item T103とは
       \item ビーム
       \item セットアップ
+      \begin{itemize}
+        \item 検出器の配置
+        \item 設置座標(おもにzが重要)
+        \item UTOF, LTOF, BFT, KLDCは必須で他は確認できれば入れておく
+      \end{itemize}
     \end{itemize}
     \item 評価指標
   \end{itemize}
@@ -48,9 +53,54 @@ MARQスペクトロメータで用いることを想定したハイレベルフ�
   \begin{itemize}
     \item marq07で全部のベンチマークをする
     \item データは全部marq08(ストレージたくさん)に置いて、marq08からリプレイヤーで飛ばす
-    \item e50server03は赤石さんに大阪へと送ってもらうかも?
+    \item e50server03は大阪に送ってもらって、すでにセットアップ済
   \end{itemize}
   \item ここ(\lstinline|/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark|)でどこに何のコードがあるかまとめることにする
+  \begin{itemize}
+    \item TOF: 計測システム研究会2025 (ProcessSlice定義: \path{/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/src/TOF-20251111/nestdaq-user-impl_MARQ/FilterTimeFrameSliceBySomething.cxx}:177)
+    \begin{itemize}
+      \item リポ: \url{https://github.com/SATSUKIUM/nestdaq-user-impl_MARQ}
+      \item コミットハッシュ: \texttt{53d8724486561cf40ce6de6d2c1bbd67093a9054}（chmap導入前の基準版）
+      \item チェック項目
+      \item ConditionalRun()のスループット(送受信は除く)
+      \item その分布
+      \item ProcessSlice()だけのスループット
+      \item その分布
+      \item $\uparrow$ の横軸データサイズ縦軸処理時間の分布
+      \item カット前TOF分布図(ptag132.pdfと矛盾はないか)
+      \item カット範囲の決定(ptag132.pdfと矛盾はないか)
+      \item カット前後のデータ削減率(ptag132.pdfと矛盾はないか)
+      \item カット後TOF分布図
+    \end{itemize}
+    \item Multiplicity: 2026春物理学会 (ProcessSlice定義: \path{/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/src/Multiplicity/nestdaq-user-impl_MARQ/FilterTimeFrameSliceByMultiplicity.cxx}:112)
+    \begin{itemize}
+      \item リポ: \url{https://github.com/SATSUKIUM/nestdaq-user-impl_MARQ}
+      \item コミットハッシュ: \texttt{b9f8553d5524fa5f845cfa8160f06ee2da5026a8}（基準コミット。ローカル版は最新channel-map対応・配列境界修正あり。2026春発表版との一致は未確認）
+      \item チェック項目
+      \item ConditionalRun()のスループット(送受信は除く)
+      \item その分布
+      \item ProcessSlice()だけのスループット
+      \item その分布
+      \item $\uparrow$ の横軸データサイズ縦軸処理時間の分布
+      \item カット前クラスタ数分布図
+      \item カット条件ごとのデータ削減率
+      \item カット前後でのオフライン解析のトラック数の変化
+    \end{itemize}
+    \item Track: 2026夏物理学会 (ProcessSlice定義: \path{/Users/kashima/scp_landing_zone/20260519/nestdaq-user-impl/FilterTimeFrameSliceByTrack.cxx}:452)
+    \begin{itemize}
+      \item リポ: \url{https://github.com/SATSUKIUM/nestdaq-user-impl}
+      \item コミットハッシュ: \texttt{0d7bbf643c53e990a65c92ae41c5cb3b70de33a9}（参照版。2026夏発表版との一致・共通ベンチマークへの採用は未確定）
+      \item チェック項目
+      \item ConditionalRun()のスループット(送受信は除く)
+      \item その分布
+      \item ProcessSlice()だけのスループット
+      \item その分布
+      \item $\uparrow$ の横軸データサイズ縦軸処理時間の分布
+      \item ビームプロファイル(BFTを使って)
+      \item トラッキング結果(トラックのヒットレイヤ数, 残差分布, ヒットプロファイル, $\chi^2$分布)
+      \item レイヤごとの検出効率(BFTのトラッキング結果と比較)
+    \end{itemize}
+  \end{itemize}
 \end{itemize}
 \end{tcolorbox}
 記録済みのT103データをリプレイヤーから入力し、1プロセスのオンラインフィルタが処理したデータ量と処理時間を測定した。
