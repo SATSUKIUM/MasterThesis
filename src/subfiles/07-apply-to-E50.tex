@@ -2,7 +2,36 @@
 \begin{document}
 \section{E50実験への適用}
 \label{sec:methods}
-4. MARQ実験への適用
+\begin{tcolorbox}[
+  title=執筆メモ,
+  colback=yellow!8,
+  colframe=black!30,
+  breakable
+]
+\begin{itemize}
+  \item T103: 0.95 M/spill
+  \item E50: 30 Mcps
+  \begin{itemize}
+    \item 反応レート: 1.5 Mcps
+  \end{itemize}
+  \item ビームレートでスケーリングするなら60倍
+  \item (ざっくりと目標は書き込み1 GB/s以下に抑えること)
+  \item ありえるフィルター
+  \begin{itemize}
+    \item SFTとT0とBFTでトラッキング
+    \begin{itemize}
+      \item BFTでのトラッキング結果と繋がらないトラックがSFTに残されていればkeep
+      \item これだと少なくとも60倍スケーリング
+    \end{itemize}
+    \item ビーム下流のDCとTOFでトラッキング
+    \begin{itemize}
+      \item DCにトラックがあればkeep
+      \item 1.5 Mcps*平均4の生成粒子数の反応レートをトラッキング(12倍スケーリングくらい?)
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+\end{tcolorbox}
+MARQ実験への適用
 30 Mcpsのビームへの適用
 
 有効そうなフィルタ手法
