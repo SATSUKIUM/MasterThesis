@@ -29,6 +29,9 @@
 \usepackage[subrefformat=parens]{subcaption}
 \usepackage{here}
 \usepackage{siunitx}
+\usepackage{hepunits}
+% hepunits 2.0のGeVcはsiunitx 3で内部のeV展開が失敗するため補正する。
+\DeclareSIUnit{\GeVc}{\text{\ensuremath{\mathrm{GeV}/c}}}
 \usepackage{physics}
 \usepackage{upgreek}%ギリシャ文字を立てる
 \usepackage{hyperref}
