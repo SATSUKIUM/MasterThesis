@@ -89,7 +89,7 @@ MARQスペクトロメータで用いることを想定したハイレベルフ�
     \item Track: 2026夏物理学会 (ProcessSlice定義: \path{/Users/kashima/scp_landing_zone/20260519/nestdaq-user-impl/FilterTimeFrameSliceByTrack.cxx}:452)
     \begin{itemize}
       \item リポ: \url{https://github.com/SATSUKIUM/nestdaq-user-impl}
-      \item コミットハッシュ: \texttt{0d7bbf643c53e990a65c92ae41c5cb3b70de33a9}（参照版。2026夏発表版との一致・共通ベンチマークへの採用は未確定）
+      \item コミットハッシュ: \texttt{0d7bbf643c53e990a65c92ae41c5cb3b70de33a9}（参照版。2026夏発表版との一致は未確認。共通再測定では現行channel-map互換移植を適用）
       \item チェック項目
       \item ConditionalRun()のスループット(送受信は除く)
       \item その分布
@@ -199,7 +199,7 @@ $N=2$の条件では、全エントリ数は387974から168213へ減少した。
 \end{tcolorbox}
 
 
-\subsection{処理性能のまとめ}
+\subsection{過去の発表における処理性能}
 表\ref{tab:hlf-performance}に各フィルタの処理性能を示す。
 いずれも1プロセスあたりの評価である。
 \begin{table}[htbp]
@@ -216,5 +216,112 @@ $N=2$の条件では、全エントリ数は387974から168213へ減少した。
     \hline
   \end{tabular}
 \end{table}
+
+
+\subsection{共通条件による再測定}
+\label{sec:common-hlf-benchmark}
+
+前節までの発表時の評価とは別に、run000668.datの先頭20\,000 TFを共通入力として、e50server03、marq04、marq06、marq07で処理性能を再測定した。
+入力のTF IDは1\,800\,968から1\,960\,960まで8刻みである。
+データリプレイヤー、LogicFilter、TimeFrameSlicer、ハイレベルフィルタ、FileSinkを各1プロセスとし、FileSinkは受信データを\texttt{/dev/null}へ書き込んだ。
+専用ウォームアップと同条件の反復測定は行わず、先頭からの全20\,000 TFを集計した。
+marq04、marq06、marq07のCPUガバナーはperformanceであった。
+e50server03では、conservativeで測定した後、全48論理CPUをperformanceへ変更して同じ条件を測定した。
+ガバナーの設定は各実行の前後で一致することを確認したが、固定周波数を設定した測定ではない。
+
+TOFは\texttt{53d8724}、Multiplicityは\texttt{b9f8553}を基準とした。
+Multiplicityには現行channel-map APIへの対応と配列境界の修正を適用した。
+Trackは参照コミット\texttt{0d7bbf6}へ現行channel-map APIの互換移植を行い、KLDCの辞書番号を名前から解決する変更とROOT診断出力の無効化を適用した。
+したがって、これらの値を過去の発表版のソースそのままの性能とは扱わない。
+特に、Trackと2026年夏の発表版との一致は未確認である。
+
+\subsubsection{計時とスループットの定義}
+
+\texttt{ConditionalRun()}と\texttt{ProcessSlice()}は別の実行で計時した。
+前者では受信前の処理と受信後から送信処理直前までを計時し、受信、送信のpoll、再送待ちを除いた。
+後者では判定関数の入口から計算終了までを計時し、早期returnによる棄却も記録した。
+\texttt{std::chrono::steady\_clock}を用い、経過時間をdouble型の$\mu$sで保存した。
+計時終了後に各関数の末尾でメンバー変数のvectorへ格納し、ファイル出力は\texttt{PostRun()}で行った。
+\texttt{ConditionalRun()}の測定実行では、\texttt{ProcessSlice()}内部の時計呼び出しと計時結果のvector格納を無効にした。
+
+呼び出し$i$の入力サイズを$B_i$ [byte]、処理時間を$t_i$ [$\mu$s]とすると、
+スループット分布の算術平均$\overline{R}$と、全データ量と全処理時間の比$R_\Sigma$を
+\begin{align}
+  \overline{R} &= \frac{1}{N}\sum_{i=1}^{N}\frac{B_i}{t_i},\\
+  R_\Sigma &= \frac{\sum_i B_i}{\sum_i t_i}
+\end{align}
+と定義する。
+いずれも単位はMB/sであり、MBは$10^6$ byteとする。
+両者は異なる量なので区別して示す。
+\texttt{ConditionalRun()}の入力サイズはMETA等を含む受信メッセージ全体、
+\texttt{ProcessSlice()}は個々のsliceの実サイズであり、両者の分母となるデータ範囲も異なる。
+
+\subsubsection{コインシデンスの有無による分類}
+
+HLFへ入力されたメッセージについて、sliceを少なくとも1つ含む群と、sliceを含まない群に分けた。
+これはHLFによる採用後のslice数ではなく、判定前に入力されたsliceの有無である。
+\texttt{ConditionalRun()}の計時CSVにはslice数を直接保存していなかったため、同じ条件の\texttt{ProcessSlice()}計時実行とメッセージ番号・TF IDで対応付けて分類した。
+この分類は全5環境条件で一致し、sliceを含まないメッセージが12\,864 byteのMETAのみのパケットであることとも照合した。
+sliceを含むメッセージは9\,734件、含まないメッセージは10\,266件であり、\texttt{ProcessSlice()}の呼び出し数は152\,880件であった。
+sliceを含まないメッセージでは\texttt{ProcessSlice()}は呼ばれないため、その群の処理時間やスループットをゼロとして定義しない。
+
+\input{\subfix{../../figure/05-hlf/common-benchmark-summary/tables.tex}}
+
+\subsubsection{処理時間と入力サイズ依存性}
+
+処理時間とスループットの一次元分布は200ビン、入力サイズ対処理時間の二次元分布は$200\times200$ビンとし、縦軸・横軸を線形としてROOTで描画した。
+全範囲を含む図と、主分布を見るための拡大表示を保存した。
+拡大表示の上限は5環境条件をプールした99.5パーセンタイルであり、範囲外の件数を図中に示した。
+表の統計量は、この表示範囲で切らず全サンプルから求めた。
+図の再作成に必要な測定CSV、slice数の台帳、集計データ、ROOTマクロを\texttt{figure/05-hlf/}以下の図別ディレクトリに保存した。
+
+\begin{figure}[htbp]
+  \centering
+  \makebox[\linewidth][c]{
+    \includegraphics[pagebox=cropbox,width=0.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/common-benchmark-tof/cond-has_slice-throughput-zoom.pdf}
+    \includegraphics[pagebox=cropbox,width=0.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/common-benchmark-tof/slice-has_slice-throughput-zoom.pdf}
+  }
+  \caption{TOFのスループット分布。左はsliceを含むメッセージに対するConditionalRun、右はProcessSliceの呼び出しであり、計時した実行と入力サイズの定義が異なる。拡大表示の範囲と範囲外件数を図中に示す。e50server03のCはconservative、Pはperformanceを表し、他3台はperformanceである。}
+  \label{fig:common-hlf-tof}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \makebox[\linewidth][c]{
+    \includegraphics[pagebox=cropbox,width=0.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/common-benchmark-multiplicity/cond-has_slice-throughput-zoom.pdf}
+    \includegraphics[pagebox=cropbox,width=0.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/common-benchmark-multiplicity/slice-has_slice-throughput-zoom.pdf}
+  }
+  \caption{Multiplicityのスループット分布。左はsliceを含むメッセージに対するConditionalRun、右はProcessSliceの呼び出しであり、計時した実行と入力サイズの定義が異なる。拡大表示の範囲と範囲外件数を図中に示す。e50server03のCはconservative、Pはperformanceを表し、他3台はperformanceである。}
+  \label{fig:common-hlf-multiplicity}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \makebox[\linewidth][c]{
+    \includegraphics[pagebox=cropbox,width=0.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/common-benchmark-track/cond-has_slice-throughput-zoom.pdf}
+    \includegraphics[pagebox=cropbox,width=0.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/common-benchmark-track/slice-has_slice-throughput-zoom.pdf}
+  }
+  \caption{Trackのスループット分布。左はsliceを含むメッセージに対するConditionalRun、右はProcessSliceの呼び出しであり、計時した実行と入力サイズの定義が異なる。拡大表示の範囲と範囲外件数を図中に示す。e50server03のCはconservative、Pはperformanceを表し、他3台はperformanceである。}
+  \label{fig:common-hlf-track}
+\end{figure}
+
+
+\subsubsection{ガバナー条件と比較の範囲}
+
+e50server03では同一のHLFバイナリーを用い、入力ID・入力サイズ・採否の一致を確認してガバナー条件を比較した。
+図\ref{fig:common-hlf-governor}の速度比は、performanceの$R_\Sigma$をconservativeの$R_\Sigma$で割った値である。
+各条件1回の測定なので、実行間のばらつきやガバナー以外の系統差は評価していない。
+また、異なる環境間で単一の性能換算係数が成立することを実証したものではない。
+
+\begin{figure}[htbp]
+  \centering
+  \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=0.95\linewidth,height=0.70\textheight,keepaspectratio]{05-hlf/common-benchmark-summary/governor-has_slice.pdf}}
+  \caption{e50server03のガバナー条件による速度比。CRはsliceを含むメッセージのConditionalRun、PSはProcessSliceを表す。各点は同じ入力に対する各条件1回の測定であり、誤差棒は付けていない。}
+  \label{fig:common-hlf-governor}
+\end{figure}
+
+本節の再測定は処理性能を対象としており、カット前後の物理分布やオフライントラッキングの再評価とは区別する。
+入力ID・サイズ・採否は4台とe50server03の両ガバナーで一致したが、フィットパラメータや残差分布の一致を確認したものではない。
+BFTを基準とする検出効率の評価は今後の課題とする。
 
 \end{document}

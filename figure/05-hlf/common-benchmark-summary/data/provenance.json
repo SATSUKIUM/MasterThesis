@@ -1,0 +1,272 @@
+[
+  {
+    "kind": "tof",
+    "environment": "e50-conservative",
+    "mode": "cond",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/e50server03/conservative-tof-cond-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-tof/data/e50-conservative-cond.csv.gz",
+    "sha256": "94e8504ad2fd74c1c522943ec73350613bf276cd1e3f8b5133b05536530281b4",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "tof",
+    "environment": "e50-conservative",
+    "mode": "slice",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/e50server03/conservative-tof-slice-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-tof/data/e50-conservative-slice.csv.gz",
+    "sha256": "e995d9cf00a6945a0d778a11fc95eeef1517a83cd7176e8c52afb80110451945",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "tof",
+    "environment": "e50-performance",
+    "mode": "cond",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/e50server03/performance-tof-cond-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-tof/data/e50-performance-cond.csv.gz",
+    "sha256": "0f67cb1cec2d1be6db3eaa4c30045257daec626938cea08029e276a614378ac7",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "tof",
+    "environment": "e50-performance",
+    "mode": "slice",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/e50server03/performance-tof-slice-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-tof/data/e50-performance-slice.csv.gz",
+    "sha256": "bdd02a7e868d2a2b07698572a17978f5b44100cdd9a880e615a75e531077e45c",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "tof",
+    "environment": "marq04",
+    "mode": "cond",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/172.16.204.43/performance-tof-cond-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-tof/data/marq04-cond.csv.gz",
+    "sha256": "966ef6b75380d8fc2b10eb2cb55ce4dc1a5910336e1bc0eac98d605df62be65b",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "tof",
+    "environment": "marq04",
+    "mode": "slice",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/172.16.204.43/performance-tof-slice-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-tof/data/marq04-slice.csv.gz",
+    "sha256": "0e806e1584e00818dc87df15960f50aa0e5cd8f69897b202da1edc22b8dde1c3",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "tof",
+    "environment": "marq06",
+    "mode": "cond",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/marq06/performance-tof-cond-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-tof/data/marq06-cond.csv.gz",
+    "sha256": "313792c18e9309d600420b22dc3481c5a32cbb991d16d6b867223a662f9fdf8d",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "tof",
+    "environment": "marq06",
+    "mode": "slice",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/marq06/performance-tof-slice-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-tof/data/marq06-slice.csv.gz",
+    "sha256": "2ccc34860bc099b32dd9463c4ecaca7790be9c702b1e8eefe7a27a8e8c797bef",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "tof",
+    "environment": "marq07",
+    "mode": "cond",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/marq07/performance-tof-cond-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-tof/data/marq07-cond.csv.gz",
+    "sha256": "eaac6a6f8f336371c2fc513252cf81430dcdae492602d7720bd28f790fd5b50a",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "tof",
+    "environment": "marq07",
+    "mode": "slice",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/marq07/performance-tof-slice-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-tof/data/marq07-slice.csv.gz",
+    "sha256": "df77f2bc92758b41917d273805800357e3ae1d7c5743c04c77fe3ceb54e36607",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "multiplicity",
+    "environment": "e50-conservative",
+    "mode": "cond",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/e50server03/conservative-multiplicity-cond-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-multiplicity/data/e50-conservative-cond.csv.gz",
+    "sha256": "d2b8e39beed9737d5bcc91bf85bd0042c31a2098bf0162848767d9544aec7b58",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "multiplicity",
+    "environment": "e50-conservative",
+    "mode": "slice",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/e50server03/conservative-multiplicity-slice-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-multiplicity/data/e50-conservative-slice.csv.gz",
+    "sha256": "19184406c8529c8312be81b2adc92513a478879370bc9a684afdf1b9923772ef",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "multiplicity",
+    "environment": "e50-performance",
+    "mode": "cond",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/e50server03/performance-multiplicity-cond-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-multiplicity/data/e50-performance-cond.csv.gz",
+    "sha256": "23d811c05f0b1f6aa11f5c2200015c74bf3148aebe029ded6024041875984c23",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "multiplicity",
+    "environment": "e50-performance",
+    "mode": "slice",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/e50server03/performance-multiplicity-slice-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-multiplicity/data/e50-performance-slice.csv.gz",
+    "sha256": "897e4425626c4c4d5f2b21aa22c1ee215d068a2e2cecea84787053225ad86d08",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "multiplicity",
+    "environment": "marq04",
+    "mode": "cond",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/172.16.204.43/performance-multiplicity-cond-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-multiplicity/data/marq04-cond.csv.gz",
+    "sha256": "43944a64f05e8070bfc90251ed47f8d3e1d2a7d0ba2e0ae50858c10b8c434268",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "multiplicity",
+    "environment": "marq04",
+    "mode": "slice",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/172.16.204.43/performance-multiplicity-slice-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-multiplicity/data/marq04-slice.csv.gz",
+    "sha256": "de36c20eb184c93d756c1c10a9fc42c50032862a6ae7092129768589dd1b4b9f",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "multiplicity",
+    "environment": "marq06",
+    "mode": "cond",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/marq06/performance-multiplicity-cond-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-multiplicity/data/marq06-cond.csv.gz",
+    "sha256": "d882b92775a7d9f55b068a34c3476201f0d68a5781219f9b58998ce853cb0b88",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "multiplicity",
+    "environment": "marq06",
+    "mode": "slice",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/marq06/performance-multiplicity-slice-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-multiplicity/data/marq06-slice.csv.gz",
+    "sha256": "cc5dbfeb26c22cda6c70f20e1cda96b37ef3b1ce6a3c4131bd3cea433c96094f",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "multiplicity",
+    "environment": "marq07",
+    "mode": "cond",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/marq07/performance-multiplicity-cond-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-multiplicity/data/marq07-cond.csv.gz",
+    "sha256": "4427a9fb797946960b2ec233f0435b347c722e043cd4b3419aece0d3807c6c72",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "multiplicity",
+    "environment": "marq07",
+    "mode": "slice",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/marq07/performance-multiplicity-slice-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-multiplicity/data/marq07-slice.csv.gz",
+    "sha256": "8f9d4172d4fd1bed000caa2dfa22710bdcd169e6380a64a3ab1e34741d13d2e5",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "track",
+    "environment": "e50-conservative",
+    "mode": "cond",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/e50server03/conservative-track-cond-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-track/data/e50-conservative-cond.csv.gz",
+    "sha256": "6decf88f8c11ecdea0d9d3fc955d58dd52b42a1b3a6ceae077aebeac8b86a286",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "track",
+    "environment": "e50-conservative",
+    "mode": "slice",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/e50server03/conservative-track-slice-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-track/data/e50-conservative-slice.csv.gz",
+    "sha256": "5b86c4d4b563d80960c39669e174a5378a77b132434bd1b83da92116f835a7c8",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "track",
+    "environment": "e50-performance",
+    "mode": "cond",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/e50server03/performance-track-cond-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-track/data/e50-performance-cond.csv.gz",
+    "sha256": "af8b040839f9459ccdfeb8e1b11129cc166e86f90561f9e62bce36a97191d463",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "track",
+    "environment": "e50-performance",
+    "mode": "slice",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/e50server03/performance-track-slice-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-track/data/e50-performance-slice.csv.gz",
+    "sha256": "84b4a4455abec2aa1deb827623f363cb1000f01741a033b94a00c7280ac407e2",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "track",
+    "environment": "marq04",
+    "mode": "cond",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/172.16.204.43/performance-track-cond-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-track/data/marq04-cond.csv.gz",
+    "sha256": "6cd98e60f255e34ee61ccb17de19105efe1ca2f6164096f02c85d37cbc27751e",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "track",
+    "environment": "marq04",
+    "mode": "slice",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/172.16.204.43/performance-track-slice-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-track/data/marq04-slice.csv.gz",
+    "sha256": "a02c55ad83909ca8670a627a584a89dcc7a401ce1b1b7bde5db697ef0b789df9",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "track",
+    "environment": "marq06",
+    "mode": "cond",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/marq06/performance-track-cond-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-track/data/marq06-cond.csv.gz",
+    "sha256": "88c3dcca10a377b4f7829ba5117b51d43333e81c376365f6273d585844554839",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "track",
+    "environment": "marq06",
+    "mode": "slice",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/marq06/performance-track-slice-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-track/data/marq06-slice.csv.gz",
+    "sha256": "b01cbc0e6c7aff334f646d39a8a1bcc5bb1614a0f3a49aec9e1d8b2afa630bdb",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "track",
+    "environment": "marq07",
+    "mode": "cond",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/marq07/performance-track-cond-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-track/data/marq07-cond.csv.gz",
+    "sha256": "aee4f95bb5a9493f9c0fabbf99a5eae585e2f6207f02ff7de78ded4febf1f27d",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  },
+  {
+    "kind": "track",
+    "environment": "marq07",
+    "mode": "slice",
+    "source": "/Users/kashima/codex-cli-workspace/master-thesis/workspace/20261112/common-benchmark/data/20261119-benchmark/marq07/performance-track-slice-20000/samples.csv.gz",
+    "copy": "figure/05-hlf/common-benchmark-track/data/marq07-slice.csv.gz",
+    "sha256": "f648328a09fddedc6a58141a2b8647418f61236fc7f0362f2f7c7e016f27569b",
+    "classification": "companion slice run; join message and tf_id; independently checked against 12864-byte metadata-only packets"
+  }
+]

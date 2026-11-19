@@ -1,0 +1,6 @@
+key,label,cond,slice
+e50-conservative,e50server03 (C),e50-conservative-cond.csv.gz,e50-conservative-slice.csv.gz
+e50-performance,e50server03 (P),e50-performance-cond.csv.gz,e50-performance-slice.csv.gz
+marq04,marq04,marq04-cond.csv.gz,marq04-slice.csv.gz
+marq06,marq06,marq06-cond.csv.gz,marq06-slice.csv.gz
+marq07,marq07,marq07-cond.csv.gz,marq07-slice.csv.gz
