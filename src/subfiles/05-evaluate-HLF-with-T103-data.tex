@@ -244,11 +244,13 @@ HLF入力にスライスがあるTFは9,660件、ないTFは10,340件、入力�
 スライスなしではProcessSliceは呼ばれず、その処理性能はN/Aとする。
 ConditionalRunのサイズにはMETAを含む受信メッセージ全体、ProcessSliceには個々のスライス実サイズを用いた。
 
+\input{\subfix{../../figure/05-hlf/merged-run000668-input-rate/size-throughput-tables.tex}}
+
 \begin{table}[htbp]
  \centering
- \caption{run000668、TOFの合算スループット [MB/s]。CRはConditionalRun、PSはProcessSlice。全4台ともperformanceで、各条件1回。}
+ \caption{run000668、TOFの全サイズ$\,/\,$全処理時間（$R_\Sigma$）[MB/s]。CRはConditionalRun、PSはProcessSlice。全4台ともperformanceで、各条件1回。}
  \begin{tabular}{lrrrr}\hline
- 環境 & CR全件 & CR：あり & CR：なし & PS \\ \hline
+ 環境 & CR全TF & CR Sliceあり & CR Sliceなし & PS \\ \hline
  e50server03 & 360.4 & 368.9 & 317.6 & 1159.6 \\
  marq04 & 282.8 & 286.5 & 262.7 & 991.5 \\
  marq06 & 681.7 & 685.4 & 660.6 & 1922.9 \\
@@ -257,9 +259,9 @@ ConditionalRunのサイズにはMETAを含む受信メッセージ全体、Proce
 \end{table}
 \begin{table}[htbp]
  \centering
- \caption{run000668、Multiplicityの合算スループット [MB/s]。CRはConditionalRun、PSはProcessSlice。全4台ともperformanceで、各条件1回。}
+ \caption{run000668、Multiplicityの全サイズ$\,/\,$全処理時間（$R_\Sigma$）[MB/s]。CRはConditionalRun、PSはProcessSlice。全4台ともperformanceで、各条件1回。}
  \begin{tabular}{lrrrr}\hline
- 環境 & CR全件 & CR：あり & CR：なし & PS \\ \hline
+ 環境 & CR全TF & CR Sliceあり & CR Sliceなし & PS \\ \hline
  e50server03 & 248.5 & 245.2 & 269.7 & 576.4 \\
  marq04 & 236.4 & 232.6 & 262.3 & 590.1 \\
  marq06 & 522.8 & 510.9 & 605.9 & 1131.1 \\
@@ -268,9 +270,9 @@ ConditionalRunのサイズにはMETAを含む受信メッセージ全体、Proce
 \end{table}
 \begin{table}[htbp]
  \centering
- \caption{run000668、Trackの合算スループット [MB/s]。CRはConditionalRun、PSはProcessSlice。全4台ともperformanceで、各条件1回。}
+ \caption{run000668、Trackの全サイズ$\,/\,$全処理時間（$R_\Sigma$）[MB/s]。CRはConditionalRun、PSはProcessSlice。全4台ともperformanceで、各条件1回。}
  \begin{tabular}{lrrrr}\hline
- 環境 & CR全件 & CR：あり & CR：なし & PS \\ \hline
+ 環境 & CR全TF & CR Sliceあり & CR Sliceなし & PS \\ \hline
  e50server03 & 27.2 & 23.6 & 229.2 & 20.9 \\
  marq04 & 20.2 & 17.6 & 176.1 & 15.5 \\
  marq06 & 49.9 & 43.3 & 487.8 & 38.7 \\

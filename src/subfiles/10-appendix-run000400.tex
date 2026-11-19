@@ -23,11 +23,13 @@ HLF入力にスライスがあるTFは9,779件、ないTFは10,221件、入力�
 スライスなしではProcessSliceは呼ばれず、その処理性能はN/Aとする。
 ConditionalRunのサイズにはMETAを含む受信メッセージ全体、ProcessSliceには個々のスライス実サイズを用いた。
 
+\input{\subfix{../../figure/10-appendix/merged-run000400-input-rate/size-throughput-tables.tex}}
+
 \begin{table}[htbp]
  \centering
- \caption{run000400、TOFの合算スループット [MB/s]。CRはConditionalRun、PSはProcessSlice。全4台ともperformanceで、各条件1回。}
+ \caption{run000400、TOFの全サイズ$\,/\,$全処理時間（$R_\Sigma$）[MB/s]。CRはConditionalRun、PSはProcessSlice。全4台ともperformanceで、各条件1回。}
  \begin{tabular}{lrrrr}\hline
- 環境 & CR全件 & CR：あり & CR：なし & PS \\ \hline
+ 環境 & CR全TF & CR Sliceあり & CR Sliceなし & PS \\ \hline
  e50server03 & 390.3 & 404.3 & 321.9 & 913.2 \\
  marq04 & 287.6 & 295.3 & 248.0 & 1016.3 \\
  marq06 & 655.7 & 666.7 & 595.6 & 1878.4 \\
@@ -36,9 +38,9 @@ ConditionalRunのサイズにはMETAを含む受信メッセージ全体、Proce
 \end{table}
 \begin{table}[htbp]
  \centering
- \caption{run000400、Multiplicityの合算スループット [MB/s]。CRはConditionalRun、PSはProcessSlice。全4台ともperformanceで、各条件1回。}
+ \caption{run000400、Multiplicityの全サイズ$\,/\,$全処理時間（$R_\Sigma$）[MB/s]。CRはConditionalRun、PSはProcessSlice。全4台ともperformanceで、各条件1回。}
  \begin{tabular}{lrrrr}\hline
- 環境 & CR全件 & CR：あり & CR：なし & PS \\ \hline
+ 環境 & CR全TF & CR Sliceあり & CR Sliceなし & PS \\ \hline
  e50server03 & 256.9 & 257.0 & 256.5 & 533.1 \\
  marq04 & 264.1 & 261.8 & 279.8 & 645.1 \\
  marq06 & 343.2 & 328.8 & 469.3 & 1188.2 \\
@@ -47,9 +49,9 @@ ConditionalRunのサイズにはMETAを含む受信メッセージ全体、Proce
 \end{table}
 \begin{table}[htbp]
  \centering
- \caption{run000400、Trackの合算スループット [MB/s]。CRはConditionalRun、PSはProcessSlice。全4台ともperformanceで、各条件1回。}
+ \caption{run000400、Trackの全サイズ$\,/\,$全処理時間（$R_\Sigma$）[MB/s]。CRはConditionalRun、PSはProcessSlice。全4台ともperformanceで、各条件1回。}
  \begin{tabular}{lrrrr}\hline
- 環境 & CR全件 & CR：あり & CR：なし & PS \\ \hline
+ 環境 & CR全TF & CR Sliceあり & CR Sliceなし & PS \\ \hline
  e50server03 & 26.4 & 23.1 & 198.9 & 20.4 \\
  marq04 & 19.8 & 17.2 & 244.3 & 16.2 \\
  marq06 & 47.6 & 41.7 & 379.2 & 37.6 \\
@@ -68,15 +70,25 @@ ConditionalRunのサイズにはMETAを含む受信メッセージ全体、Proce
 \begin{figure}[htbp]
  \centering
  \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{10-appendix/merged-run000400-input-rate/raw-tf-size.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{10-appendix/merged-run000400-input-rate/hlf-tf-size.pdf}}
- \caption{run000400のTFサイズ。左はLogicFilter前の生データ、右はHLF入力。}
+ \caption{run000400のTFサイズ。左はLogicFilter前の生データ、右はHLF入力。All TF、Sliceあり、なしを重ねて示す。}
  \label{fig:merged-run400-input-tf-size}
 \end{figure}
+
+
+
+
+
 \begin{figure}[htbp]
  \centering
  \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{10-appendix/merged-run000400-input-rate/raw-tf-rate.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{10-appendix/merged-run000400-input-rate/hlf-tf-rate.pdf}}
- \caption{run000400のTF時間で換算した瞬間取得レート。左はLogicFilter前の生データ、右はHLF入力。}
+ \caption{run000400のTF時間で換算した瞬間取得レート。左はLogicFilter前の生データ、右はHLF入力。All TF、Sliceあり、なしを重ねて示す。}
  \label{fig:merged-run400-input-tf-rate}
 \end{figure}
+
+
+
+
+
 \begin{figure}[htbp]
  \centering
  \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{10-appendix/merged-run000400-input-rate/raw-100ms-rate.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{10-appendix/merged-run000400-input-rate/hlf-100ms-rate.pdf}}
@@ -89,6 +101,36 @@ ConditionalRunのサイズにはMETAを含む受信メッセージ全体、Proce
  \caption{run000400の0.1秒ごとの時系列と、生TFサイズ対HLF受信サイズ。}
  \label{fig:merged-run400-input-series}
 \end{figure}
+Sliceあり・なしを個別に確認するため、以下に同じ入力台帳から抽出した分布を示す。
+
+\begin{figure}[htbp]
+ \centering
+ \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{10-appendix/merged-run000400-input-rate/raw-tf-size-has_slice.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{10-appendix/merged-run000400-input-rate/hlf-tf-size-has_slice.pdf}}
+ \caption{run000400のTFサイズ（Sliceありのみ）。左はLogicFilter前の生データ、右はHLF入力。同じTFを抽出し、All TFと共通の横軸範囲・200ビンを用いた。縦軸は各図の件数に合わせた。対象は9,779 TF。}
+ \label{fig:merged-run400-input-tf-size-has_slice}
+\end{figure}
+
+\begin{figure}[htbp]
+ \centering
+ \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{10-appendix/merged-run000400-input-rate/raw-tf-size-no_slice.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{10-appendix/merged-run000400-input-rate/hlf-tf-size-no_slice.pdf}}
+ \caption{run000400のTFサイズ（Sliceなしのみ）。左はLogicFilter前の生データ、右はHLF入力。同じTFを抽出し、All TFと共通の横軸範囲・200ビンを用いた。縦軸は各図の件数に合わせた。対象は10,221 TF。}
+ \label{fig:merged-run400-input-tf-size-no_slice}
+\end{figure}
+
+\begin{figure}[htbp]
+ \centering
+ \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{10-appendix/merged-run000400-input-rate/raw-tf-rate-has_slice.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{10-appendix/merged-run000400-input-rate/hlf-tf-rate-has_slice.pdf}}
+ \caption{run000400のTF時間で換算した瞬間取得レート（Sliceありのみ）。左はLogicFilter前の生データ、右はHLF入力。同じTFを抽出し、All TFと共通の横軸範囲・200ビンを用いた。縦軸は各図の件数に合わせた。対象は9,779 TF。}
+ \label{fig:merged-run400-input-tf-rate-has_slice}
+\end{figure}
+
+\begin{figure}[htbp]
+ \centering
+ \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{10-appendix/merged-run000400-input-rate/raw-tf-rate-no_slice.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{10-appendix/merged-run000400-input-rate/hlf-tf-rate-no_slice.pdf}}
+ \caption{run000400のTF時間で換算した瞬間取得レート（Sliceなしのみ）。左はLogicFilter前の生データ、右はHLF入力。同じTFを抽出し、All TFと共通の横軸範囲・200ビンを用いた。縦軸は各図の件数に合わせた。対象は10,221 TF。}
+ \label{fig:merged-run400-input-tf-rate-no_slice}
+\end{figure}
+
 \subsection{入力サイズ対処理時間}
 二次元分布の左は1メッセージ全体のConditionalRun、右は1スライスのProcessSliceであり、横軸のデータ範囲が異なる。
 全軸を線形、各軸200ビン、グリッド付きとした。ConditionalRunは全件を掲載し、スライスあり／なし別の図も再作図データ・ROOTマクロと共に保存した。

@@ -1,0 +1,54 @@
+
+平均サイズは$\overline{B}=\sum_i B_i/N$とする。CRの全サイズはHLFが受信したMETA込みメッセージ、PSは各Sliceの実サイズである。
+以下のSliceあり／なしの$R_\Sigma$は、それぞれの群について独立に$\sum_i B_i/\sum_i t_i$を求めた値である。
+TF取得時間で割った取得データレートとは異なる。PSはSliceなしでは呼び出されないため、その群はN/Aである。
+
+\begin{table}[htbp]
+ \centering
+ \caption{run000668の平均入力サイズ。TF単位の値と1 Slice単位の値を区別する。入力台帳は全4台・3フィルターで一致している。kBは$10^3$ byte。}
+ \begin{tabular}{llrr}\hline
+ 対象 & 群 & 件数 $N$ & 平均サイズ [kB] \\ \hline
+ LF前の生TF & All TF & 20,000 & 354.426 \\
+ LF前の生TF & Sliceあり & 9,660 & 507.628 \\
+ LF前の生TF & Sliceなし & 10,340 & 211.300 \\
+ HLF受信TF & All TF & 20,000 & 45.872 \\
+ HLF受信TF & Sliceあり & 9,660 & 81.204 \\
+ HLF受信TF & Sliceなし & 10,340 & 12.864 \\
+ PS入力Slice & 呼び出し全件 & 151,862 & 4.339 \\
+ \hline\end{tabular}
+\end{table}
+
+\begin{longtable}{lllrrr}
+ \caption{run000668のCR入力群別の全サイズと全処理時間。各行の$R_\Sigma$は、その行の$\sum B$ [MB]を$\sum t$ [s]で割った値である。受信成功呼び出しの計時区間を用いる。MBは$10^6$ byte。}\\
+ \hline
+ フィルター & 環境 & Slice & $\sum B$ [MB] & $\sum t$ [s] & $R_\Sigma$ [MB/s] \\ \hline
+ \endfirsthead
+ \hline
+ フィルター & 環境 & Slice & $\sum B$ [MB] & $\sum t$ [s] & $R_\Sigma$ [MB/s] \\ \hline
+ \endhead
+ TOF & e50server03 & あり & 784.426248 & 2.126530 & 368.88 \\
+ TOF & e50server03 & なし & 133.013760 & 0.418772 & 317.63 \\
+ TOF & marq04 & あり & 784.426248 & 2.737831 & 286.51 \\
+ TOF & marq04 & なし & 133.013760 & 0.506359 & 262.69 \\
+ TOF & marq06 & あり & 784.426248 & 1.144540 & 685.36 \\
+ TOF & marq06 & なし & 133.013760 & 0.201357 & 660.59 \\
+ TOF & marq07 & あり & 784.426248 & 1.197173 & 655.23 \\
+ TOF & marq07 & なし & 133.013760 & 0.326221 & 407.74 \\
+ Multiplicity & e50server03 & あり & 784.426248 & 3.198951 & 245.21 \\
+ Multiplicity & e50server03 & なし & 133.013760 & 0.493180 & 269.71 \\
+ Multiplicity & marq04 & あり & 784.426248 & 3.372914 & 232.57 \\
+ Multiplicity & marq04 & なし & 133.013760 & 0.507150 & 262.28 \\
+ Multiplicity & marq06 & あり & 784.426248 & 1.535427 & 510.88 \\
+ Multiplicity & marq06 & なし & 133.013760 & 0.219517 & 605.94 \\
+ Multiplicity & marq07 & あり & 784.426248 & 1.993708 & 393.45 \\
+ Multiplicity & marq07 & なし & 133.013760 & 0.336440 & 395.36 \\
+ Track & e50server03 & あり & 784.426248 & 33.203275 & 23.62 \\
+ Track & e50server03 & なし & 133.013760 & 0.580298 & 229.22 \\
+ Track & marq04 & あり & 784.426248 & 44.633534 & 17.57 \\
+ Track & marq04 & なし & 133.013760 & 0.755292 & 176.11 \\
+ Track & marq06 & あり & 784.426248 & 18.106386 & 43.32 \\
+ Track & marq06 & なし & 133.013760 & 0.272659 & 487.84 \\
+ Track & marq07 & あり & 784.426248 & 24.280361 & 32.31 \\
+ Track & marq07 & なし & 133.013760 & 0.321494 & 413.74 \\
+ \hline
+\end{longtable}
