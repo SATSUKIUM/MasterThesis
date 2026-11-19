@@ -15,15 +15,12 @@ with (d/'data/governor-group-comparison.csv').open('w') as f:
  w=csv.DictWriter(f,fieldnames=list(comp[0]),lineterminator='\n');w.writeheader();w.writerows(comp)
 tex=[]
 for mode,group,caption,label in [('cond','all','ConditionalRunの全受信メッセージ','cond-all'),('cond','has_slice','sliceを1つ以上含むConditionalRun','cond-has'),('cond','no_slice','sliceを含まないConditionalRun','cond-none'),('slice','has_slice','ProcessSliceの全呼び出し','slice')]:
- if mode=='cond':
   tex+=['\\begin{table}[htbp]','  \\centering','  \\small','  \\caption{共通条件で測定した'+caption+'のスループット。値は総入力データ量と総処理時間の比$\\sum_i B_i/\\sum_i t_i$で、単位はMB/s。Cはconservative、Pはperformanceを表す。}','  \\label{tab:common-hlf-'+label+'}','  \\begin{tabular}{lrrr}','    \\hline','    環境 & TOF & Multiplicity & Track \\\\','    \\hline']
- else:
-  tex+=['\\begin{table}[htbp]','  \\centering','  \\small','  \\caption{共通条件で測定した'+caption+'のスループット。各フィルタの左列は呼び出しごとの$B_i/t_i$の算術平均、右列は$\\sum_i B_i/\\sum_i t_i$。単位はMB/s。Cはconservative、Pはperformanceを表す。}','  \\label{tab:common-hlf-'+label+'}','  \\begin{tabular}{lrrrrrr}','    \\hline','    & \\multicolumn{2}{c}{TOF} & \\multicolumn{2}{c}{Multiplicity} & \\multicolumn{2}{c}{Track} \\\\','    環境 & 算術平均 & 合算比 & 算術平均 & 合算比 & 算術平均 & 合算比 \\\\','    \\hline']
  for key,name in envs:
   vals=[]
   for kind in ['tof','multiplicity','track']:
    x=lookup[kind,key,mode,group]
-   vals += ([format(x['aggregate_MB_s'],'.1f')] if mode=='cond' else [format(x['mean_MB_s'],'.1f'),format(x['aggregate_MB_s'],'.1f')])
+   vals += [format(x['aggregate_MB_s'],'.1f')]
   tex.append('    '+name+' & '+' & '.join(vals)+' \\\\')
  tex+=['    \\hline','  \\end{tabular}','\\end{table}','']
 tex+=['\\begin{table}[htbp]','  \\centering','  \\small','  \\caption{sliceを含む受信メッセージでの平均処理時間。C列はConditionalRunの1受信メッセージ、S列はProcessSliceの1呼び出しに対する平均であり、処理単位が異なる。単位は$\\upmu$s。}','  \\label{tab:common-hlf-time}','  \\begin{tabular}{lrrrrrr}','    \\hline','    & \\multicolumn{2}{c}{TOF} & \\multicolumn{2}{c}{Multiplicity} & \\multicolumn{2}{c}{Track} \\\\','    環境 & C & S & C & S & C & S \\\\','    \\hline']

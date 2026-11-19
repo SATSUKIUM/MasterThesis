@@ -249,13 +249,8 @@ Trackは参照コミット\texttt{0d7bbf6}へ現行channel-map APIの互換移�
 \begin{equation}
   R_\Sigma = \frac{\sum_i B_i}{\sum_i t_i}
 \end{equation}
-と定義し、ConditionalRunの代表スループットにはこの値を用いる。
-ProcessSliceについては、呼び出しごとのスループット分布の算術平均
-\begin{equation}
-  \overline{R}_{\mathrm{PS}} = \frac{1}{N}\sum_{i=1}^{N}\frac{B_i}{t_i}
-\end{equation}
-も併記する。
-いずれも単位はMB/sであり、MBは$10^6$ byteとする。
+と定義し、ConditionalRun、ProcessSliceの両方の代表スループットにこの値を用いる。
+単位はMB/sであり、MBは$10^6$ byteとする。
 \texttt{ConditionalRun()}の入力サイズはMETA等を含む受信メッセージ全体、
 \texttt{ProcessSlice()}は個々のsliceの実サイズであり、両者の分母となるデータ範囲も異なる。
 
