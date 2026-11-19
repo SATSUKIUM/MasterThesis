@@ -218,10 +218,190 @@ $N=2$の条件では、全エントリ数は387974から168213へ減少した。
 \end{table}
 
 
-\subsection{共通条件による再測定}
+\subsection{分割FileSinkデータを結合したrun000668の共通測定}
+\label{sec:merged-run668}
+e50server03の\path{/d/01/e50test_202404/data/00/}と\path{/d/01/e50test_202404/data/01/}に保存されたrun000668.datをTF ID順に結合した。
+元のTFレコードをバイト単位で保持し、FileSinkヘッダーとトレーラーは各1個とした。
+結合後は144,184 TF、51,347,001,936 byteである。
+run末尾では一方の入力のTFが先に尽き、TF IDの刻みが8となる区間が57か所あった。これらをゼロデータやスピルoffとして補完していない。
+測定には結合後の先頭20\,000 TFを用いた。この範囲は両runとも4刻みのTF IDで欠落がなく、4 HBFを含む1 TFの時間は2.097152\,ms、合計は41.94304\,sである。
+従来の単一FileSink片の20\,000 TFとは入力時刻の範囲が異なるため、旧測定と反復平均を取らない。
+4台へ同じ測定入力を配置してSHA256を照合した。結合と配置はサーバー上で行い、Macには入力本体を保存していない。
+
+リプレイヤー、LogicFilter、Slicer、HLF、FileSinkを各1プロセスとし、FileSinkは\texttt{/dev/null}へ出力した。
+各台のCPUガバナーがperformanceであることを測定前後に確認し、条件ごとに1回ずつ実行した。
+公表時の全コア3.2\,GHz固定条件とは区別し、今回新たに実周波数の固定は行っていない。
+ConditionalRunとProcessSliceは別実行で、既存と同じ計時バイナリーを使用した。
+前者は受信前の前回データ破棄と、受信後から送信処理直前までを対象とし、Receiveと送信のpoll・再送待ちは除く。
+後者は判定関数だけを対象とし、前者の測定実行には判定関数内の追加計時を含めない。
+計時CSVには受信に成功した呼び出しだけを記録する。受信が成功しない呼び出しは記録されず、その呼び出しで前回データの破棄が行われても合算時間には入らない。失敗受信の発生頻度は今回保存していない。したがって、示す値は受信成功時の処理区間の性能であり、プロセス全体のCPU占有時間やDAQ全体の実効スループットとは区別する。
+steady\_clockのdouble型$\mu$sをメンバーvectorへ保存し、PostRunで書き出した。
+代表スループットには$\sum B_i/\sum t_i$を用い、各呼び出しの比の算術平均は示さない。
+
+HLF入力にスライスがあるTFは9,660件、ないTFは10,340件、入力スライスは151,862個であった。
+分類はHLF採用前の入力スライスの有無であり、独立なスピル信号によるon/off判定ではない。
+入力TF ID、サイズ、スライス数、各フィルターの採否が4台で一致することを確認した。
+スライスなしではProcessSliceは呼ばれず、その処理性能はN/Aとする。
+ConditionalRunのサイズにはMETAを含む受信メッセージ全体、ProcessSliceには個々のスライス実サイズを用いた。
+
+\begin{table}[htbp]
+ \centering
+ \caption{run000668、TOFの合算スループット [MB/s]。CRはConditionalRun、PSはProcessSlice。全4台ともperformanceで、各条件1回。}
+ \begin{tabular}{lrrrr}\hline
+ 環境 & CR全件 & CR：あり & CR：なし & PS \\ \hline
+ e50server03 & 360.4 & 368.9 & 317.6 & 1159.6 \\
+ marq04 & 282.8 & 286.5 & 262.7 & 991.5 \\
+ marq06 & 681.7 & 685.4 & 660.6 & 1922.9 \\
+ marq07 & 602.2 & 655.2 & 407.7 & 2069.1 \\
+ \hline\end{tabular}
+\end{table}
+\begin{table}[htbp]
+ \centering
+ \caption{run000668、Multiplicityの合算スループット [MB/s]。CRはConditionalRun、PSはProcessSlice。全4台ともperformanceで、各条件1回。}
+ \begin{tabular}{lrrrr}\hline
+ 環境 & CR全件 & CR：あり & CR：なし & PS \\ \hline
+ e50server03 & 248.5 & 245.2 & 269.7 & 576.4 \\
+ marq04 & 236.4 & 232.6 & 262.3 & 590.1 \\
+ marq06 & 522.8 & 510.9 & 605.9 & 1131.1 \\
+ marq07 & 393.7 & 393.5 & 395.4 & 1072.9 \\
+ \hline\end{tabular}
+\end{table}
+\begin{table}[htbp]
+ \centering
+ \caption{run000668、Trackの合算スループット [MB/s]。CRはConditionalRun、PSはProcessSlice。全4台ともperformanceで、各条件1回。}
+ \begin{tabular}{lrrrr}\hline
+ 環境 & CR全件 & CR：あり & CR：なし & PS \\ \hline
+ e50server03 & 27.2 & 23.6 & 229.2 & 20.9 \\
+ marq04 & 20.2 & 17.6 & 176.1 & 15.5 \\
+ marq06 & 49.9 & 43.3 & 487.8 & 38.7 \\
+ marq07 & 37.3 & 32.3 & 413.7 & 28.4 \\
+ \hline\end{tabular}
+\end{table}
+\subsubsection{TFサイズと取得データレート}
+横軸を1 TFあたりの入力サイズとする分布、およびそのサイズを2.097152\,msで割った瞬間取得データレートを求めた。
+さらにHBFカウンター時刻を先頭TFからの相対時刻へ変換し、0.1\,sごとの観測データ量を区間長で割った。
+完全な419区間を分布に入れ、最後の0.04304\,sの部分区間はCSVに残した。
+生データの区間境界にはHBF実サイズと均等配分したTF/STFヘッダーを用い、HLF受信サイズは4 HBFへ均等配分する近似を用いた。
+取得データレートはCPUスループットや再生時の実時間のデータレートとは異なる。
+
+スライスなしTFの生データサイズは平均211300.2 byte、先頭TDCヒットは平均25548.2個であり、うちBDCは15838.3個、SFTは1625.2個であった。
+一方、HLF入力ではスライスなし群のサイズは12\,864 byteで一定であった。生データのノイズと、Slicer後にHLFが処理するデータ範囲を区別する。
+\begin{table}[htbp]
+ \centering
+ \caption{スライスなしTFのrun間比較。生サイズと先頭TDCヒットはLF前、HLFサイズと計時はSlicer後である。CRの時間はe50server03の平均処理時間、スループットは受信全体の合算比。}
+ \begin{tabular}{rrrrrr}\hline
+ run & 生サイズ[kB] & HLF[kB] & 先頭TDCヒット & CR [$\mu$s] & $R_\Sigma$ [MB/s] \\ \hline
+ 400 & 54.38 & 12.864 & 5932.1 & 39.96 & 321.9 \\
+ 668 & 211.30 & 12.864 & 25548.2 & 40.50 & 317.6 \\
+ \hline\end{tabular}
+\end{table}
+run間では取得日や検出器設定が異なるため、これだけでノイズの発生機構や過去の性能値との差の原因を特定したとは扱わない。
+\begin{figure}[htbp]
+ \centering
+ \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-input-rate/raw-tf-size.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-input-rate/hlf-tf-size.pdf}}
+ \caption{run000668のTFサイズ。左はLogicFilter前の生データ、右はHLF入力。}
+ \label{fig:merged-run668-input-tf-size}
+\end{figure}
+\begin{figure}[htbp]
+ \centering
+ \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-input-rate/raw-tf-rate.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-input-rate/hlf-tf-rate.pdf}}
+ \caption{run000668のTF時間で換算した瞬間取得レート。左はLogicFilter前の生データ、右はHLF入力。}
+ \label{fig:merged-run668-input-tf-rate}
+\end{figure}
+\begin{figure}[htbp]
+ \centering
+ \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-input-rate/raw-100ms-rate.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-input-rate/hlf-100ms-rate.pdf}}
+ \caption{run000668の0.1秒ごとの取得レート。左はLogicFilter前の生データ、右はHLF入力。}
+ \label{fig:merged-run668-input-100ms-rate}
+\end{figure}
+\begin{figure}[htbp]
+ \centering
+ \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-input-rate/100ms-time-series.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-input-rate/raw-vs-hlf-size.pdf}}
+ \caption{run000668の0.1秒ごとの時系列と、生TFサイズ対HLF受信サイズ。}
+ \label{fig:merged-run668-input-series}
+\end{figure}
+\subsubsection{入力サイズ対処理時間}
+二次元分布の左は1メッセージ全体のConditionalRun、右は1スライスのProcessSliceであり、横軸のデータ範囲が異なる。
+全軸を線形、各軸200ビン、グリッド付きとした。ConditionalRunは全件を掲載し、スライスあり／なし別の図も再作図データ・ROOTマクロと共に保存した。
+
+\begin{figure}[htbp]
+ \centering
+ \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-tof/cond-all-size-time-e50server03.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-tof/slice-has_slice-size-time-e50server03.pdf}}
+ \caption{run000668、TOF、e50server03。左：ConditionalRun全件、右：ProcessSlice。横軸はkB、縦軸は処理時間$\mu$s。}
+ \label{fig:merged-run668-tof-e50server03}
+\end{figure}
+\begin{figure}[htbp]
+ \centering
+ \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-tof/cond-all-size-time-marq04.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-tof/slice-has_slice-size-time-marq04.pdf}}
+ \caption{run000668、TOF、marq04。左：ConditionalRun全件、右：ProcessSlice。横軸はkB、縦軸は処理時間$\mu$s。}
+ \label{fig:merged-run668-tof-marq04}
+\end{figure}
+\begin{figure}[htbp]
+ \centering
+ \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-tof/cond-all-size-time-marq06.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-tof/slice-has_slice-size-time-marq06.pdf}}
+ \caption{run000668、TOF、marq06。左：ConditionalRun全件、右：ProcessSlice。横軸はkB、縦軸は処理時間$\mu$s。}
+ \label{fig:merged-run668-tof-marq06}
+\end{figure}
+\begin{figure}[htbp]
+ \centering
+ \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-tof/cond-all-size-time-marq07.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-tof/slice-has_slice-size-time-marq07.pdf}}
+ \caption{run000668、TOF、marq07。左：ConditionalRun全件、右：ProcessSlice。横軸はkB、縦軸は処理時間$\mu$s。}
+ \label{fig:merged-run668-tof-marq07}
+\end{figure}
+\begin{figure}[htbp]
+ \centering
+ \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-multiplicity/cond-all-size-time-e50server03.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-multiplicity/slice-has_slice-size-time-e50server03.pdf}}
+ \caption{run000668、Multiplicity、e50server03。左：ConditionalRun全件、右：ProcessSlice。横軸はkB、縦軸は処理時間$\mu$s。}
+ \label{fig:merged-run668-multiplicity-e50server03}
+\end{figure}
+\begin{figure}[htbp]
+ \centering
+ \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-multiplicity/cond-all-size-time-marq04.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-multiplicity/slice-has_slice-size-time-marq04.pdf}}
+ \caption{run000668、Multiplicity、marq04。左：ConditionalRun全件、右：ProcessSlice。横軸はkB、縦軸は処理時間$\mu$s。}
+ \label{fig:merged-run668-multiplicity-marq04}
+\end{figure}
+\begin{figure}[htbp]
+ \centering
+ \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-multiplicity/cond-all-size-time-marq06.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-multiplicity/slice-has_slice-size-time-marq06.pdf}}
+ \caption{run000668、Multiplicity、marq06。左：ConditionalRun全件、右：ProcessSlice。横軸はkB、縦軸は処理時間$\mu$s。}
+ \label{fig:merged-run668-multiplicity-marq06}
+\end{figure}
+\begin{figure}[htbp]
+ \centering
+ \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-multiplicity/cond-all-size-time-marq07.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-multiplicity/slice-has_slice-size-time-marq07.pdf}}
+ \caption{run000668、Multiplicity、marq07。左：ConditionalRun全件、右：ProcessSlice。横軸はkB、縦軸は処理時間$\mu$s。}
+ \label{fig:merged-run668-multiplicity-marq07}
+\end{figure}
+\begin{figure}[htbp]
+ \centering
+ \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-track/cond-all-size-time-e50server03.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-track/slice-has_slice-size-time-e50server03.pdf}}
+ \caption{run000668、Track、e50server03。左：ConditionalRun全件、右：ProcessSlice。横軸はkB、縦軸は処理時間$\mu$s。}
+ \label{fig:merged-run668-track-e50server03}
+\end{figure}
+\begin{figure}[htbp]
+ \centering
+ \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-track/cond-all-size-time-marq04.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-track/slice-has_slice-size-time-marq04.pdf}}
+ \caption{run000668、Track、marq04。左：ConditionalRun全件、右：ProcessSlice。横軸はkB、縦軸は処理時間$\mu$s。}
+ \label{fig:merged-run668-track-marq04}
+\end{figure}
+\begin{figure}[htbp]
+ \centering
+ \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-track/cond-all-size-time-marq06.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-track/slice-has_slice-size-time-marq06.pdf}}
+ \caption{run000668、Track、marq06。左：ConditionalRun全件、右：ProcessSlice。横軸はkB、縦軸は処理時間$\mu$s。}
+ \label{fig:merged-run668-track-marq06}
+\end{figure}
+\begin{figure}[htbp]
+ \centering
+ \makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-track/cond-all-size-time-marq07.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=0.65\textheight,keepaspectratio]{05-hlf/merged-run000668-track/slice-has_slice-size-time-marq07.pdf}}
+ \caption{run000668、Track、marq07。左：ConditionalRun全件、右：ProcessSlice。横軸はkB、縦軸は処理時間$\mu$s。}
+ \label{fig:merged-run668-track-marq07}
+\end{figure}
+各条件1回の測定であり、実行間のばらつきは未評価である。異なる入力やアルゴリズムへ共通の性能換算係数が適用できることを示したものではない。
+
+\subsection{単一FileSink片による参考測定（結合前）}
 \label{sec:common-hlf-benchmark}
 
-前節までの発表時の評価とは別に、run000668.datの先頭20\,000 TFを共通入力として、e50server03、marq04、marq06、marq07で処理性能を再測定した。
+前節までの発表時の評価とは別に、run000668.datの単一FileSink片（data/00に対応）の先頭20\,000 TFを共通入力として、e50server03、marq04、marq06、marq07で処理性能を再測定した。
 入力のTF IDは1\,800\,968から1\,960\,960まで8刻みである。
 データリプレイヤー、LogicFilter、TimeFrameSlicer、ハイレベルフィルタ、FileSinkを各1プロセスとし、FileSinkは受信データを\texttt{/dev/null}へ書き込んだ。
 専用ウォームアップと同条件の反復測定は行わず、先頭からの全20\,000 TFを集計した。
@@ -515,9 +695,9 @@ ConditionalRunのスライスなし群を含む全件を示し、スライスあ
  \label{fig:cb-audit-track-2d-marq07}
 \end{figure}
 
-\subsection{共通入力に対するオフライン解析}
+\subsection{単一FileSink片を用いたオフライン解析（結合前入力）}
 
-run000668の同じ先頭20\,000 TFをmarq07で処理し、LogicFilterとSlicerの出力を全採用する比較元を作成した。
+run000668の単一FileSink片（data/00に対応）の先頭20\,000 TFをmarq07で処理し、LogicFilterとSlicerの出力を全採用する比較元を作成した。
 152\,880スライスを96分割してArtemisでROOTへ変換し、UTOF左の時刻を1000\,nsとしてイベントビルドした。
 イベント数は260\,330であり、以前に生データ全体から得た3\,440\,140イベントとは母集団が異なる。
 各イベントに元スライス番号を保存し、同じ較正済みイベントの集合に各HLFのスライス単位の採否を適用した。

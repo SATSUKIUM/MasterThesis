@@ -1,0 +1,7 @@
+# TF-ID merged input benchmark
+
+root -l -b -q plot.C regenerates PDFs from colocated CSV.gz or tf-input.csv/windows-100ms.csv. ../../pdf_output.hxx requires pdfcrop. ROOT plots have linear axes,200bins or200x200,grid,line3. Full-message ConditionalRun excludes Receive and poll/Send/retry; ProcessSlice is a separate execution. No per-call throughput arithmetic mean is reported. Source manifests preserve original 00/01 file SHA256 and full merge/prefix SHA256. Same first20,000 merged TF per run,4HBF/TF,2.097152ms/TF,all4governorsperformance,each condition1execution. Full original split files are untouched; data itself remains on servers.
+
+Original single-FileSink-piece measurements remain separately identified as historical references. These new input ranges are not repetitions of that dataset. Physical distributions/tracking from the earlier offline analysis were not rerun here. MasterThesis chapter05 holds run668,appendix holds run400. The source preparation and verification scripts are in common-benchmark/scripts/merged-input,with logs in data/20261119-merged-input.
+
+Only successful-receive ConditionalRun calls are stored. Failed-receive calls and any previous-data cleanup performed in them are not accumulated; their frequency was not recorded. This is a processing-interval metric, not whole-process CPU usage. Source FileSink envelope timestamps are retained, including full-run stop times in the prefix trailer; acquisition duration is calculated from HBF counters.
