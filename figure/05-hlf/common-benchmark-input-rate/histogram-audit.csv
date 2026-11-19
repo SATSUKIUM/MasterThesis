@@ -1,0 +1,15 @@
+figure,group,entries,nbins,underflow,overflow
+raw-tf-size,0,20000,200,0,0
+raw-tf-size,1,9734,200,0,0
+raw-tf-size,2,10266,200,0,0
+raw-tf-rate,0,20000,200,0,0
+raw-tf-rate,1,9734,200,0,0
+raw-tf-rate,2,10266,200,0,0
+raw-100ms-rate,0,838,200,0,0
+hlf-tf-size,0,20000,200,0,0
+hlf-tf-size,1,9734,200,0,0
+hlf-tf-size,2,10266,200,0,0
+hlf-tf-rate,0,20000,200,0,0
+hlf-tf-rate,1,9734,200,0,0
+hlf-tf-rate,2,10266,200,0,0
+hlf-100ms-rate,0,838,200,0,0

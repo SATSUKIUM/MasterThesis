@@ -1,0 +1,143 @@
+{
+  "parallelism": 96,
+  "tf": 20000,
+  "slices": 152880,
+  "selection_summary": [
+    {
+      "selection": "before",
+      "slices": 152880,
+      "slice_bytes": 662535240,
+      "events": 260330,
+      "tracks": 235093,
+      "track_events": 204591,
+      "bft_tracks": 23211
+    },
+    {
+      "selection": "tof",
+      "slices": 20501,
+      "slice_bytes": 94711088,
+      "events": 45581,
+      "tracks": 40355,
+      "track_events": 34224,
+      "bft_tracks": 3691
+    },
+    {
+      "selection": "wide",
+      "slices": 33469,
+      "slice_bytes": 153743176,
+      "events": 72592,
+      "tracks": 64400,
+      "track_events": 54970,
+      "bft_tracks": 5982
+    },
+    {
+      "selection": "track",
+      "slices": 54482,
+      "slice_bytes": 259171784,
+      "events": 142349,
+      "tracks": 139007,
+      "track_events": 118878,
+      "bft_tracks": 13212
+    },
+    {
+      "selection": "multiplicity_N0",
+      "slices": 152880,
+      "slice_bytes": 662535240,
+      "events": 260330,
+      "tracks": 235093,
+      "track_events": 204591,
+      "bft_tracks": 23211
+    },
+    {
+      "selection": "multiplicity_N1",
+      "slices": 134250,
+      "slice_bytes": 592270296,
+      "events": 238489,
+      "tracks": 220647,
+      "track_events": 190508,
+      "bft_tracks": 21599
+    },
+    {
+      "selection": "multiplicity_N2",
+      "slices": 115447,
+      "slice_bytes": 518567208,
+      "events": 213278,
+      "tracks": 202015,
+      "track_events": 172384,
+      "bft_tracks": 19542
+    },
+    {
+      "selection": "multiplicity_N3",
+      "slices": 100208,
+      "slice_bytes": 457304248,
+      "events": 191988,
+      "tracks": 185375,
+      "track_events": 156271,
+      "bft_tracks": 17680
+    },
+    {
+      "selection": "multiplicity_N4",
+      "slices": 88582,
+      "slice_bytes": 409121256,
+      "events": 174761,
+      "tracks": 171484,
+      "track_events": 143032,
+      "bft_tracks": 16169
+    },
+    {
+      "selection": "multiplicity_N5",
+      "slices": 74274,
+      "slice_bytes": 348283424,
+      "events": 152352,
+      "tracks": 153968,
+      "track_events": 126423,
+      "bft_tracks": 14346
+    },
+    {
+      "selection": "multiplicity_N6",
+      "slices": 62594,
+      "slice_bytes": 297249616,
+      "events": 132942,
+      "tracks": 137895,
+      "track_events": 111516,
+      "bft_tracks": 12606
+    },
+    {
+      "selection": "multiplicity_N7",
+      "slices": 52375,
+      "slice_bytes": 251067512,
+      "events": 114933,
+      "tracks": 121608,
+      "track_events": 97165,
+      "bft_tracks": 10993
+    },
+    {
+      "selection": "multiplicity_N8",
+      "slices": 39316,
+      "slice_bytes": 190320880,
+      "events": 89902,
+      "tracks": 97047,
+      "track_events": 76562,
+      "bft_tracks": 8737
+    }
+  ],
+  "direct_multiplicity_validation": {
+    "observed": {
+      "events": 174761,
+      "tracks": 171483,
+      "track_events": 143031
+    },
+    "expected": {
+      "events": 174761,
+      "tracks": 171484,
+      "track_events": 143032
+    },
+    "equal_events": true,
+    "exact_track_count_match": false,
+    "track_difference": -1
+  },
+  "all_96_jobs_per_stage_succeeded": true,
+  "offline_reference": "LF/Slicer pass-all stream, not unsliced raw events",
+  "bft_config": "analyzer.conf.default2; run1745 hodoscope and run1230 BFT time calibration, transferred as-is; not newly tuned for run668",
+  "efficiency_definition": "apparent KLDC hit matching conditional on exactly one BFT track, >=5 BFT hits, reduced chi2<10; projected wires33.5..95.5; raw KLDC 945<t<1200 ns,TOT>=55 ns; nearest wire centre within9.007 mm; not intrinsic detector efficiency"
+}

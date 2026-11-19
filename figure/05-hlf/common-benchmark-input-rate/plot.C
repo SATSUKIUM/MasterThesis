@@ -1,0 +1,19 @@
+#include "../../pdf_output.hxx"
+#include <TFile.h>
+#include <TH1D.h>
+#include <TH2D.h>
+#include <TLegend.h>
+#include <TGraph.h>
+#include <TStyle.h>
+#include <fstream>
+#include <sstream>
+#include <map>
+#include <vector>
+#include <string>
+#include <algorithm>
+std::vector<std::map<std::string,double>> read_csv(const char*name){std::ifstream f(name);std::string line,cell;getline(f,line);if(!line.empty()&&line.back()=='\r')line.pop_back();std::stringstream h(line);std::vector<std::string> heads;while(getline(h,cell,','))heads.push_back(cell);std::vector<std::map<std::string,double>> rows;while(getline(f,line)){std::stringstream s(line);std::map<std::string,double> r;int i=0;while(getline(s,cell,',')){r[heads.at(i++)]=std::stod(cell);}rows.push_back(r);}return rows;}
+void plot(){gROOT->SetBatch();gStyle->SetOptStat(0);gStyle->SetHistLineWidth(3);gStyle->SetLineWidth(3);auto tf=read_csv("tf-input.csv"),win=read_csv("windows-100ms.csv");TCanvas c("c","",800,600);c.SetLeftMargin(.14);c.SetRightMargin(.06);c.SetGrid();TFile output("input-rate-histograms.root","RECREATE");int id=0;std::ofstream audit("histogram-audit.csv");audit<<"figure,group,entries,nbins,underflow,overflow\n";
+ auto dist=[&](const std::vector<std::map<std::string,double>>&rows,std::string key,double scale,std::string name,std::string axis,bool windows){c.Clear();c.SetGrid();double max=0;for(auto&r:rows)if(!windows||r.at("complete"))max=std::max(max,r.at(key)*scale);std::vector<TH1D*> hist;TLegend legend(.53,.73,.94,.91);int colors[]={kBlack,kBlue+2,kRed+1};const char*labels[]={"All TF","Slice present","No slice"};for(int g=0;g<(windows?1:3);++g){auto*h=new TH1D(Form("d%d",id++),(";"+axis+";"+(windows?"100-ms windows":"TF")).c_str(),200,0,max*1.001);h->SetDirectory(nullptr);for(auto&r:rows){if(windows&&!r.at("complete"))continue;if(g==1&&!r.at("has_slice"))continue;if(g==2&&r.at("has_slice"))continue;h->Fill(r.at(key)*scale);}h->SetLineColor(colors[g]);h->SetLineWidth(3);h->SetMinimum(0);hist.push_back(h);legend.AddEntry(h,windows?"Complete 100-ms windows":labels[g],"l");audit<<name<<','<<g<<','<<h->GetEntries()<<",200,"<<h->GetBinContent(0)<<','<<h->GetBinContent(201)<<'\n';h->Write((name+"-group"+std::to_string(g)).c_str());}double ymax=0;for(auto*h:hist)ymax=std::max(ymax,h->GetMaximum());hist[0]->SetMaximum(ymax*1.13);for(size_t i=0;i<hist.size();++i)hist[i]->Draw(i?"hist same":"hist");legend.Draw();save_figure_pdf(c,(name+".pdf").c_str());for(auto*h:hist)delete h;};
+ for(std::string path:{"raw","hlf"}){dist(tf,path=="raw"?"raw_bytes":"hlf_bytes",.001,path+"-tf-size","Input size [kB / TF]",false);dist(tf,path+"_MB_s",1,path+"-tf-rate","Input bytes / 2.097152 ms [MB/s]",false);dist(win,path+"_MB_s",1,path+"-100ms-rate","Observed stream bytes / 0.1 s [MB/s]",true);}
+ c.Clear();c.SetGrid();TGraph rawGraph,hlfGraph;int i=0;for(auto&r:win)if(r.at("complete")){rawGraph.SetPoint(i,r.at("start_s"),r.at("raw_MB_s"));hlfGraph.SetPoint(i,r.at("start_s"),r.at("hlf_MB_s"));++i;}rawGraph.SetTitle("One recorded stream;Time since first HBF [s];Observed bytes / 0.1 s [MB/s]");rawGraph.SetLineColor(kBlack);hlfGraph.SetLineColor(kBlue+2);rawGraph.SetLineWidth(3);hlfGraph.SetLineWidth(3);rawGraph.SetMinimum(0);rawGraph.Draw("AL");hlfGraph.Draw("L SAME");TLegend l(.63,.77,.94,.91);l.AddEntry(&rawGraph,"Before LF","l");l.AddEntry(&hlfGraph,"HLF input","l");l.Draw();save_figure_pdf(c,"100ms-time-series.pdf");
+ c.Clear();c.SetGrid();TH2D h("raw-vs-hlf",";Raw input [kB / TF];HLF input [kB / TF]",200,0,1000,200,0,1000);h.SetDirectory(nullptr);double xmax=0,ymax=0;for(auto&r:tf){xmax=std::max(xmax,r.at("raw_bytes")*.001);ymax=std::max(ymax,r.at("hlf_bytes")*.001);}h.SetBins(200,0,xmax*1.001,200,0,ymax*1.001);for(auto&r:tf)h.Fill(r.at("raw_bytes")*.001,r.at("hlf_bytes")*.001);c.SetRightMargin(.16);h.Draw("colz");h.Write();save_figure_pdf(c,"raw-vs-hlf-size.pdf");output.Close();}

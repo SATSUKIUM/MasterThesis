@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "independent_checks": [
+    "native pass-all SliceData ledger",
+    "marq07 direct in-function SLICE and META count",
+    "e50server03 direct in-function SLICE and META count",
+    "original slice timing CSV and cond message/TF ID/bytes join"
+  ],
+  "messages_per_check": 20000,
+  "has_slice": 9734,
+  "no_slice": 10266,
+  "meta_per_message": 4,
+  "slice_total": 152880,
+  "diagnostic_timing_scope": "separate phase-instrumented functional executions; not a replacement or repetition sample of the original performance results"
+}
