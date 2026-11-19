@@ -11,13 +11,53 @@ E50が提案されていて準備が進んでいる、どんな実験で、ど�
 高運動量ビームラインについて
 \subsection{MARQスペクトロメータとそのデータ収集システム}
 MARQの現状と連続読み出し式DAQについて述べ、なぜ連続読み出し式DAQ(+ オンラインフィルタ on it)なのか述べる
+\begin{tcolorbox}[
+  title=執筆メモ,
+  colback=yellow!8,
+  colframe=black!30,
+  breakable
+]
+\begin{itemize}
+  \item MARQスペクトロメータの現状
+  \begin{itemize}
+    \item TOFシンチレータ
+    \item RPC
+    \item DC
+    \item FT
+    \item ThAC
+    \item B-RICH
+    \item RICH
+  \end{itemize}
+  \item 合計チャンネル数(あとで確認)
+  \item DAQ
+  \begin{itemize}
+    \item フルストリーミングDAQ
+    \item その利点(トリガービジーによるデッドタイムがないシステムにできること、物理の面ではアンバイアスな測定ができること、実験遂行の面ではハードウェアトリガーを作るためのコストがかからないこと)
+    \item 留意点(ビームスルーイベントの割合、賢くデータを貯めるにはオンラインでのデータ削減が有効であること)
+    \item 用いるシステム
+    \begin{itemize}
+      \item NestDAQ
+      \item nestdaq-user-impl
+      \item 実験個別のHLF
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+\end{tcolorbox}
+
 \subsection{研究目的}
+\begin{tcolorbox}[
+  title=執筆メモ,
+  colback=yellow!8,
+  colframe=black!30,
+  breakable
+]
 \begin{itemize}
   \item E50を遂行するためにどれくらいの計算資源が必要かを見積もる
   \item ソフトウェアによるデータリダクション
   \item どんなオンラインフィルタが有効か?
   \item それにはどれくらいの計算資源が必要か?
 \end{itemize}
+\end{tcolorbox}
 
 
 連続読み出し式DAQシステムのテスト実験T103のデータを用いてスケールすることで見積もる
