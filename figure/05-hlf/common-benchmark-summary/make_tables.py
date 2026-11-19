@@ -15,7 +15,7 @@ with (d/'data/governor-group-comparison.csv').open('w') as f:
  w=csv.DictWriter(f,fieldnames=list(comp[0]),lineterminator='\n');w.writeheader();w.writerows(comp)
 tex=[]
 for mode,group,caption,label in [('cond','all','ConditionalRunの全受信メッセージ','cond-all'),('cond','has_slice','sliceを1つ以上含むConditionalRun','cond-has'),('cond','no_slice','sliceを含まないConditionalRun','cond-none'),('slice','has_slice','ProcessSliceの全呼び出し','slice')]:
-  tex+=['\\begin{table}[htbp]','  \\centering','  \\small','  \\caption{共通条件で測定した'+caption+'のスループット。値は総入力データ量と総処理時間の比$\\sum_i B_i/\\sum_i t_i$で、単位はMB/s。Cはconservative、Pはperformanceを表す。}','  \\label{tab:common-hlf-'+label+'}','  \\begin{tabular}{lrrr}','    \\hline','    環境 & TOF & Multiplicity & Track \\\\','    \\hline']
+ tex+=['\\begin{table}[htbp]','  \\centering','  \\small','  \\caption{共通条件で測定した'+caption+'のスループット。値は総入力データ量と総処理時間の比$\\sum_i B_i/\\sum_i t_i$で、単位はMB/s。Cはconservative、Pはperformanceを表す。}','  \\label{tab:common-hlf-'+label+'}','  \\begin{tabular}{lrrr}','    \\hline','    環境 & TOF & Multiplicity & Track \\\\','    \\hline']
  for key,name in envs:
   vals=[]
   for kind in ['tof','multiplicity','track']:
