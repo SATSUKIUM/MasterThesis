@@ -1,18 +1,17 @@
 \begin{table}[htbp]
   \centering
   \small
-  \caption{共通条件で測定したConditionalRunの全受信メッセージのスループット。各フィルタの左列は呼び出しごとの$B_i/t_i$の算術平均、右列は$\sum_i B_i/\sum_i t_i$。単位はMB/s。Cはconservative、Pはperformanceを表す。}
+  \caption{共通条件で測定したConditionalRunの全受信メッセージのスループット。値は総入力データ量と総処理時間の比$\sum_i B_i/\sum_i t_i$で、単位はMB/s。Cはconservative、Pはperformanceを表す。}
   \label{tab:common-hlf-cond-all}
-  \begin{tabular}{lrrrrrr}
+  \begin{tabular}{lrrr}
     \hline
-    & \multicolumn{2}{c}{TOF} & \multicolumn{2}{c}{Multiplicity} & \multicolumn{2}{c}{Track} \\
-    環境 & 算術平均 & 合算比 & 算術平均 & 合算比 & 算術平均 & 合算比 \\
+    環境 & TOF & Multiplicity & Track \\
     \hline
-    e50server03 (C) & 291.2 & 297.8 & 264.5 & 230.6 & 132.5 & 24.4 \\
-    e50server03 (P) & 357.2 & 351.6 & 273.0 & 254.7 & 154.2 & 26.8 \\
-    marq04 (P) & 287.5 & 283.9 & 254.4 & 227.9 & 145.1 & 19.4 \\
-    marq06 (P) & 736.5 & 778.5 & 675.6 & 605.4 & 321.3 & 49.3 \\
-    marq07 (P) & 684.1 & 725.9 & 502.4 & 467.9 & 256.7 & 36.5 \\
+    e50server03 (C) & 297.8 & 230.6 & 24.4 \\
+    e50server03 (P) & 351.6 & 254.7 & 26.8 \\
+    marq04 (P) & 283.9 & 227.9 & 19.4 \\
+    marq06 (P) & 778.5 & 605.4 & 49.3 \\
+    marq07 (P) & 725.9 & 467.9 & 36.5 \\
     \hline
   \end{tabular}
 \end{table}
@@ -20,18 +19,17 @@
 \begin{table}[htbp]
   \centering
   \small
-  \caption{共通条件で測定したsliceを1つ以上含むConditionalRunのスループット。各フィルタの左列は呼び出しごとの$B_i/t_i$の算術平均、右列は$\sum_i B_i/\sum_i t_i$。単位はMB/s。Cはconservative、Pはperformanceを表す。}
+  \caption{共通条件で測定したsliceを1つ以上含むConditionalRunのスループット。値は総入力データ量と総処理時間の比$\sum_i B_i/\sum_i t_i$で、単位はMB/s。Cはconservative、Pはperformanceを表す。}
   \label{tab:common-hlf-cond-has}
-  \begin{tabular}{lrrrrrr}
+  \begin{tabular}{lrrr}
     \hline
-    & \multicolumn{2}{c}{TOF} & \multicolumn{2}{c}{Multiplicity} & \multicolumn{2}{c}{Track} \\
-    環境 & 算術平均 & 合算比 & 算術平均 & 合算比 & 算術平均 & 合算比 \\
+    環境 & TOF & Multiplicity & Track \\
     \hline
-    e50server03 (C) & 297.7 & 301.4 & 236.9 & 224.9 & 54.1 & 21.3 \\
-    e50server03 (P) & 351.1 & 351.1 & 249.7 & 250.0 & 54.0 & 23.4 \\
-    marq04 (P) & 279.2 & 283.7 & 216.4 & 220.7 & 39.3 & 16.8 \\
-    marq06 (P) & 778.6 & 796.9 & 609.2 & 590.6 & 109.7 & 42.8 \\
-    marq07 (P) & 736.9 & 752.1 & 469.3 & 463.0 & 82.1 & 31.7 \\
+    e50server03 (C) & 301.4 & 224.9 & 21.3 \\
+    e50server03 (P) & 351.1 & 250.0 & 23.4 \\
+    marq04 (P) & 283.7 & 220.7 & 16.8 \\
+    marq06 (P) & 796.9 & 590.6 & 42.8 \\
+    marq07 (P) & 752.1 & 463.0 & 31.7 \\
     \hline
   \end{tabular}
 \end{table}
@@ -39,18 +37,17 @@
 \begin{table}[htbp]
   \centering
   \small
-  \caption{共通条件で測定したsliceを含まないConditionalRunのスループット。各フィルタの左列は呼び出しごとの$B_i/t_i$の算術平均、右列は$\sum_i B_i/\sum_i t_i$。単位はMB/s。Cはconservative、Pはperformanceを表す。}
+  \caption{共通条件で測定したsliceを含まないConditionalRunのスループット。値は総入力データ量と総処理時間の比$\sum_i B_i/\sum_i t_i$で、単位はMB/s。Cはconservative、Pはperformanceを表す。}
   \label{tab:common-hlf-cond-none}
-  \begin{tabular}{lrrrrrr}
+  \begin{tabular}{lrrr}
     \hline
-    & \multicolumn{2}{c}{TOF} & \multicolumn{2}{c}{Multiplicity} & \multicolumn{2}{c}{Track} \\
-    環境 & 算術平均 & 合算比 & 算術平均 & 合算比 & 算術平均 & 合算比 \\
+    環境 & TOF & Multiplicity & Track \\
     \hline
-    e50server03 (C) & 285.0 & 278.3 & 290.6 & 271.6 & 206.9 & 191.0 \\
-    e50server03 (P) & 363.0 & 355.1 & 295.1 & 287.1 & 249.3 & 237.6 \\
-    marq04 (P) & 295.3 & 285.2 & 290.4 & 282.5 & 245.5 & 236.1 \\
-    marq06 (P) & 696.7 & 684.0 & 738.5 & 711.8 & 522.0 & 506.8 \\
-    marq07 (P) & 634.1 & 601.2 & 533.8 & 499.5 & 422.1 & 384.1 \\
+    e50server03 (C) & 278.3 & 271.6 & 191.0 \\
+    e50server03 (P) & 355.1 & 287.1 & 237.6 \\
+    marq04 (P) & 285.2 & 282.5 & 236.1 \\
+    marq06 (P) & 684.0 & 711.8 & 506.8 \\
+    marq07 (P) & 601.2 & 499.5 & 384.1 \\
     \hline
   \end{tabular}
 \end{table}

@@ -245,14 +245,17 @@ Trackは参照コミット\texttt{0d7bbf6}へ現行channel-map APIの互換移�
 \texttt{ConditionalRun()}の測定実行では、\texttt{ProcessSlice()}内部の時計呼び出しと計時結果のvector格納を無効にした。
 
 呼び出し$i$の入力サイズを$B_i$ [byte]、処理時間を$t_i$ [$\mu$s]とすると、
-スループット分布の算術平均$\overline{R}$と、全データ量と全処理時間の比$R_\Sigma$を
-\begin{align}
-  \overline{R} &= \frac{1}{N}\sum_{i=1}^{N}\frac{B_i}{t_i},\\
-  R_\Sigma &= \frac{\sum_i B_i}{\sum_i t_i}
-\end{align}
-と定義する。
+全データ量と全処理時間の比を
+\begin{equation}
+  R_\Sigma = \frac{\sum_i B_i}{\sum_i t_i}
+\end{equation}
+と定義し、ConditionalRunの代表スループットにはこの値を用いる。
+ProcessSliceについては、呼び出しごとのスループット分布の算術平均
+\begin{equation}
+  \overline{R}_{\mathrm{PS}} = \frac{1}{N}\sum_{i=1}^{N}\frac{B_i}{t_i}
+\end{equation}
+も併記する。
 いずれも単位はMB/sであり、MBは$10^6$ byteとする。
-両者は異なる量なので区別して示す。
 \texttt{ConditionalRun()}の入力サイズはMETA等を含む受信メッセージ全体、
 \texttt{ProcessSlice()}は個々のsliceの実サイズであり、両者の分母となるデータ範囲も異なる。
 
