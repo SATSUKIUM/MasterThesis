@@ -44,3 +44,5 @@
 
 - 同じ章のファイルを分割する場合は、章の入口を05-0-…、そこから読み込む追加部分を05-1-…のように付け、ファイル名順と読み込み順を揃える。
 - 第5章は05-0-evaluate-HLF-with-T103-data.texが入口、05-1-common-flat-or.texが結果部分。ファイル名を変えたらmain.texとinput参照、現行の原稿リンクを更新する。本文は保持し、PDFは依頼なしにビルドしない。
+
+- 付録は読み込み順に10-0-appendix.tex → 10-1-appendix-physical-lr.tex → 10-2-appendix-ltof-readout.tex → 10-3-appendix-nestdaq-dataformat.tex。10-3はmainから10-0の後に直接読み込む。
