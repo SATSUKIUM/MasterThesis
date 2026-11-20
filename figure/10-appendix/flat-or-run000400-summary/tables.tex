@@ -1,0 +1,26 @@
+\begin{table}[htbp]
+\centering\small
+\caption{Flat OR条件、run400の合算スループット$R_\Sigma=\sum B/\sum t$ [MB/s]。CRはConditionalRun、PSはProcessSlice。受信・送信待ちは計時区間外。各条件1回。}
+\begin{tabular}{llrrrr}\hline
+環境 & フィルタ & CR全TF & CR Sliceあり & CR Sliceなし & PS \\\hline
+e50server03 & TOF & 621.5 & 624.0 & 447.5 & 2238.0 \\
+e50server03 & Multiplicity & 412.6 & 412.0 & 472.5 & 1116.4 \\
+e50server03 & Track & 50.4 & 50.0 & 380.8 & 53.6 \\
+marq04 & TOF & 350.0 & 350.8 & 286.0 & 1484.4 \\
+marq04 & Multiplicity & 297.8 & 297.7 & 314.7 & 851.0 \\
+marq04 & Track & 36.1 & 35.8 & 229.7 & 42.9 \\
+marq06 & TOF & 1096.4 & 1097.0 & 1044.4 & 4166.0 \\
+marq06 & Multiplicity & 870.1 & 868.1 & 1127.2 & 1934.9 \\
+marq06 & Track & 89.9 & 89.1 & 801.2 & 97.5 \\
+marq07 & TOF & 679.9 & 683.9 & 433.2 & 3006.3 \\
+marq07 & Multiplicity & 461.8 & 462.2 & 426.2 & 1449.7 \\
+marq07 & Track & 62.6 & 62.0 & 357.0 & 70.8 \\
+\hline\end{tabular}\end{table}
+\begin{table}[htbp]\centering\small
+\caption{Flat OR条件、run400の平均メッセージサイズ（marq07）。生TFはLF前、HLF入力TFはMETA込み、PSは1 Slice。kB=$10^3$ byte。}
+\begin{tabular}{lrrr}\hline
+対象 & 全TF & SliceありTF & SliceなしTF \\\hline
+生TF & 227.501 & 377.879 & 53.019 \\
+HLF入力TF & 585.982 & 1079.923 & 12.864 \\
+PS入力Slice & -- & 3.867 & -- \\
+\hline\end{tabular}\end{table}

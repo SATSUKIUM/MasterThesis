@@ -1,0 +1,14 @@
+#include "../../pdf_output.hxx"
+#include <TFile.h>
+#include <TH1D.h>
+#include <TGraph.h>
+#include <TLegend.h>
+#include <TStyle.h>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <stdexcept>
+std::vector<std::vector<double>> read(const char*p){std::ifstream f(p);std::string l;getline(f,l);std::vector<std::vector<double>> r;while(getline(f,l)){for(char&c:l)if(c==',')c=' ';std::istringstream s(l);std::vector<double>a;double x;while(s>>x)a.push_back(x);r.push_back(a);}return r;}
+void plot(){gROOT->SetBatch();gStyle->SetOptStat(0);gStyle->SetHistLineWidth(3);gStyle->SetLineWidth(3);gStyle->SetFrameLineWidth(3);auto p=read("paired-tf.csv"),f=read("flat-tf.csv"),pw=read("paired-100ms.csv"),fw=read("flat-100ms.csv");TCanvas c("c","",800,600);c.SetLeftMargin(.14);c.SetBottomMargin(.14);c.SetGrid();TFile root("histograms.root","RECREATE");std::ofstream audit("histogram-audit.csv");audit<<"plot,paired_entries,flat_entries,bins,overflow\n";int colors[2]={kBlue+1,kRed+1};
+ for(int type=0;type<3;++type){const char*name=type==0?"slice-count":type==1?"tf-trigger-rate":"100ms-trigger-rate";double max=0;for(auto*r:{&p,&f})for(auto&a:*r)if(type<2)max=std::max(max,a[type==0?3:4]*(type==1?.001:1));if(type==2)for(auto*r:{&pw,&fw})for(auto&a:*r)if(a[1]>.099999)max=std::max(max,a[3]*.001);TH1D a("paired",type==0?";Slices per TF;TF count":type==1?";Triggers / TF duration [kHz];TF count":";Trigger rate [kHz];0.1 s window count",200,0,max*1.01),b("flat","",200,0,max*1.01);a.SetDirectory(nullptr);b.SetDirectory(nullptr);for(int i=0;i<2;++i){auto&h=i?b:a;auto&r=type==2?(i?fw:pw):(i?f:p);for(auto&v:r){if(type==2&&v[1]<.099999)continue;h.Fill(type==0?v[3]:type==1?v[4]*.001:v[3]*.001);}h.SetLineColor(colors[i]);h.SetLineWidth(3);}a.SetMaximum(std::max(a.GetMaximum(),b.GetMaximum())*1.15);a.Draw("hist");b.Draw("hist same");TLegend leg(.57,.74,.89,.89);leg.AddEntry(&a,"LTOF L AND R, then OR","l");leg.AddEntry(&b,"Individual LTOF readout OR","l");leg.Draw();save_figure_pdf(c,(std::string(name)+".pdf").c_str());audit<<name<<","<<a.GetEntries()<<","<<b.GetEntries()<<",200,"<<a.GetBinContent(201)+b.GetBinContent(201)<<"\n";a.Write((std::string(name)+"-paired").c_str());b.Write((std::string(name)+"-flat").c_str());}
+ TGraph g[2];for(int i=0;i<2;++i){auto&r=i?fw:pw;for(int j=0;j<(int)r.size();++j)g[i].SetPoint(j,r[j][0]+r[j][1]/2,r[j][3]*.001);g[i].SetLineColor(colors[i]);g[i].SetLineWidth(3);}g[1].SetTitle(";Acquisition time from first HBF [s];Trigger rate [kHz]");g[1].SetMinimum(0);g[1].Draw("AL");g[0].Draw("L same");TLegend leg(.55,.75,.89,.89);leg.AddEntry(&g[0],"LTOF L AND R, then OR","l");leg.AddEntry(&g[1],"Individual LTOF readout OR","l");leg.Draw();save_figure_pdf(c,"trigger-time-series.pdf");g[0].Write("paired-time-series");g[1].Write("flat-time-series");root.Close();}

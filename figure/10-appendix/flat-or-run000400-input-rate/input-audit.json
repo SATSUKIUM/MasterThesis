@@ -1,0 +1,45 @@
+{
+  "tf": 20000,
+  "hbf_per_tf": 4,
+  "hbf_duration_ns": 524288,
+  "tf_duration_ns": 2097152,
+  "tf_id_step": {
+    "4": 19999
+  },
+  "recorded_exposure_s": 41.94304,
+  "elapsed_span_s": 41.94304,
+  "complete_100ms_windows": 419,
+  "partial_last_window_s": 0.04304,
+  "rate_scope": "observed file stream only; no extrapolation of missing HBF intervals; 0.1s HLF bytes allocated uniformly to4HBF, raw bytes exact per HBF plus equal header allocation",
+  "grouping": "slice present before HLF selection, not spill flag",
+  "all": {
+    "n": 20000,
+    "mean_raw_bytes": 227501.428,
+    "mean_hlf_bytes": 585981.5348,
+    "zero_tdc_tf": 0,
+    "mean_tdc_hits": 26897.57605,
+    "mean_bdc_hits": 9475.4789,
+    "mean_sft_hits": 1542.8748,
+    "utof_zero_tf": 5514
+  },
+  "has_slice": {
+    "n": 10742,
+    "mean_raw_bytes": 377879.1874883634,
+    "mean_hlf_bytes": 1079923.2716440142,
+    "zero_tdc_tf": 0,
+    "mean_tdc_hits": 45109.56786445727,
+    "mean_bdc_hits": 16633.300037237015,
+    "mean_sft_hits": 2141.4759821262337,
+    "utof_zero_tf": 0
+  },
+  "no_slice": {
+    "n": 9258,
+    "mean_raw_bytes": 53019.04601425794,
+    "mean_hlf_bytes": 12864,
+    "zero_tdc_tf": 0,
+    "mean_tdc_hits": 5766.314862821344,
+    "mean_bdc_hits": 1170.303413264204,
+    "mean_sft_hits": 848.3215597321235,
+    "utof_zero_tf": 5514
+  }
+}

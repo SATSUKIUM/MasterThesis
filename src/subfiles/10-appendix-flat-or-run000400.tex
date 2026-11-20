@@ -1,0 +1,111 @@
+\subsection{Flat OR条件の追加比較}
+条件と集計方法は第5章のトリガー条件比較と同じである。以下では結合run000400を用いる。
+\input{\subfix{../../figure/10-appendix/flat-or-run000400-summary/tables.tex}}
+
+\begin{figure}[htbp]
+\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.90\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/trigger-logic-run000400/trigger-time-series.pdf}}
+\caption{run400のトリガーレート推移（marq07）。青：LTOFペアAND後OR、赤：LTOF個別読み出しのFlat OR。0.1 s集計、最終点のみ0.04304 s。}
+\label{fig:trigger-logic-400-time}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/trigger-logic-run000400/slice-count.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/trigger-logic-run000400/tf-trigger-rate.pdf}}
+\caption{run400のHLF入力Slice数/TF（左）とTF時間換算のトリガーレート（右）。全TFを含む、200ビン。}
+\label{fig:trigger-logic-400-slices}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.90\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/trigger-logic-run000400/100ms-trigger-rate.pdf}}
+\caption{run400の0.1 s平均トリガーレート分布。419個の完全な0.1 s窓、200ビン。}
+\label{fig:trigger-logic-400-100ms}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-input-rate/raw-tf-size.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-input-rate/hlf-tf-size.pdf}}
+\caption{Flat OR条件、run000400の1 TFのデータサイズ。左：LF前生データ、右：HLF入力。Slice有無はHLF入力での分類。}
+\label{fig:flat-400-tf-size}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-input-rate/raw-tf-rate.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-input-rate/hlf-tf-rate.pdf}}
+\caption{Flat OR条件、run000400のTF時間で換算した瞬間取得レート。左：LF前生データ、右：HLF入力。Slice有無はHLF入力での分類。}
+\label{fig:flat-400-tf-rate}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-input-rate/raw-100ms-rate.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-input-rate/hlf-100ms-rate.pdf}}
+\caption{Flat OR条件、run000400の0.1 sごとの取得レート。左：LF前生データ、右：HLF入力。Slice有無はHLF入力での分類。}
+\label{fig:flat-400-100ms-rate}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-tof/cond-all-size-time-e50server03.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-tof/slice-has_slice-size-time-e50server03.pdf}}
+\caption{Flat OR条件、run000400、tof、e50server03。左：ConditionalRun全TF、右：ProcessSlice。横軸：入力サイズ、縦軸：処理時間。200×200ビン、線形軸、グリッド。}
+\label{fig:flat-400-tof-e50server03}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-tof/cond-all-size-time-marq04.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-tof/slice-has_slice-size-time-marq04.pdf}}
+\caption{Flat OR条件、run000400、tof、marq04。左：ConditionalRun全TF、右：ProcessSlice。横軸：入力サイズ、縦軸：処理時間。200×200ビン、線形軸、グリッド。}
+\label{fig:flat-400-tof-marq04}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-tof/cond-all-size-time-marq06.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-tof/slice-has_slice-size-time-marq06.pdf}}
+\caption{Flat OR条件、run000400、tof、marq06。左：ConditionalRun全TF、右：ProcessSlice。横軸：入力サイズ、縦軸：処理時間。200×200ビン、線形軸、グリッド。}
+\label{fig:flat-400-tof-marq06}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-tof/cond-all-size-time-marq07.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-tof/slice-has_slice-size-time-marq07.pdf}}
+\caption{Flat OR条件、run000400、tof、marq07。左：ConditionalRun全TF、右：ProcessSlice。横軸：入力サイズ、縦軸：処理時間。200×200ビン、線形軸、グリッド。}
+\label{fig:flat-400-tof-marq07}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-multiplicity/cond-all-size-time-e50server03.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-multiplicity/slice-has_slice-size-time-e50server03.pdf}}
+\caption{Flat OR条件、run000400、multiplicity、e50server03。左：ConditionalRun全TF、右：ProcessSlice。横軸：入力サイズ、縦軸：処理時間。200×200ビン、線形軸、グリッド。}
+\label{fig:flat-400-multiplicity-e50server03}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-multiplicity/cond-all-size-time-marq04.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-multiplicity/slice-has_slice-size-time-marq04.pdf}}
+\caption{Flat OR条件、run000400、multiplicity、marq04。左：ConditionalRun全TF、右：ProcessSlice。横軸：入力サイズ、縦軸：処理時間。200×200ビン、線形軸、グリッド。}
+\label{fig:flat-400-multiplicity-marq04}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-multiplicity/cond-all-size-time-marq06.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-multiplicity/slice-has_slice-size-time-marq06.pdf}}
+\caption{Flat OR条件、run000400、multiplicity、marq06。左：ConditionalRun全TF、右：ProcessSlice。横軸：入力サイズ、縦軸：処理時間。200×200ビン、線形軸、グリッド。}
+\label{fig:flat-400-multiplicity-marq06}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-multiplicity/cond-all-size-time-marq07.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-multiplicity/slice-has_slice-size-time-marq07.pdf}}
+\caption{Flat OR条件、run000400、multiplicity、marq07。左：ConditionalRun全TF、右：ProcessSlice。横軸：入力サイズ、縦軸：処理時間。200×200ビン、線形軸、グリッド。}
+\label{fig:flat-400-multiplicity-marq07}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-track/cond-all-size-time-e50server03.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-track/slice-has_slice-size-time-e50server03.pdf}}
+\caption{Flat OR条件、run000400、track、e50server03。左：ConditionalRun全TF、右：ProcessSlice。横軸：入力サイズ、縦軸：処理時間。200×200ビン、線形軸、グリッド。}
+\label{fig:flat-400-track-e50server03}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-track/cond-all-size-time-marq04.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-track/slice-has_slice-size-time-marq04.pdf}}
+\caption{Flat OR条件、run000400、track、marq04。左：ConditionalRun全TF、右：ProcessSlice。横軸：入力サイズ、縦軸：処理時間。200×200ビン、線形軸、グリッド。}
+\label{fig:flat-400-track-marq04}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-track/cond-all-size-time-marq06.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-track/slice-has_slice-size-time-marq06.pdf}}
+\caption{Flat OR条件、run000400、track、marq06。左：ConditionalRun全TF、右：ProcessSlice。横軸：入力サイズ、縦軸：処理時間。200×200ビン、線形軸、グリッド。}
+\label{fig:flat-400-track-marq06}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-track/cond-all-size-time-marq07.pdf}\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/flat-or-run000400-track/slice-has_slice-size-time-marq07.pdf}}
+\caption{Flat OR条件、run000400、track、marq07。左：ConditionalRun全TF、右：ProcessSlice。横軸：入力サイズ、縦軸：処理時間。200×200ビン、線形軸、グリッド。}
+\label{fig:flat-400-track-marq07}
+\end{figure}
