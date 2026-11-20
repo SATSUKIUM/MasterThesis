@@ -1,0 +1,4 @@
+plot,entries,bins,underflow,overflow
+slice-count,20000,200,0,0
+tf-trigger-rate,20000,200,0,0
+100ms-trigger-rate,419,200,0,0

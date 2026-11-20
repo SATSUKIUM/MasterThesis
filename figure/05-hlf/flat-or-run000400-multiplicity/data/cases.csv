@@ -1,0 +1,5 @@
+key,label,cond,slice
+e50server03,e50server03,e50server03-cond.csv.gz,e50server03-slice.csv.gz
+marq04,marq04,marq04-cond.csv.gz,marq04-slice.csv.gz
+marq06,marq06,marq06-cond.csv.gz,marq06-slice.csv.gz
+marq07,marq07,marq07-cond.csv.gz,marq07-slice.csv.gz

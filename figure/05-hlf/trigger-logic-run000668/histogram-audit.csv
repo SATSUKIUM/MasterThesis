@@ -1,4 +1,0 @@
-plot,paired_entries,flat_entries,bins,overflow
-slice-count,20000,20000,200,0
-tf-trigger-rate,20000,20000,200,0
-100ms-trigger-rate,419,419,200,0

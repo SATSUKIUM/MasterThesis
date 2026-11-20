@@ -1,0 +1,53 @@
+\begin{table}[H]\centering\small
+\caption{run400の合算スループット$R_\Sigma$ [MB/s]。CR: ConditionalRun、PS: ProcessSlice。各条件1回、performance。}
+\begin{tabular}{llrrrr}\hline
+環境 & フィルター & CR全TF & CRあり & CRなし & PS \\\hline
+e50server03 & TOF & 621.5 & 624.0 & 447.5 & 2238.0 \\
+e50server03 & Multiplicity & 412.6 & 412.0 & 472.5 & 1116.4 \\
+e50server03 & Track & 50.4 & 50.0 & 380.8 & 53.6 \\
+marq04 & TOF & 350.0 & 350.8 & 286.0 & 1484.4 \\
+marq04 & Multiplicity & 297.8 & 297.7 & 314.7 & 851.0 \\
+marq04 & Track & 36.1 & 35.8 & 229.7 & 42.9 \\
+marq06 & TOF & 1096.4 & 1097.0 & 1044.4 & 4166.0 \\
+marq06 & Multiplicity & 870.1 & 868.1 & 1127.2 & 1934.9 \\
+marq06 & Track & 89.9 & 89.1 & 801.2 & 97.5 \\
+marq07 & TOF & 679.9 & 683.9 & 433.2 & 3006.3 \\
+marq07 & Multiplicity & 461.8 & 462.2 & 426.2 & 1449.7 \\
+marq07 & Track & 62.6 & 62.0 & 357.0 & 70.8 \\
+\hline\end{tabular}\end{table}
+\begin{table}[H]\centering\small
+\caption{run400の平均サイズ[kB]（marq07、kB=$10^3$ byte）。生TFはLF前、HLF入力TFはMETA込み、PSは1 Slice。平均は$\sum B/N$。}
+\begin{tabular}{lrrr}\hline 対象 & 全TF & SliceありTF & SliceなしTF \\\hline
+生TF & 227.501 & 377.879 & 53.019 \\
+HLF入力TF & 585.982 & 1079.923 & 12.864 \\
+PS入力Slice & -- & 3.867 & -- \\
+\hline\end{tabular}\end{table}
+\begingroup\small\begin{longtable}{lllrrr}
+\caption{run400のSlice有無別CR合算量。MB=$10^6$ byte、$R_\Sigma$は各行の$\sum B/\sum t$。}\\
+\hline 環境 & フィルター & Slice & $\sum B$[MB] & $\sum t$[s] & $R_\Sigma$[MB/s] \\\hline\endfirsthead
+\hline 環境 & フィルター & Slice & $\sum B$[MB] & $\sum t$[s] & $R_\Sigma$[MB/s] \\\hline\endhead
+e50server03 & TOF & あり & 11600.536 & 18.591995 & 624.0 \\
+e50server03 & TOF & なし & 119.095 & 0.266130 & 447.5 \\
+marq04 & TOF & あり & 11600.536 & 33.070702 & 350.8 \\
+marq04 & TOF & なし & 119.095 & 0.416426 & 286.0 \\
+marq06 & TOF & あり & 11600.536 & 10.574964 & 1097.0 \\
+marq06 & TOF & なし & 119.095 & 0.114036 & 1044.4 \\
+marq07 & TOF & あり & 11600.536 & 16.961306 & 683.9 \\
+marq07 & TOF & なし & 119.095 & 0.274925 & 433.2 \\
+e50server03 & Multiplicity & あり & 11600.536 & 28.155415 & 412.0 \\
+e50server03 & Multiplicity & なし & 119.095 & 0.252028 & 472.5 \\
+marq04 & Multiplicity & あり & 11600.536 & 38.970998 & 297.7 \\
+marq04 & Multiplicity & なし & 119.095 & 0.378425 & 314.7 \\
+marq06 & Multiplicity & あり & 11600.536 & 13.363573 & 868.1 \\
+marq06 & Multiplicity & なし & 119.095 & 0.105660 & 1127.2 \\
+marq07 & Multiplicity & あり & 11600.536 & 25.099524 & 462.2 \\
+marq07 & Multiplicity & なし & 119.095 & 0.279412 & 426.2 \\
+e50server03 & Track & あり & 11600.536 & 232.045574 & 50.0 \\
+e50server03 & Track & なし & 119.095 & 0.312723 & 380.8 \\
+marq04 & Track & あり & 11600.536 & 324.399166 & 35.8 \\
+marq04 & Track & なし & 119.095 & 0.518377 & 229.7 \\
+marq06 & Track & あり & 11600.536 & 130.204519 & 89.1 \\
+marq06 & Track & なし & 119.095 & 0.148652 & 801.2 \\
+marq07 & Track & あり & 11600.536 & 187.025073 & 62.0 \\
+marq07 & Track & なし & 119.095 & 0.333636 & 357.0 \\
+\hline\end{longtable}\endgroup

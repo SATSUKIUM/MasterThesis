@@ -1,0 +1,62 @@
+\subsection{LTOFの左右読み出しの診断}
+生データ診断はLF/HLFで選別する前のデータを直接復号し、marq07の最大124スレッドで行った。UTOF左ヒットごとに左右差10 ns以内の最寄り右ヒットを1つ選び、その平均を参照時刻とした。LTOFの存在を参照条件に要求しない。HBF境界から600 ns以内の参照は除外した。同じヒットが複数参照に対応する場合があるため、以下はヒット・参照の組合せによる頻度であり固有検出効率ではない。
+
+LTOF各側の参照からの時間には約45--50 nsにピークがある。各segで$[-72,168)$ nsと$[20,80)$ nsの2つの窓について、Lのみ、Rのみ、両方、どちらもなしを数えた。左右の時間差分布は窓内の全組合せで作成し、10、30、120 ns以内の左右ペアが存在する参照数も保存した。広い窓と同じ240 ns幅の前後サイドバンド$[-312,-72)$、$[168,408)$ nsも数えた。サイドバンドにも相関を持つLTOFヒットがあり、単純差引きを固有効率と解釈しない。
+
+TOTはV3 leadingワードに格納された値を1024で割ってnsへ換算した。Artemisのds-qtc設定も時間・電荷に共通の約1/1024変換を用いている。TOTは光量そのものを較正した量ではない。片側のみと両側のTOT分布は面積で規格化し、頻度の差は別表・CSVで示す。図は線形軸、200ビン、グリッド付きとした。
+\begin{table}[H]\centering\small
+\caption{run000668、LTOF各側の時刻がUTOF参照から$[20,80)$ nsにある場合。割合の分母は各segで少なくとも片側がある参照数。TOTは対応するヒット・参照組合せの平均[ns]。}
+\begin{tabular}{rrrrrrrr}\hline
+seg & Lのみ[\%] & Rのみ[\%] & 両側[\%] & LのみTOT & 両側L TOT & RのみTOT & 両側R TOT \\\hline
+1 & 49.13 & 8.84 & 42.03 & 9.14 & 31.13 & 13.91 & 27.60 \\
+2 & 40.54 & 23.33 & 36.13 & 14.17 & 20.64 & 12.32 & 16.98 \\
+3 & 20.39 & 18.63 & 60.98 & 21.23 & 20.80 & 19.07 & 18.91 \\
+4 & 10.64 & 11.31 & 78.05 & 23.18 & 23.86 & 23.91 & 24.24 \\
+5 & 17.65 & 14.84 & 67.51 & 13.34 & 27.60 & 15.74 & 25.05 \\
+6 & 17.64 & 12.86 & 69.50 & 9.44 & 29.45 & 18.77 & 33.72 \\
+\hline\end{tabular}\end{table}
+
+主な照射領域のseg3、4にも片側ヒットはあるが、片側ヒットのTOTが両側時のTOTより一様に小さいわけではない。一方seg1、5、6などでは片側時のTOTが小さい傾向がある。低光量や閾値による読み落としは候補として残るが、位置依存、ゲイン・閾値、別粒子、背景、窓幅の影響と分離できておらず、光量不足が主因とは断定しない。
+
+今回対象のUTOF/LTOF FEMには独立なSPL開始・終了ワードを確認できず、HBFのflagをスピル状態として検証していない。したがって、時系列の低レート区間を確定したspill offとは呼ばない。次の切り分けには独立なスピル信号、通過位置、閾値・ゲイン情報との照合が必要である。
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000668、seg3の各側のUTOF参照からの時間を図\ref{fig:ltof-diagnosis-run668-seg3-time}に示す。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.9\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/ltof-readout-diagnosis/run668-seg3-time.pdf}}
+\caption{run000668、seg3の各側のUTOF参照からの時間。}
+\label{fig:ltof-diagnosis-run668-seg3-time}
+\end{figure}
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000668、seg4の各側のUTOF参照からの時間を図\ref{fig:ltof-diagnosis-run668-seg4-time}に示す。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.9\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/ltof-readout-diagnosis/run668-seg4-time.pdf}}
+\caption{run000668、seg4の各側のUTOF参照からの時間。}
+\label{fig:ltof-diagnosis-run668-seg4-time}
+\end{figure}
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000668、seg3の左右時間差を図\ref{fig:ltof-diagnosis-run668-seg3-lr}に示す。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.9\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/ltof-readout-diagnosis/run668-seg3-lr.pdf}}
+\caption{run000668、seg3の左右時間差。各窓内の全左右組合せ。}
+\label{fig:ltof-diagnosis-run668-seg3-lr}
+\end{figure}
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000668、seg3の20--80 ns窓におけるTOT分布を図\ref{fig:ltof-diagnosis-run668-seg3-tot-tight}に示す。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.9\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/ltof-readout-diagnosis/run668-seg3-tot-tight.pdf}}
+\caption{run000668、seg3の20--80 ns窓におけるTOT分布。各曲線は全ヒット・参照組合せで面積規格化、表示範囲外も規格化に含める。}
+\label{fig:ltof-diagnosis-run668-seg3-tot-tight}
+\end{figure}
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000668、seg4の20--80 ns窓におけるTOT分布を図\ref{fig:ltof-diagnosis-run668-seg4-tot-tight}に示す。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=.9\linewidth,height=.65\textheight,keepaspectratio]{10-appendix/ltof-readout-diagnosis/run668-seg4-tot-tight.pdf}}
+\caption{run000668、seg4の20--80 ns窓におけるTOT分布。規格化はseg3と同じ。}
+\label{fig:ltof-diagnosis-run668-seg4-tot-tight}
+\end{figure}

@@ -1,0 +1,11 @@
+{
+  "run": 668,
+  "condition": "flat-or",
+  "TF": 20000,
+  "duration_s": 41.94304,
+  "triggers": 2919747,
+  "mean_slices": 145.98735,
+  "mean_rate_Hz": 69612.19310760498,
+  "positive_TF": 10544,
+  "zero_TF": 9456
+}

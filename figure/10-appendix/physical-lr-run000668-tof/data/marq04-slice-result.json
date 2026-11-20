@@ -1,0 +1,18 @@
+{
+  "ok": true,
+  "records": 2143307,
+  "input_bytes_sum": 8557459808,
+  "us_sum": 6111664.264000196,
+  "aggregate_MB_s": 1400.1848659139182,
+  "messages_with_records": 10164,
+  "kept_slices": 210465,
+  "frames_sent_and_received": 20000,
+  "exit_codes": {
+    "sink": 0,
+    "hlf": 0,
+    "slicer": 0,
+    "logic": 0,
+    "player": 0
+  },
+  "scope": "single run; function timing; no throughput repeats or offline physics validation"
+}

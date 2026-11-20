@@ -1,0 +1,435 @@
+\section{同一セグメントLTOF左右一致条件による共通ベンチマーク}
+\label{sec:appendix-physical-lr}
+UTOF左右のANDに加え、少なくとも1つのLTOFセグメントで左右が一致する条件を要求する。すなわち$U_L\land U_R\land\bigvee_{s=1}^{6}(L_s\land R_s)$である。Artemisのマップに一致する左右チャンネルは、順に(16,22)、(19,25)、(17,23)、(20,27)、(18,24)、(21,28)である。幅・時刻補正・Slice窓は第5章のFlat OR条件と同じとした。
+入力にはe50server03の\path{/d/01/e50test_202404/data/00/}と\path{/d/01/e50test_202404/data/01/}に保存されたFileSink出力を、runごとにTF ID順で結合したデータを用いた。元のTFレコードをバイト単位で保持し、FileSinkヘッダーとトレーラーは各1個とした。run000400は全86,723 TF、19,676,570,088 byte、run000668は全144,184 TF、51,347,001,936 byteである。以下の測定範囲は、それぞれ結合後の先頭20,000 TFとした。この範囲のTF IDは4刻みで欠落がなく、1 TFは4 HBF、2.097152 ms、全体で41.94304 sに相当する。run000668全体の末尾に存在する一方のFileSink片が先に尽きる区間は、この範囲には含まれない。入力はサーバーに保持し、4台の入力SHA256を照合した。
+
+リプレイヤー、CPU LogicFilter、Slicer、HLF、FileSinkを各1プロセスとし、FileSinkは\texttt{/dev/null}へ出力した。全4台で測定の前後にperformanceガバナーを確認し、各条件1回ずつ実行した。全コアの実周波数を新たに固定する操作は行っていない。トリガー幅の設定値は30、LTOFの時刻補正は$-12$、Slice窓は$[-250,+250]$であり、いずれもLogicFilterの4 ns単位の設定である。
+
+ConditionalRunとProcessSliceは別の実行で測定した。前者は受信前の前回データ破棄と、受信後から送信直前までを対象とし、Receiveと送信のpoll・再送待ちは除く。計時CSVは受信成功時だけに記録するため、失敗Receive呼び出しで行われた前回データ破棄の時間は集計されない。失敗受信の発生頻度は保存していない。この値は受信成功時の区間性能であり、プロセス全体のCPU占有時間やDAQ全体の実効スループットとは区別する。ProcessSliceは判定関数のみを測定し、ConditionalRun計時の実行には内部の追加計時を含めない。steady\_clockのdouble型$\mu$sをメンバーvectorへ詰め、PostRunで書き出した。
+
+代表スループットは$R_\Sigma=\sum B_i/\sum t_i$とする。個々の呼び出しの$B_i/t_i$の算術平均は掲載しない。分布図には各呼び出しの$B_i/t_i$を用いる。CRのサイズはMETA込み受信メッセージ全体、PSは1 Sliceの実サイズである。HLF判定前に少なくとも1 Sliceを含むTFと、含まないTFを分類した。SliceなしではPSは呼び出されずN/Aとする。両runとも入力TF ID、サイズ、Slice数、フィルター採否の列が4台で一致した。
+
+図はROOTで作成し、ヒストグラムは200ビン、二次元は$200\times200$ビン、軸は線形、グリッド付きとした。全範囲図は範囲外件数が0となるように軸を設定した。表示拡大図は全台を合わせた99.5\%分位までを表示し、平均や合算値は全件で計算した。先頭20,000 TFをすべて集計し、独立なウォームアップ区間を除外していない。各条件1回のため、実行間のばらつきは未評価である。計算能力の比較は同じ入力・同じフィルター・同じ区間ごとに行い、トリガー条件や処理を超えた共通の性能換算の成立は未検証である。
+トリガーレートは取得時間を基準とする。平均Slice数は総Slice数/20,000 TF、平均レートは総トリガー数/41.94304 sで、0 Slice TFも含む。LogicFilterの1トリガーは1 Sliceに対応し、重なる窓も統合せずヒットを再使用しうるため、独立な物理事象数を意味しない。0.1 s時系列はTF中央時刻にそのTFの数を割り当て、最後の0.04304 sは実時間で正規化する。0.1 sレート分布は完全419窓だけを対象とする。各トリガー時刻を直接境界で切った図ではなく、最大約1 TFの割当誤差を含む。Sliceなし・低レート区間を独立なspill-off判定とは扱わない。
+
+0.1 s取得データレートでは生サイズをHBFごとに分解し、境界をまたぐHBFは時間比で配分した。HLF入力はTF内4 HBFへ等分する近似である。このバイト配分は、トリガー数のTF中央割当とは異なる。
+
+\FloatBarrier\clearpage
+\subsubsection{run000400}
+HLF入力はSliceあり10,359 TF、なし9,641 TF、総Slice数2,183,856であった。平均は109.1928 Slice/TF、52.067 kHzである。
+\input{\subfix{../../figure/10-appendix/physical-lr-run000400-summary/tables.tex}}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000400のトリガー数とレートについて、TFあたりのトリガー数と、取得時間を基準にしたレートを確認する（図\ref{fig:physical-lr-400-trigger}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-trigger/slice-count.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-trigger/tf-trigger-rate.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-trigger/100ms-trigger-rate.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-trigger/trigger-time-series.pdf}
+\end{tabular}}
+\caption{run000400のトリガー数とレート。左上：Slice数/TF、右上：TF時間換算レート、左下：0.1 sレート分布、右下：取得時間での時系列。}
+\label{fig:physical-lr-400-trigger}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000400、全TFについて、データサイズとTF時間換算レートを、生データとHLF入力で比較する（図\ref{fig:physical-lr-400-input}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-input-rate/raw-tf-size.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-input-rate/hlf-tf-size.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-input-rate/raw-tf-rate.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-input-rate/hlf-tf-rate.pdf}
+\end{tabular}}
+\caption{run000400、全TF。上段：1 TFのサイズ、下段：1 TFの取得時間2.097152 msで割った瞬間取得レート。左：LF前の生データ、右：HLF入力。}
+\label{fig:physical-lr-400-input}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000400、SliceありTFについて、データサイズとTF時間換算レートを、生データとHLF入力で比較する（図\ref{fig:physical-lr-400-input-has_slice}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-input-rate/raw-tf-size-has_slice.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-input-rate/hlf-tf-size-has_slice.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-input-rate/raw-tf-rate-has_slice.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-input-rate/hlf-tf-rate-has_slice.pdf}
+\end{tabular}}
+\caption{run000400、SliceありTF。上段：1 TFのサイズ、下段：1 TFの取得時間2.097152 msで割った瞬間取得レート。左：LF前の生データ、右：HLF入力。}
+\label{fig:physical-lr-400-input-has_slice}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000400、SliceなしTFについて、データサイズとTF時間換算レートを、生データとHLF入力で比較する（図\ref{fig:physical-lr-400-input-no_slice}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-input-rate/raw-tf-size-no_slice.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-input-rate/hlf-tf-size-no_slice.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-input-rate/raw-tf-rate-no_slice.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-input-rate/hlf-tf-rate-no_slice.pdf}
+\end{tabular}}
+\caption{run000400、SliceなしTF。上段：1 TFのサイズ、下段：1 TFの取得時間2.097152 msで割った瞬間取得レート。左：LF前の生データ、右：HLF入力。}
+\label{fig:physical-lr-400-input-no_slice}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000400について、0.1 sレートの分布・推移と、TFサイズの相関を確認する（図\ref{fig:physical-lr-400-100ms}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-input-rate/raw-100ms-rate.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-input-rate/hlf-100ms-rate.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-input-rate/100ms-time-series.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-input-rate/raw-vs-hlf-size.pdf}
+\end{tabular}}
+\caption{run000400。上段：0.1 s取得レート分布（左：生、右：HLF）。左下：取得時間での推移、右下：TFサイズ相関。}
+\label{fig:physical-lr-400-100ms}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000400、tofについて、CR全TFとPSの処理時間・入力スループットの分布を比較する（図\ref{fig:physical-lr-400-tof-all-distributions}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-tof/cond-all-throughput-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-tof/slice-has_slice-throughput-full.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-tof/cond-all-time-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-tof/slice-has_slice-time-full.pdf}
+\end{tabular}}
+\caption{run000400、tof。上段：呼び出しごとの入力スループット分布、下段：処理時間分布。左：CR全TF、右：PS。4台を同じ軸で比較する。}
+\label{fig:physical-lr-400-tof-all-distributions}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000400、tofについて、Sliceあり・なしのCR処理時間と入力スループットの分布を比較する（図\ref{fig:physical-lr-400-tof-groups-distributions}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-tof/cond-has_slice-throughput-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-tof/cond-no_slice-throughput-full.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-tof/cond-has_slice-time-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-tof/cond-no_slice-time-full.pdf}
+\end{tabular}}
+\caption{run000400、tof。上段：入力スループット分布、下段：処理時間分布。CRのSliceあり（左）となし（右）。4台を同じ軸で比較する。}
+\label{fig:physical-lr-400-tof-groups-distributions}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000400、tof、ConditionalRun全TFの入力サイズ対処理時間について、入力サイズに対する処理時間の分布を4台で比較する（図\ref{fig:physical-lr-400-tof-cond-2d}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-tof/cond-all-size-time-e50server03.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-tof/cond-all-size-time-marq04.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-tof/cond-all-size-time-marq06.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-tof/cond-all-size-time-marq07.pdf}
+\end{tabular}}
+\caption{run000400、tof、ConditionalRun全TFの入力サイズ対処理時間。上段左からe50server03、marq04、下段左からmarq06、marq07。線形軸、200×200ビン。}
+\label{fig:physical-lr-400-tof-cond-2d}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000400、tof、ProcessSliceの入力サイズ対処理時間について、入力サイズに対する処理時間の分布を4台で比較する（図\ref{fig:physical-lr-400-tof-slice-2d}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-tof/slice-has_slice-size-time-e50server03.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-tof/slice-has_slice-size-time-marq04.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-tof/slice-has_slice-size-time-marq06.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-tof/slice-has_slice-size-time-marq07.pdf}
+\end{tabular}}
+\caption{run000400、tof、ProcessSliceの入力サイズ対処理時間。上段左からe50server03、marq04、下段左からmarq06、marq07。線形軸、200×200ビン。}
+\label{fig:physical-lr-400-tof-slice-2d}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000400、multiplicityについて、CR全TFとPSの処理時間・入力スループットの分布を比較する（図\ref{fig:physical-lr-400-multiplicity-all-distributions}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-multiplicity/cond-all-throughput-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-multiplicity/slice-has_slice-throughput-full.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-multiplicity/cond-all-time-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-multiplicity/slice-has_slice-time-full.pdf}
+\end{tabular}}
+\caption{run000400、multiplicity。上段：呼び出しごとの入力スループット分布、下段：処理時間分布。左：CR全TF、右：PS。4台を同じ軸で比較する。}
+\label{fig:physical-lr-400-multiplicity-all-distributions}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000400、multiplicityについて、Sliceあり・なしのCR処理時間と入力スループットの分布を比較する（図\ref{fig:physical-lr-400-multiplicity-groups-distributions}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-multiplicity/cond-has_slice-throughput-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-multiplicity/cond-no_slice-throughput-full.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-multiplicity/cond-has_slice-time-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-multiplicity/cond-no_slice-time-full.pdf}
+\end{tabular}}
+\caption{run000400、multiplicity。上段：入力スループット分布、下段：処理時間分布。CRのSliceあり（左）となし（右）。4台を同じ軸で比較する。}
+\label{fig:physical-lr-400-multiplicity-groups-distributions}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000400、multiplicity、ConditionalRun全TFの入力サイズ対処理時間について、入力サイズに対する処理時間の分布を4台で比較する（図\ref{fig:physical-lr-400-multiplicity-cond-2d}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-multiplicity/cond-all-size-time-e50server03.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-multiplicity/cond-all-size-time-marq04.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-multiplicity/cond-all-size-time-marq06.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-multiplicity/cond-all-size-time-marq07.pdf}
+\end{tabular}}
+\caption{run000400、multiplicity、ConditionalRun全TFの入力サイズ対処理時間。上段左からe50server03、marq04、下段左からmarq06、marq07。線形軸、200×200ビン。}
+\label{fig:physical-lr-400-multiplicity-cond-2d}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000400、multiplicity、ProcessSliceの入力サイズ対処理時間について、入力サイズに対する処理時間の分布を4台で比較する（図\ref{fig:physical-lr-400-multiplicity-slice-2d}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-multiplicity/slice-has_slice-size-time-e50server03.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-multiplicity/slice-has_slice-size-time-marq04.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-multiplicity/slice-has_slice-size-time-marq06.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-multiplicity/slice-has_slice-size-time-marq07.pdf}
+\end{tabular}}
+\caption{run000400、multiplicity、ProcessSliceの入力サイズ対処理時間。上段左からe50server03、marq04、下段左からmarq06、marq07。線形軸、200×200ビン。}
+\label{fig:physical-lr-400-multiplicity-slice-2d}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000400、trackについて、CR全TFとPSの処理時間・入力スループットの分布を比較する（図\ref{fig:physical-lr-400-track-all-distributions}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-track/cond-all-throughput-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-track/slice-has_slice-throughput-full.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-track/cond-all-time-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-track/slice-has_slice-time-full.pdf}
+\end{tabular}}
+\caption{run000400、track。上段：呼び出しごとの入力スループット分布、下段：処理時間分布。左：CR全TF、右：PS。4台を同じ軸で比較する。}
+\label{fig:physical-lr-400-track-all-distributions}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000400、trackについて、Sliceあり・なしのCR処理時間と入力スループットの分布を比較する（図\ref{fig:physical-lr-400-track-groups-distributions}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-track/cond-has_slice-throughput-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-track/cond-no_slice-throughput-full.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-track/cond-has_slice-time-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-track/cond-no_slice-time-full.pdf}
+\end{tabular}}
+\caption{run000400、track。上段：入力スループット分布、下段：処理時間分布。CRのSliceあり（左）となし（右）。4台を同じ軸で比較する。}
+\label{fig:physical-lr-400-track-groups-distributions}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000400、track、ConditionalRun全TFの入力サイズ対処理時間について、入力サイズに対する処理時間の分布を4台で比較する（図\ref{fig:physical-lr-400-track-cond-2d}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-track/cond-all-size-time-e50server03.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-track/cond-all-size-time-marq04.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-track/cond-all-size-time-marq06.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-track/cond-all-size-time-marq07.pdf}
+\end{tabular}}
+\caption{run000400、track、ConditionalRun全TFの入力サイズ対処理時間。上段左からe50server03、marq04、下段左からmarq06、marq07。線形軸、200×200ビン。}
+\label{fig:physical-lr-400-track-cond-2d}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000400、track、ProcessSliceの入力サイズ対処理時間について、入力サイズに対する処理時間の分布を4台で比較する（図\ref{fig:physical-lr-400-track-slice-2d}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-track/slice-has_slice-size-time-e50server03.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-track/slice-has_slice-size-time-marq04.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-track/slice-has_slice-size-time-marq06.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000400-track/slice-has_slice-size-time-marq07.pdf}
+\end{tabular}}
+\caption{run000400、track、ProcessSliceの入力サイズ対処理時間。上段左からe50server03、marq04、下段左からmarq06、marq07。線形軸、200×200ビン。}
+\label{fig:physical-lr-400-track-slice-2d}
+\end{figure}
+
+\FloatBarrier\clearpage
+\subsubsection{run000668}
+HLF入力はSliceあり10,164 TF、なし9,836 TF、総Slice数2,143,307であった。平均は107.1654 Slice/TF、51.100 kHzである。
+\input{\subfix{../../figure/10-appendix/physical-lr-run000668-summary/tables.tex}}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000668のトリガー数とレートについて、TFあたりのトリガー数と、取得時間を基準にしたレートを確認する（図\ref{fig:physical-lr-668-trigger}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-trigger/slice-count.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-trigger/tf-trigger-rate.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-trigger/100ms-trigger-rate.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-trigger/trigger-time-series.pdf}
+\end{tabular}}
+\caption{run000668のトリガー数とレート。左上：Slice数/TF、右上：TF時間換算レート、左下：0.1 sレート分布、右下：取得時間での時系列。}
+\label{fig:physical-lr-668-trigger}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000668、全TFについて、データサイズとTF時間換算レートを、生データとHLF入力で比較する（図\ref{fig:physical-lr-668-input}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-input-rate/raw-tf-size.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-input-rate/hlf-tf-size.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-input-rate/raw-tf-rate.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-input-rate/hlf-tf-rate.pdf}
+\end{tabular}}
+\caption{run000668、全TF。上段：1 TFのサイズ、下段：1 TFの取得時間2.097152 msで割った瞬間取得レート。左：LF前の生データ、右：HLF入力。}
+\label{fig:physical-lr-668-input}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000668、SliceありTFについて、データサイズとTF時間換算レートを、生データとHLF入力で比較する（図\ref{fig:physical-lr-668-input-has_slice}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-input-rate/raw-tf-size-has_slice.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-input-rate/hlf-tf-size-has_slice.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-input-rate/raw-tf-rate-has_slice.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-input-rate/hlf-tf-rate-has_slice.pdf}
+\end{tabular}}
+\caption{run000668、SliceありTF。上段：1 TFのサイズ、下段：1 TFの取得時間2.097152 msで割った瞬間取得レート。左：LF前の生データ、右：HLF入力。}
+\label{fig:physical-lr-668-input-has_slice}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000668、SliceなしTFについて、データサイズとTF時間換算レートを、生データとHLF入力で比較する（図\ref{fig:physical-lr-668-input-no_slice}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-input-rate/raw-tf-size-no_slice.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-input-rate/hlf-tf-size-no_slice.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-input-rate/raw-tf-rate-no_slice.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-input-rate/hlf-tf-rate-no_slice.pdf}
+\end{tabular}}
+\caption{run000668、SliceなしTF。上段：1 TFのサイズ、下段：1 TFの取得時間2.097152 msで割った瞬間取得レート。左：LF前の生データ、右：HLF入力。}
+\label{fig:physical-lr-668-input-no_slice}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000668について、0.1 sレートの分布・推移と、TFサイズの相関を確認する（図\ref{fig:physical-lr-668-100ms}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-input-rate/raw-100ms-rate.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-input-rate/hlf-100ms-rate.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-input-rate/100ms-time-series.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-input-rate/raw-vs-hlf-size.pdf}
+\end{tabular}}
+\caption{run000668。上段：0.1 s取得レート分布（左：生、右：HLF）。左下：取得時間での推移、右下：TFサイズ相関。}
+\label{fig:physical-lr-668-100ms}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000668、tofについて、CR全TFとPSの処理時間・入力スループットの分布を比較する（図\ref{fig:physical-lr-668-tof-all-distributions}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-tof/cond-all-throughput-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-tof/slice-has_slice-throughput-full.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-tof/cond-all-time-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-tof/slice-has_slice-time-full.pdf}
+\end{tabular}}
+\caption{run000668、tof。上段：呼び出しごとの入力スループット分布、下段：処理時間分布。左：CR全TF、右：PS。4台を同じ軸で比較する。}
+\label{fig:physical-lr-668-tof-all-distributions}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000668、tofについて、Sliceあり・なしのCR処理時間と入力スループットの分布を比較する（図\ref{fig:physical-lr-668-tof-groups-distributions}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-tof/cond-has_slice-throughput-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-tof/cond-no_slice-throughput-full.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-tof/cond-has_slice-time-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-tof/cond-no_slice-time-full.pdf}
+\end{tabular}}
+\caption{run000668、tof。上段：入力スループット分布、下段：処理時間分布。CRのSliceあり（左）となし（右）。4台を同じ軸で比較する。}
+\label{fig:physical-lr-668-tof-groups-distributions}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000668、tof、ConditionalRun全TFの入力サイズ対処理時間について、入力サイズに対する処理時間の分布を4台で比較する（図\ref{fig:physical-lr-668-tof-cond-2d}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-tof/cond-all-size-time-e50server03.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-tof/cond-all-size-time-marq04.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-tof/cond-all-size-time-marq06.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-tof/cond-all-size-time-marq07.pdf}
+\end{tabular}}
+\caption{run000668、tof、ConditionalRun全TFの入力サイズ対処理時間。上段左からe50server03、marq04、下段左からmarq06、marq07。線形軸、200×200ビン。}
+\label{fig:physical-lr-668-tof-cond-2d}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000668、tof、ProcessSliceの入力サイズ対処理時間について、入力サイズに対する処理時間の分布を4台で比較する（図\ref{fig:physical-lr-668-tof-slice-2d}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-tof/slice-has_slice-size-time-e50server03.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-tof/slice-has_slice-size-time-marq04.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-tof/slice-has_slice-size-time-marq06.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-tof/slice-has_slice-size-time-marq07.pdf}
+\end{tabular}}
+\caption{run000668、tof、ProcessSliceの入力サイズ対処理時間。上段左からe50server03、marq04、下段左からmarq06、marq07。線形軸、200×200ビン。}
+\label{fig:physical-lr-668-tof-slice-2d}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000668、multiplicityについて、CR全TFとPSの処理時間・入力スループットの分布を比較する（図\ref{fig:physical-lr-668-multiplicity-all-distributions}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-multiplicity/cond-all-throughput-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-multiplicity/slice-has_slice-throughput-full.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-multiplicity/cond-all-time-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-multiplicity/slice-has_slice-time-full.pdf}
+\end{tabular}}
+\caption{run000668、multiplicity。上段：呼び出しごとの入力スループット分布、下段：処理時間分布。左：CR全TF、右：PS。4台を同じ軸で比較する。}
+\label{fig:physical-lr-668-multiplicity-all-distributions}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000668、multiplicityについて、Sliceあり・なしのCR処理時間と入力スループットの分布を比較する（図\ref{fig:physical-lr-668-multiplicity-groups-distributions}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-multiplicity/cond-has_slice-throughput-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-multiplicity/cond-no_slice-throughput-full.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-multiplicity/cond-has_slice-time-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-multiplicity/cond-no_slice-time-full.pdf}
+\end{tabular}}
+\caption{run000668、multiplicity。上段：入力スループット分布、下段：処理時間分布。CRのSliceあり（左）となし（右）。4台を同じ軸で比較する。}
+\label{fig:physical-lr-668-multiplicity-groups-distributions}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000668、multiplicity、ConditionalRun全TFの入力サイズ対処理時間について、入力サイズに対する処理時間の分布を4台で比較する（図\ref{fig:physical-lr-668-multiplicity-cond-2d}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-multiplicity/cond-all-size-time-e50server03.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-multiplicity/cond-all-size-time-marq04.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-multiplicity/cond-all-size-time-marq06.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-multiplicity/cond-all-size-time-marq07.pdf}
+\end{tabular}}
+\caption{run000668、multiplicity、ConditionalRun全TFの入力サイズ対処理時間。上段左からe50server03、marq04、下段左からmarq06、marq07。線形軸、200×200ビン。}
+\label{fig:physical-lr-668-multiplicity-cond-2d}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000668、multiplicity、ProcessSliceの入力サイズ対処理時間について、入力サイズに対する処理時間の分布を4台で比較する（図\ref{fig:physical-lr-668-multiplicity-slice-2d}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-multiplicity/slice-has_slice-size-time-e50server03.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-multiplicity/slice-has_slice-size-time-marq04.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-multiplicity/slice-has_slice-size-time-marq06.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-multiplicity/slice-has_slice-size-time-marq07.pdf}
+\end{tabular}}
+\caption{run000668、multiplicity、ProcessSliceの入力サイズ対処理時間。上段左からe50server03、marq04、下段左からmarq06、marq07。線形軸、200×200ビン。}
+\label{fig:physical-lr-668-multiplicity-slice-2d}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000668、trackについて、CR全TFとPSの処理時間・入力スループットの分布を比較する（図\ref{fig:physical-lr-668-track-all-distributions}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-track/cond-all-throughput-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-track/slice-has_slice-throughput-full.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-track/cond-all-time-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-track/slice-has_slice-time-full.pdf}
+\end{tabular}}
+\caption{run000668、track。上段：呼び出しごとの入力スループット分布、下段：処理時間分布。左：CR全TF、右：PS。4台を同じ軸で比較する。}
+\label{fig:physical-lr-668-track-all-distributions}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000668、trackについて、Sliceあり・なしのCR処理時間と入力スループットの分布を比較する（図\ref{fig:physical-lr-668-track-groups-distributions}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-track/cond-has_slice-throughput-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-track/cond-no_slice-throughput-full.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-track/cond-has_slice-time-full.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-track/cond-no_slice-time-full.pdf}
+\end{tabular}}
+\caption{run000668、track。上段：入力スループット分布、下段：処理時間分布。CRのSliceあり（左）となし（右）。4台を同じ軸で比較する。}
+\label{fig:physical-lr-668-track-groups-distributions}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000668、track、ConditionalRun全TFの入力サイズ対処理時間について、入力サイズに対する処理時間の分布を4台で比較する（図\ref{fig:physical-lr-668-track-cond-2d}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-track/cond-all-size-time-e50server03.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-track/cond-all-size-time-marq04.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-track/cond-all-size-time-marq06.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-track/cond-all-size-time-marq07.pdf}
+\end{tabular}}
+\caption{run000668、track、ConditionalRun全TFの入力サイズ対処理時間。上段左からe50server03、marq04、下段左からmarq06、marq07。線形軸、200×200ビン。}
+\label{fig:physical-lr-668-track-cond-2d}
+\end{figure}
+
+\FloatBarrier
+\Needspace{0.80\textheight}
+run000668、track、ProcessSliceの入力サイズ対処理時間について、入力サイズに対する処理時間の分布を4台で比較する（図\ref{fig:physical-lr-668-track-slice-2d}）。
+
+\begin{figure}[H]\centering\makebox[\linewidth][c]{\begin{tabular}{@{}cc@{}}
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-track/slice-has_slice-size-time-e50server03.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-track/slice-has_slice-size-time-marq04.pdf} \\
+\includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-track/slice-has_slice-size-time-marq06.pdf} & \includegraphics[pagebox=cropbox,width=.46\linewidth,height=.30\textheight,keepaspectratio]{10-appendix/physical-lr-run000668-track/slice-has_slice-size-time-marq07.pdf}
+\end{tabular}}
+\caption{run000668、track、ProcessSliceの入力サイズ対処理時間。上段左からe50server03、marq04、下段左からmarq06、marq07。線形軸、200×200ビン。}
+\label{fig:physical-lr-668-track-slice-2d}
+\end{figure}
+
+\input{\subfix{10-appendix-ltof-readout.tex}}

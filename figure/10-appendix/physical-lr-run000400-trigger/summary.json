@@ -1,0 +1,11 @@
+{
+  "run": 400,
+  "condition": "physical-lr",
+  "TF": 20000,
+  "duration_s": 41.94304,
+  "triggers": 2183856,
+  "mean_slices": 109.1928,
+  "mean_rate_Hz": 52067.18444824218,
+  "positive_TF": 10359,
+  "zero_TF": 9641
+}
