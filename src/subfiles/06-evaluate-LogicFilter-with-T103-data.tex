@@ -21,9 +21,22 @@
     \item それに伴って、ANDサブグループの数が多いロジックでは処理の負荷が増加し、本番データレートをCPUで処理するのが現実的ではなくなってきた
   \end{itemize}
   \item CUDAを用いたLogicFilterの処理の実装
+  \begin{itemize}
+    \item 処理の流れ
+    \item どこをどう並列で処理しているか
+    \begin{itemize}
+      \item おのずとデータ構造の説明も付け加える必要がある。付録に付ける。
+    \end{itemize}
+  \end{itemize}
   \item 処理性能の測定方法
   \begin{itemize}
     \item 単一プロセスの処理性能
+    \begin{itemize}
+      \item どこにどれくらい時間がかかっているか
+      \item T103の実データでデータサイズvs処理時間
+      \item サブグループ数を変えたときの処理性能の変化
+      \item 仮想的にデータレートを上げたときの処理性能の変化
+    \end{itemize}
     \item 複数プロセスの処理性能
     \item 複数プロセス・複数GPUを使用する条件下での測定
   \end{itemize}
