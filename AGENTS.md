@@ -39,3 +39,8 @@
 - 文脈優先。短い表・小図は説明段落の直後、大きな比較図は短い説明と同じページにまとめた図表中心のページにする。run・評価項目・章の境界を越えさせない。
 - 短い表はH、通常の小図はhtbp、大きな比較図はNeedspaceで説明と図の空きを確保してHでまとめる。全図を一律の強制固定にはしない。章境界はplaceins[section]、run/評価境界はFloatBarrier、通常フロートの先回りはflafterで抑える。
 - 図のcaptionは下、表のcaptionは上。本文から番号で参照する。詳細はdocs/figure-guidelines.html#context-first-placement。論文PDFは依頼時だけ生成・確認する。
+
+## 分割subfileの枝番号（2026-11-20）
+
+- 同じ章のファイルを分割する場合は、章の入口を05-0-…、そこから読み込む追加部分を05-1-…のように付け、ファイル名順と読み込み順を揃える。
+- 第5章は05-0-evaluate-HLF-with-T103-data.texが入口、05-1-common-flat-or.texが結果部分。ファイル名を変えたらmain.texとinput参照、現行の原稿リンクを更新する。本文は保持し、PDFは依頼なしにビルドしない。
