@@ -1,0 +1,49 @@
+{
+  "name": "TimeFrame::v1::Header",
+  "source": "resources/GitHub/nestdaq-user-impl/TimeFrameHeader.h",
+  "size_bytes": 24,
+  "fields": [
+    {
+      "name": "magic",
+      "offset": 0,
+      "bytes": 8,
+      "type": "uint64_t",
+      "note": "0x004d5246454d4954 / little-endian ASCII: \"TIMEFRM\\0\""
+    },
+    {
+      "name": "length",
+      "offset": 8,
+      "bytes": 4,
+      "type": "uint32_t",
+      "note": "フレーム長。包含範囲は生成・読出処理で追加確認"
+    },
+    {
+      "name": "hLength",
+      "offset": 12,
+      "bytes": 2,
+      "type": "uint16_t",
+      "note": "ヘッダ長。初期値24"
+    },
+    {
+      "name": "type",
+      "offset": 14,
+      "bytes": 2,
+      "type": "uint16_t",
+      "note": "META=0x0001、SLICE=0x0002。上位8 bitはframework用"
+    },
+    {
+      "name": "timeFrameId",
+      "offset": 16,
+      "bytes": 4,
+      "type": "uint32_t",
+      "note": "TimeFrame識別子"
+    },
+    {
+      "name": "numSource",
+      "offset": 20,
+      "bytes": 4,
+      "type": "uint32_t",
+      "note": "ソース数"
+    }
+  ]
+}

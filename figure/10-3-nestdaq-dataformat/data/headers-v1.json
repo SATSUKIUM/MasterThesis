@@ -1,0 +1,497 @@
+[
+  {
+    "id": "tf",
+    "name": "TimeFrame::v1::Header",
+    "source": "TimeFrameHeader.h",
+    "size_bytes": 24,
+    "magic": "0x004d5246454d4954",
+    "fields": [
+      {
+        "name": "magic",
+        "bytes": 8,
+        "type": "uint64_t",
+        "note": "",
+        "offset": 0
+      },
+      {
+        "name": "length",
+        "bytes": 4,
+        "type": "uint32_t",
+        "note": "自分のヘッダを含むフレーム長 [byte]",
+        "offset": 8
+      },
+      {
+        "name": "hLength",
+        "bytes": 2,
+        "type": "uint16_t",
+        "note": "ヘッダ長 [byte]",
+        "offset": 12
+      },
+      {
+        "name": "type",
+        "bytes": 2,
+        "type": "uint16_t",
+        "note": "",
+        "offset": 14
+      },
+      {
+        "name": "timeFrameId",
+        "bytes": 4,
+        "type": "uint32_t",
+        "note": "集約するSTFと対応するID",
+        "offset": 16
+      },
+      {
+        "name": "numSource",
+        "bytes": 4,
+        "type": "uint32_t",
+        "note": "TFに含めるソース数",
+        "offset": 20
+      }
+    ],
+    "notes": [
+      "META=0x0001、SLICE=0x0002。typeの上位8 bitはframework用、下位8 bitは実験用。",
+      "frameworkフラグ：INCOMPLETE=0x8000、TIMEOUT=0x4000、DEPTH_LIMIT=0x2000。TF_COMPLETE=0。"
+    ]
+  },
+  {
+    "id": "stf",
+    "name": "SubTimeFrame::v1::Header",
+    "source": "SubTimeFrameHeader.h",
+    "size_bytes": 48,
+    "magic": "0x00454d4954425553",
+    "fields": [
+      {
+        "name": "magic",
+        "bytes": 8,
+        "type": "uint64_t",
+        "note": "",
+        "offset": 0
+      },
+      {
+        "name": "length",
+        "bytes": 4,
+        "type": "uint32_t",
+        "note": "自分のヘッダを含むフレーム長 [byte]",
+        "offset": 8
+      },
+      {
+        "name": "hLength",
+        "bytes": 2,
+        "type": "uint16_t",
+        "note": "ヘッダ長 [byte]",
+        "offset": 12
+      },
+      {
+        "name": "type",
+        "bytes": 2,
+        "type": "uint16_t",
+        "note": "",
+        "offset": 14
+      },
+      {
+        "name": "timeFrameId",
+        "bytes": 4,
+        "type": "uint32_t",
+        "note": "STFBuilderの設定によりHBD由来IDまたは連番",
+        "offset": 16
+      },
+      {
+        "name": "femType",
+        "bytes": 4,
+        "type": "uint32_t",
+        "note": "FEM種別・データ世代の識別",
+        "offset": 20
+      },
+      {
+        "name": "femId",
+        "bytes": 4,
+        "type": "uint32_t",
+        "note": "FEM識別子",
+        "offset": 24
+      },
+      {
+        "name": "numMessages",
+        "bytes": 4,
+        "type": "uint32_t",
+        "note": "STFBuilderではSTFヘッダを除くpayloadメッセージ数",
+        "offset": 28
+      },
+      {
+        "name": "timeSec",
+        "bytes": 8,
+        "type": "uint64_t",
+        "note": "STFBuilderではgettimeofday().tv_sec",
+        "offset": 32
+      },
+      {
+        "name": "timeUSec",
+        "bytes": 8,
+        "type": "uint64_t",
+        "note": "STFBuilderではgettimeofday().tv_usec：秒内のµs",
+        "offset": 40
+      }
+    ],
+    "notes": [
+      "META=1。STFBuilderはtypeにthrottling状態を設定する。段階に応じた意味を読むこと。",
+      "femType：NULDEV=0、TDC64L_V1=1、TDC64H/V1=2、TDC64L/V2=3、TDC64H_V3=5、TDC64L_V3=6、INPUT_REG=21、FLT_TDC=0x1000。",
+      "SlicerのSLICEではnumMessages=2が書かれる。常にHBF数と同一とみなすことはできない。"
+    ]
+  },
+  {
+    "id": "hbf",
+    "name": "HeartbeatFrame::Header",
+    "source": "HeartbeatFrameHeader.h",
+    "size_bytes": 16,
+    "magic": "0x0054414542545248",
+    "fields": [
+      {
+        "name": "magic",
+        "bytes": 8,
+        "type": "uint64_t",
+        "note": "",
+        "offset": 0
+      },
+      {
+        "name": "length",
+        "bytes": 4,
+        "type": "uint32_t",
+        "note": "自分のヘッダを含むフレーム長 [byte]",
+        "offset": 8
+      },
+      {
+        "name": "hLength",
+        "bytes": 2,
+        "type": "uint16_t",
+        "note": "ヘッダ長 [byte]",
+        "offset": 12
+      },
+      {
+        "name": "type",
+        "bytes": 2,
+        "type": "uint16_t",
+        "note": "",
+        "offset": 14
+      }
+    ],
+    "notes": [
+      "STFBuilder内の別定義HBFHeaderも同じ先頭16 byte配置。offset 14はreserveという名前で0に初期化される。",
+      "HBFと末尾のHeartbeat Delimiter（HBD）は別物。HBF Headerはソフトウェア側、HBDはFEEデータ中の区切り。"
+    ]
+  },
+  {
+    "id": "filter",
+    "name": "Filter::v1::Header",
+    "source": "FilterHeader.h",
+    "size_bytes": 56,
+    "magic": "0x0049474f4c544c46",
+    "fields": [
+      {
+        "name": "magic",
+        "bytes": 8,
+        "type": "uint64_t",
+        "note": "",
+        "offset": 0
+      },
+      {
+        "name": "length",
+        "bytes": 4,
+        "type": "uint32_t",
+        "note": "自分のヘッダを含むフレーム長 [byte]",
+        "offset": 8
+      },
+      {
+        "name": "hLength",
+        "bytes": 2,
+        "type": "uint16_t",
+        "note": "ヘッダ長 [byte]",
+        "offset": 12
+      },
+      {
+        "name": "type",
+        "bytes": 2,
+        "type": "uint16_t",
+        "note": "",
+        "offset": 14
+      },
+      {
+        "name": "timeFrameId",
+        "bytes": 4,
+        "type": "uint32_t",
+        "note": "",
+        "offset": 16
+      },
+      {
+        "name": "numTrigs",
+        "bytes": 4,
+        "type": "uint32_t",
+        "note": "LogicFilterでは全HBFのtrigger数の合計",
+        "offset": 20
+      },
+      {
+        "name": "workerId",
+        "bytes": 4,
+        "type": "uint32_t",
+        "note": "",
+        "offset": 24
+      },
+      {
+        "name": "numMessages",
+        "bytes": 4,
+        "type": "uint32_t",
+        "note": "LogicFilterでは1 + Trigger Timeブロック数",
+        "offset": 28
+      },
+      {
+        "name": "elapseTime",
+        "bytes": 4,
+        "type": "uint32_t",
+        "note": "LogicFilterの処理経過時間 [µs]",
+        "offset": 32
+      },
+      {
+        "name": "reserve",
+        "bytes": 4,
+        "type": "uint32_t",
+        "note": "初期値0xff00ff00",
+        "offset": 36
+      },
+      {
+        "name": "timeSec",
+        "bytes": 8,
+        "type": "uint64_t",
+        "note": "LogicFilterではepochからの秒",
+        "offset": 40
+      },
+      {
+        "name": "timeUSec",
+        "bytes": 8,
+        "type": "uint64_t",
+        "note": "LogicFilterではepochからの総µs。STFのtimeUSecとは意味が異なる",
+        "offset": 48
+      }
+    ],
+    "notes": [
+      "LogicFilter出力では単一のFilter HeaderとHBF別Trigger Timeブロックが続く。",
+      "AddFilterMessageのlength計算はTrgTimeを4 byteとして数えているが、実際の出力は8 byte。資料では宣言値・実際のbyte数を区別する。"
+    ]
+  },
+  {
+    "id": "trigger",
+    "name": "Filter::v1::TrgTimeHeader",
+    "source": "FilterHeader.h",
+    "size_bytes": 16,
+    "magic": "0x00454d4954475254",
+    "fields": [
+      {
+        "name": "magic",
+        "bytes": 8,
+        "type": "uint64_t",
+        "note": "",
+        "offset": 0
+      },
+      {
+        "name": "length",
+        "bytes": 4,
+        "type": "uint32_t",
+        "note": "自分のヘッダを含むフレーム長 [byte]",
+        "offset": 8
+      },
+      {
+        "name": "hLength",
+        "bytes": 2,
+        "type": "uint16_t",
+        "note": "ヘッダ長 [byte]",
+        "offset": 12
+      },
+      {
+        "name": "type",
+        "bytes": 2,
+        "type": "uint16_t",
+        "note": "",
+        "offset": 14
+      }
+    ],
+    "notes": [
+      "直後にTrgTimeがN個続く。length=16+8N。Trigger数が0でも16 byteのHeaderはあり得る。"
+    ]
+  },
+  {
+    "id": "file-header",
+    "name": "FileSinkHeader::v1::Header",
+    "source": "FileSinkHeader.h",
+    "size_bytes": 304,
+    "magic": "0x004b4e53454c4946",
+    "fields": [
+      {
+        "name": "magic",
+        "bytes": 8,
+        "type": "uint64_t",
+        "note": "",
+        "offset": 0
+      },
+      {
+        "name": "length",
+        "bytes": 4,
+        "type": "uint32_t",
+        "note": "自分のヘッダを含むフレーム長 [byte]",
+        "offset": 8
+      },
+      {
+        "name": "hLength",
+        "bytes": 2,
+        "type": "uint16_t",
+        "note": "ヘッダ長 [byte]",
+        "offset": 12
+      },
+      {
+        "name": "type",
+        "bytes": 2,
+        "type": "uint16_t",
+        "note": "",
+        "offset": 14
+      },
+      {
+        "name": "fairMQDeviceType",
+        "bytes": 8,
+        "type": "uint64_t",
+        "note": "FileSinkのHeaderで99に設定",
+        "offset": 16
+      },
+      {
+        "name": "runNumber",
+        "bytes": 8,
+        "type": "uint64_t",
+        "note": "",
+        "offset": 24
+      },
+      {
+        "name": "startUnixtime",
+        "bytes": 8,
+        "type": "time_t",
+        "note": "run開始時刻。ここではtime_t=8を仮定",
+        "offset": 32
+      },
+      {
+        "name": "stopUnixtime",
+        "bytes": 8,
+        "type": "time_t",
+        "note": "Headerでは0、Trailerでは終了時刻",
+        "offset": 40
+      },
+      {
+        "name": "comments",
+        "bytes": 256,
+        "type": "char[256]",
+        "note": "runコメント",
+        "offset": 48
+      }
+    ],
+    "notes": [
+      "offset 8〜15はuint64_t sizeとのunion。length / hLength / typeとしても参照する。",
+      "HeaderとTrailerのレイアウトは同じだが、magicとstopUnixtimeなどの値は異なる。304 byteはtime_tが8 byteの環境。"
+    ]
+  },
+  {
+    "id": "file-trailer",
+    "name": "FileSinkTrailer::v1::Trailer",
+    "source": "FileSinkTrailer.h",
+    "size_bytes": 304,
+    "magic": "0x004c5254454c4946",
+    "fields": [
+      {
+        "name": "magic",
+        "bytes": 8,
+        "type": "uint64_t",
+        "note": "",
+        "offset": 0
+      },
+      {
+        "name": "length",
+        "bytes": 4,
+        "type": "uint32_t",
+        "note": "自分のヘッダを含むフレーム長 [byte]",
+        "offset": 8
+      },
+      {
+        "name": "hLength",
+        "bytes": 2,
+        "type": "uint16_t",
+        "note": "ヘッダ長 [byte]",
+        "offset": 12
+      },
+      {
+        "name": "type",
+        "bytes": 2,
+        "type": "uint16_t",
+        "note": "",
+        "offset": 14
+      },
+      {
+        "name": "fairMQDeviceType",
+        "bytes": 8,
+        "type": "uint64_t",
+        "note": "FileSinkのHeaderで99に設定",
+        "offset": 16
+      },
+      {
+        "name": "runNumber",
+        "bytes": 8,
+        "type": "uint64_t",
+        "note": "",
+        "offset": 24
+      },
+      {
+        "name": "startUnixtime",
+        "bytes": 8,
+        "type": "time_t",
+        "note": "run開始時刻。ここではtime_t=8を仮定",
+        "offset": 32
+      },
+      {
+        "name": "stopUnixtime",
+        "bytes": 8,
+        "type": "time_t",
+        "note": "Headerでは0、Trailerでは終了時刻",
+        "offset": 40
+      },
+      {
+        "name": "comments",
+        "bytes": 256,
+        "type": "char[256]",
+        "note": "runコメント",
+        "offset": 48
+      }
+    ],
+    "notes": [
+      "offset 8〜15はuint64_t sizeとのunion。length / hLength / typeとしても参照する。",
+      "HeaderとTrailerのレイアウトは同じだが、magicとstopUnixtimeなどの値は異なる。304 byteはtime_tが8 byteの環境。"
+    ]
+  },
+  {
+    "id": "trgtime",
+    "name": "Filter::v1::TrgTime",
+    "source": "FilterHeader.h",
+    "size_bytes": 8,
+    "magic": null,
+    "fields": [
+      {
+        "name": "time",
+        "bytes": 4,
+        "type": "uint32_t",
+        "note": "trigger時刻。Slicerはtdc4nと比較する",
+        "offset": 0
+      },
+      {
+        "name": "type",
+        "bytes": 4,
+        "type": "uint32_t",
+        "note": "LogicFilterは0xaa000000を出力。little-endian末尾byteは0xaa",
+        "offset": 4
+      }
+    ],
+    "notes": [
+      "magicは持たない。各レコードは8 byte。timeの比較単位は4 ns系（tdc4n）。"
+    ]
+  }
+]

@@ -1,0 +1,1636 @@
+[
+  {
+    "id": "01-fee",
+    "device": "FEE",
+    "reference": 1,
+    "caption": "FEE出力の連続word列。HBDを含み、ソフトウェアのHBF Headerはまだない。",
+    "nodes": [
+      {
+        "label": "FEE data stream",
+        "kind": "transport",
+        "children": [
+          {
+            "label": "DAQ word / 8 B",
+            "kind": "data",
+            "role": "record"
+          },
+          {
+            "label": "DAQ word / 8 B",
+            "kind": "data",
+            "role": "record"
+          },
+          {
+            "label": "DAQ word / 8 B (optional)",
+            "kind": "data",
+            "role": "record",
+            "opacity": 0.35,
+            "dashed": true
+          },
+          {
+            "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+            "kind": "data",
+            "role": "record"
+          },
+          {
+            "label": "DAQ word / 8 B (not present)",
+            "kind": "data",
+            "role": "record",
+            "opacity": 0.35,
+            "dashed": true
+          },
+          {
+            "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+            "kind": "data",
+            "role": "record"
+          },
+          {
+            "label": "× number of heartbeat intervals",
+            "kind": "ellipsis",
+            "role": "annotation"
+          }
+        ],
+        "role": "concept"
+      }
+    ],
+    "figure_note": "DAQ wordは0個以上。先頭の区間は複数hitの例、続く区間は0 hitの例。各区間はHBDで終わる。半透明・破線のwordは任意／不在の説明用で、空wordが記録されるわけではない。"
+  },
+  {
+    "id": "02-sampler",
+    "device": "Sampler",
+    "reference": 2,
+    "caption": "コードでは受信したword列をFairMQ messageへ入れて送信。図2のHBFラップは実装上STFBuilderで行う。FEMInfoは別の初期化メッセージ。",
+    "nodes": [
+      {
+        "label": "FairMQ message(s) / received chunks",
+        "kind": "transport",
+        "children": [
+          {
+            "label": "DAQ words / 8 B each",
+            "kind": "data",
+            "role": "record"
+          },
+          {
+            "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+            "kind": "data",
+            "role": "record"
+          },
+          {
+            "label": "Chunk boundaries need not align with HBD",
+            "kind": "ellipsis",
+            "role": "annotation"
+          }
+        ],
+        "role": "concept",
+        "changed": true
+      }
+    ]
+  },
+  {
+    "id": "03-stfbuilder",
+    "device": "STFBuilder",
+    "reference": 3,
+    "caption": "STFBuilderのmax-hbfで、STFあたりにまとめるHBF数を指定する。通常の揃った入力ではH = max-hbf。",
+    "nodes": [
+      {
+        "label": "SubTimeFrame",
+        "kind": "stf",
+        "children": [
+          {
+            "label": "STF Header / 48 B",
+            "kind": "stfheader",
+            "role": "record",
+            "changed": true
+          },
+          {
+            "label": "HeartbeatFrame",
+            "kind": "hbf",
+            "children": [
+              {
+                "label": "HBF Header / 16 B",
+                "kind": "hbfheader",
+                "role": "record",
+                "changed": true
+              },
+              {
+                "label": "DAQ words / 8 B each",
+                "kind": "data",
+                "role": "record"
+              },
+              {
+                "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                "kind": "data",
+                "role": "record"
+              }
+            ],
+            "role": "concept",
+            "changed": true
+          },
+          {
+            "label": "HeartbeatFrame",
+            "kind": "hbf",
+            "children": [
+              {
+                "label": "HBF Header / 16 B",
+                "kind": "hbfheader",
+                "role": "record",
+                "changed": true
+              },
+              {
+                "label": "DAQ words / 8 B each",
+                "kind": "data",
+                "role": "record"
+              },
+              {
+                "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                "kind": "data",
+                "role": "record"
+              }
+            ],
+            "role": "concept",
+            "changed": true
+          },
+          {
+            "label": "× H HBFs per STF (H = max-hbf)",
+            "kind": "ellipsis",
+            "role": "annotation"
+          }
+        ],
+        "role": "concept",
+        "changed": true
+      }
+    ],
+    "callout": "H = max-hbf → H HBFs per STF"
+  },
+  {
+    "id": "04-timeframebuilder",
+    "device": "TimeFrameBuilder",
+    "reference": 4,
+    "caption": "同じtimeFrameIdのSTFをソース間で集約。TF Headerの後に各ソースのSTFが並ぶ。",
+    "nodes": [
+      {
+        "label": "TimeFrame",
+        "kind": "tf",
+        "children": [
+          {
+            "label": "TF Header / 24 B",
+            "kind": "tfheader",
+            "role": "record",
+            "changed": true
+          },
+          {
+            "label": "SubTimeFrame",
+            "kind": "stf",
+            "children": [
+              {
+                "label": "STF Header / 48 B",
+                "kind": "stfheader",
+                "role": "record"
+              },
+              {
+                "label": "HeartbeatFrame",
+                "kind": "hbf",
+                "children": [
+                  {
+                    "label": "HBF Header / 16 B",
+                    "kind": "hbfheader",
+                    "role": "record"
+                  },
+                  {
+                    "label": "DAQ words / 8 B each",
+                    "kind": "data",
+                    "role": "record"
+                  },
+                  {
+                    "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                    "kind": "data",
+                    "role": "record"
+                  }
+                ],
+                "role": "concept"
+              },
+              {
+                "label": "HeartbeatFrame",
+                "kind": "hbf",
+                "children": [
+                  {
+                    "label": "HBF Header / 16 B",
+                    "kind": "hbfheader",
+                    "role": "record"
+                  },
+                  {
+                    "label": "DAQ words / 8 B each",
+                    "kind": "data",
+                    "role": "record"
+                  },
+                  {
+                    "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                    "kind": "data",
+                    "role": "record"
+                  }
+                ],
+                "role": "concept"
+              },
+              {
+                "label": "× H HBFs per STF (H = max-hbf)",
+                "kind": "ellipsis",
+                "role": "annotation"
+              }
+            ],
+            "role": "concept"
+          },
+          {
+            "label": "SubTimeFrame",
+            "kind": "stf",
+            "children": [
+              {
+                "label": "STF Header / 48 B",
+                "kind": "stfheader",
+                "role": "record"
+              },
+              {
+                "label": "HeartbeatFrame",
+                "kind": "hbf",
+                "children": [
+                  {
+                    "label": "HBF Header / 16 B",
+                    "kind": "hbfheader",
+                    "role": "record"
+                  },
+                  {
+                    "label": "DAQ words / 8 B each",
+                    "kind": "data",
+                    "role": "record"
+                  },
+                  {
+                    "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                    "kind": "data",
+                    "role": "record"
+                  }
+                ],
+                "role": "concept"
+              },
+              {
+                "label": "HeartbeatFrame",
+                "kind": "hbf",
+                "children": [
+                  {
+                    "label": "HBF Header / 16 B",
+                    "kind": "hbfheader",
+                    "role": "record"
+                  },
+                  {
+                    "label": "DAQ words / 8 B each",
+                    "kind": "data",
+                    "role": "record"
+                  },
+                  {
+                    "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                    "kind": "data",
+                    "role": "record"
+                  }
+                ],
+                "role": "concept"
+              },
+              {
+                "label": "× H HBFs per STF (H = max-hbf)",
+                "kind": "ellipsis",
+                "role": "annotation"
+              }
+            ],
+            "role": "concept"
+          },
+          {
+            "label": "× S sources",
+            "kind": "ellipsis",
+            "role": "annotation"
+          }
+        ],
+        "role": "concept",
+        "changed": true
+      }
+    ],
+    "callout": "max-hbf sets the number of HBFs in every source STF"
+  },
+  {
+    "id": "05-logicfilter",
+    "device": "LogicFilter",
+    "reference": 5,
+    "caption": "単一のFilter HeaderとHBF別のTrigger TimeブロックをTF HeaderとSTF列の間へ挿入。",
+    "nodes": [
+      {
+        "label": "TimeFrame",
+        "kind": "tf",
+        "children": [
+          {
+            "label": "TF Header / 24 B",
+            "kind": "tfheader",
+            "role": "record",
+            "changed": true
+          },
+          {
+            "label": "Filter Header / 56 B (one per TF)",
+            "kind": "filter",
+            "role": "record",
+            "changed": true
+          },
+          {
+            "label": "Trigger Time block / HBF 0",
+            "kind": "filter",
+            "children": [
+              {
+                "label": "Trigger Time Header / 16 B",
+                "kind": "trigger",
+                "role": "record",
+                "changed": true
+              },
+              {
+                "label": "TrgTime / 8 B each × n_j",
+                "kind": "trgtime",
+                "role": "record",
+                "changed": true
+              }
+            ],
+            "role": "concept",
+            "changed": true
+          },
+          {
+            "label": "Trigger Time block / HBF 1",
+            "kind": "filter",
+            "children": [
+              {
+                "label": "Trigger Time Header / 16 B",
+                "kind": "trigger",
+                "role": "record",
+                "changed": true
+              },
+              {
+                "label": "TrgTime / 8 B each × n_j",
+                "kind": "trgtime",
+                "role": "record",
+                "changed": true
+              }
+            ],
+            "role": "concept",
+            "changed": true
+          },
+          {
+            "label": "× H Trigger Time blocks (H = max-hbf)",
+            "kind": "ellipsis",
+            "role": "annotation"
+          },
+          {
+            "label": "SubTimeFrame",
+            "kind": "stf",
+            "children": [
+              {
+                "label": "STF Header / 48 B",
+                "kind": "stfheader",
+                "role": "record"
+              },
+              {
+                "label": "HeartbeatFrame",
+                "kind": "hbf",
+                "children": [
+                  {
+                    "label": "HBF Header / 16 B",
+                    "kind": "hbfheader",
+                    "role": "record"
+                  },
+                  {
+                    "label": "DAQ words / 8 B each",
+                    "kind": "data",
+                    "role": "record"
+                  },
+                  {
+                    "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                    "kind": "data",
+                    "role": "record"
+                  }
+                ],
+                "role": "concept"
+              },
+              {
+                "kind": "ellipsis",
+                "label": "× H HBFs per STF (H = max-hbf)",
+                "role": "annotation"
+              }
+            ],
+            "role": "concept"
+          },
+          {
+            "label": "SubTimeFrame",
+            "kind": "stf",
+            "children": [
+              {
+                "label": "STF Header / 48 B",
+                "kind": "stfheader",
+                "role": "record"
+              },
+              {
+                "label": "HeartbeatFrame",
+                "kind": "hbf",
+                "children": [
+                  {
+                    "label": "HBF Header / 16 B",
+                    "kind": "hbfheader",
+                    "role": "record"
+                  },
+                  {
+                    "label": "DAQ words / 8 B each",
+                    "kind": "data",
+                    "role": "record"
+                  },
+                  {
+                    "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                    "kind": "data",
+                    "role": "record"
+                  }
+                ],
+                "role": "concept"
+              },
+              {
+                "kind": "ellipsis",
+                "label": "× H HBFs per STF (H = max-hbf)",
+                "role": "annotation"
+              }
+            ],
+            "role": "concept"
+          },
+          {
+            "label": "× S sources",
+            "kind": "ellipsis",
+            "role": "annotation"
+          }
+        ],
+        "role": "concept"
+      }
+    ],
+    "callout": "H Trigger Time blocks / H = max-hbf"
+  },
+  {
+    "id": "06-slicer",
+    "device": "TimeFrameSlicerByLogicTiming",
+    "reference": 6,
+    "caption": "HBF jごとにMETA TFを1個、そのHBFの各triggerにつきSLICE TFを1個生成。METAにHBDとtrigger情報、SLICEに窓内DAQ wordとHBDを収める。",
+    "nodes": [
+      {
+        "label": "TimeFrame / original input interval",
+        "kind": "tf",
+        "role": "concept",
+        "children": [
+          {
+            "label": "Heartbeat group / same synchronized Heartbeat",
+            "kind": "heartbeat",
+            "role": "concept",
+            "children": [
+              {
+                "label": "DAQ words across sources share the same Heartbeat reference",
+                "kind": "ellipsis",
+                "role": "annotation"
+              },
+              {
+                "label": "META record / one per HBF",
+                "kind": "tf",
+                "children": [
+                  {
+                    "label": "TF Header / 24 B / type = META",
+                    "kind": "tfheader",
+                    "role": "record",
+                    "changed": true
+                  },
+                  {
+                    "label": "Filter Header / 56 B",
+                    "kind": "filter",
+                    "role": "record"
+                  },
+                  {
+                    "label": "Trigger Time block / current HBF",
+                    "kind": "filter",
+                    "children": [
+                      {
+                        "label": "Trigger Time Header / 16 B",
+                        "kind": "trigger",
+                        "role": "record"
+                      },
+                      {
+                        "label": "TrgTime / 8 B each × n_j",
+                        "kind": "trgtime",
+                        "role": "record"
+                      }
+                    ],
+                    "role": "concept"
+                  },
+                  {
+                    "label": "SubTimeFrame / type = META",
+                    "kind": "stf",
+                    "children": [
+                      {
+                        "label": "STF Header / 48 B",
+                        "kind": "stfheader",
+                        "role": "record",
+                        "changed": true
+                      },
+                      {
+                        "label": "HeartbeatFrame",
+                        "kind": "hbf",
+                        "children": [
+                          {
+                            "label": "HBF Header / 16 B",
+                            "kind": "hbfheader",
+                            "role": "record",
+                            "changed": true
+                          },
+                          {
+                            "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                            "kind": "data",
+                            "role": "record"
+                          }
+                        ],
+                        "role": "concept"
+                      }
+                    ],
+                    "role": "concept"
+                  },
+                  {
+                    "label": "SubTimeFrame / type = META",
+                    "kind": "stf",
+                    "children": [
+                      {
+                        "label": "STF Header / 48 B",
+                        "kind": "stfheader",
+                        "role": "record",
+                        "changed": true
+                      },
+                      {
+                        "label": "HeartbeatFrame",
+                        "kind": "hbf",
+                        "children": [
+                          {
+                            "label": "HBF Header / 16 B",
+                            "kind": "hbfheader",
+                            "role": "record",
+                            "changed": true
+                          },
+                          {
+                            "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                            "kind": "data",
+                            "role": "record"
+                          }
+                        ],
+                        "role": "concept"
+                      }
+                    ],
+                    "role": "concept"
+                  },
+                  {
+                    "label": "× S sources",
+                    "kind": "ellipsis",
+                    "role": "annotation"
+                  }
+                ],
+                "role": "concept"
+              },
+              {
+                "label": "SLICE record / one per trigger",
+                "kind": "tf",
+                "children": [
+                  {
+                    "label": "TF Header / 24 B / type = SLICE",
+                    "kind": "tfheader",
+                    "role": "record",
+                    "changed": true
+                  },
+                  {
+                    "label": "SubTimeFrame",
+                    "kind": "stf",
+                    "children": [
+                      {
+                        "label": "STF Header / 48 B",
+                        "kind": "stfheader",
+                        "role": "record",
+                        "changed": true
+                      },
+                      {
+                        "label": "HeartbeatFrame",
+                        "kind": "hbf",
+                        "children": [
+                          {
+                            "label": "HBF Header / 16 B",
+                            "kind": "hbfheader",
+                            "role": "record",
+                            "changed": true
+                          },
+                          {
+                            "label": "DAQ words within trigger window / 8 B each",
+                            "kind": "data",
+                            "role": "record",
+                            "changed": true
+                          },
+                          {
+                            "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                            "kind": "data",
+                            "role": "record"
+                          }
+                        ],
+                        "role": "concept"
+                      }
+                    ],
+                    "role": "concept"
+                  },
+                  {
+                    "label": "SubTimeFrame",
+                    "kind": "stf",
+                    "children": [
+                      {
+                        "label": "STF Header / 48 B",
+                        "kind": "stfheader",
+                        "role": "record",
+                        "changed": true
+                      },
+                      {
+                        "label": "HeartbeatFrame",
+                        "kind": "hbf",
+                        "children": [
+                          {
+                            "label": "HBF Header / 16 B",
+                            "kind": "hbfheader",
+                            "role": "record",
+                            "changed": true
+                          },
+                          {
+                            "label": "DAQ words within trigger window / 8 B each",
+                            "kind": "data",
+                            "role": "record",
+                            "changed": true
+                          },
+                          {
+                            "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                            "kind": "data",
+                            "role": "record"
+                          }
+                        ],
+                        "role": "concept"
+                      }
+                    ],
+                    "role": "concept"
+                  },
+                  {
+                    "label": "× S sources",
+                    "kind": "ellipsis",
+                    "role": "annotation"
+                  }
+                ],
+                "role": "concept"
+              },
+              {
+                "label": "× n_j SLICE records in HBF j",
+                "kind": "ellipsis",
+                "role": "annotation"
+              }
+            ]
+          },
+          {
+            "label": "× H heartbeat groups = H META records",
+            "kind": "ellipsis",
+            "role": "annotation"
+          }
+        ]
+      }
+    ],
+    "callout": "META records = max-hbf; SLICE records = total triggers"
+  },
+  {
+    "id": "07-filter",
+    "device": "FilterTimeFrameSlice / high level filter",
+    "reference": 7,
+    "caption": "実装名はFilterTimeFrameSliceBySomething。METAを保持、SLICEはProcessSliceで選択。Filter/Trigger Time情報は再シリアライズ時に落ちる。現状のBySomethingは全SLICEを保持。",
+    "nodes": [
+      {
+        "label": "TimeFrame / original input interval",
+        "kind": "tf",
+        "role": "concept",
+        "children": [
+          {
+            "label": "Heartbeat group / same synchronized Heartbeat",
+            "kind": "heartbeat",
+            "role": "concept",
+            "children": [
+              {
+                "label": "DAQ words across sources share the same Heartbeat reference",
+                "kind": "ellipsis",
+                "role": "annotation"
+              },
+              {
+                "label": "META record / one per HBF",
+                "kind": "tf",
+                "children": [
+                  {
+                    "label": "TF Header / 24 B / type = META",
+                    "kind": "tfheader",
+                    "role": "record",
+                    "changed": true
+                  },
+                  {
+                    "label": "SubTimeFrame / type = META",
+                    "kind": "stf",
+                    "children": [
+                      {
+                        "label": "STF Header / 48 B",
+                        "kind": "stfheader",
+                        "role": "record"
+                      },
+                      {
+                        "label": "HeartbeatFrame",
+                        "kind": "hbf",
+                        "children": [
+                          {
+                            "label": "HBF Header / 16 B",
+                            "kind": "hbfheader",
+                            "role": "record"
+                          },
+                          {
+                            "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                            "kind": "data",
+                            "role": "record"
+                          }
+                        ],
+                        "role": "concept"
+                      }
+                    ],
+                    "role": "concept"
+                  },
+                  {
+                    "label": "SubTimeFrame / type = META",
+                    "kind": "stf",
+                    "children": [
+                      {
+                        "label": "STF Header / 48 B",
+                        "kind": "stfheader",
+                        "role": "record"
+                      },
+                      {
+                        "label": "HeartbeatFrame",
+                        "kind": "hbf",
+                        "children": [
+                          {
+                            "label": "HBF Header / 16 B",
+                            "kind": "hbfheader",
+                            "role": "record"
+                          },
+                          {
+                            "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                            "kind": "data",
+                            "role": "record"
+                          }
+                        ],
+                        "role": "concept"
+                      }
+                    ],
+                    "role": "concept"
+                  },
+                  {
+                    "label": "× S sources",
+                    "kind": "ellipsis",
+                    "role": "annotation"
+                  }
+                ],
+                "role": "concept"
+              },
+              {
+                "label": "SLICE record / one per kept trigger",
+                "kind": "tf",
+                "children": [
+                  {
+                    "label": "TF Header / 24 B / type = SLICE",
+                    "kind": "tfheader",
+                    "role": "record"
+                  },
+                  {
+                    "label": "SubTimeFrame",
+                    "kind": "stf",
+                    "children": [
+                      {
+                        "label": "STF Header / 48 B",
+                        "kind": "stfheader",
+                        "role": "record"
+                      },
+                      {
+                        "label": "HeartbeatFrame",
+                        "kind": "hbf",
+                        "children": [
+                          {
+                            "label": "HBF Header / 16 B",
+                            "kind": "hbfheader",
+                            "role": "record"
+                          },
+                          {
+                            "label": "DAQ words within trigger window / 8 B each",
+                            "kind": "data",
+                            "role": "record"
+                          },
+                          {
+                            "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                            "kind": "data",
+                            "role": "record"
+                          }
+                        ],
+                        "role": "concept"
+                      }
+                    ],
+                    "role": "concept"
+                  },
+                  {
+                    "label": "SubTimeFrame",
+                    "kind": "stf",
+                    "children": [
+                      {
+                        "label": "STF Header / 48 B",
+                        "kind": "stfheader",
+                        "role": "record"
+                      },
+                      {
+                        "label": "HeartbeatFrame",
+                        "kind": "hbf",
+                        "children": [
+                          {
+                            "label": "HBF Header / 16 B",
+                            "kind": "hbfheader",
+                            "role": "record"
+                          },
+                          {
+                            "label": "DAQ words within trigger window / 8 B each",
+                            "kind": "data",
+                            "role": "record"
+                          },
+                          {
+                            "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                            "kind": "data",
+                            "role": "record"
+                          }
+                        ],
+                        "role": "concept"
+                      }
+                    ],
+                    "role": "concept"
+                  },
+                  {
+                    "label": "× S sources",
+                    "kind": "ellipsis",
+                    "role": "annotation"
+                  }
+                ],
+                "role": "concept"
+              },
+              {
+                "label": "× k_j kept SLICE records in HBF j",
+                "kind": "ellipsis",
+                "role": "annotation"
+              }
+            ]
+          },
+          {
+            "label": "× H heartbeat groups = H META records",
+            "kind": "ellipsis",
+            "role": "annotation"
+          }
+        ]
+      }
+    ],
+    "callout": "META records = max-hbf; SLICE records = kept triggers",
+    "comparison": {
+      "input": {
+        "device": "Input / three SLICE records",
+        "nodes": [
+          {
+            "label": "TimeFrame / original input interval",
+            "kind": "tf",
+            "role": "concept",
+            "children": [
+              {
+                "label": "Heartbeat group / same synchronized Heartbeat",
+                "kind": "heartbeat",
+                "role": "concept",
+                "children": [
+                  {
+                    "label": "DAQ words across sources share the same Heartbeat reference",
+                    "kind": "ellipsis",
+                    "role": "annotation"
+                  },
+                  {
+                    "label": "META record / one per HBF",
+                    "kind": "tf",
+                    "children": [
+                      {
+                        "label": "TF Header / 24 B / type = META",
+                        "kind": "tfheader",
+                        "role": "record"
+                      },
+                      {
+                        "label": "Filter Header / 56 B",
+                        "kind": "filter",
+                        "role": "record"
+                      },
+                      {
+                        "label": "Trigger Time block / current HBF",
+                        "kind": "filter",
+                        "children": [
+                          {
+                            "label": "Trigger Time Header / 16 B",
+                            "kind": "trigger",
+                            "role": "record"
+                          },
+                          {
+                            "label": "TrgTime / 8 B each × n_j",
+                            "kind": "trgtime",
+                            "role": "record"
+                          }
+                        ],
+                        "role": "concept"
+                      },
+                      {
+                        "label": "SubTimeFrame / type = META",
+                        "kind": "stf",
+                        "children": [
+                          {
+                            "label": "STF Header / 48 B",
+                            "kind": "stfheader",
+                            "role": "record"
+                          },
+                          {
+                            "label": "HeartbeatFrame",
+                            "kind": "hbf",
+                            "children": [
+                              {
+                                "label": "HBF Header / 16 B",
+                                "kind": "hbfheader",
+                                "role": "record"
+                              },
+                              {
+                                "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                                "kind": "data",
+                                "role": "record"
+                              }
+                            ],
+                            "role": "concept"
+                          }
+                        ],
+                        "role": "concept"
+                      },
+                      {
+                        "label": "× S sources",
+                        "kind": "ellipsis",
+                        "role": "annotation"
+                      }
+                    ],
+                    "role": "concept"
+                  },
+                  {
+                    "label": "SLICE record 0",
+                    "kind": "tf",
+                    "children": [
+                      {
+                        "label": "TF Header / type = SLICE / #0",
+                        "kind": "tfheader",
+                        "role": "record"
+                      },
+                      {
+                        "label": "SubTimeFrame",
+                        "kind": "stf",
+                        "children": [
+                          {
+                            "label": "STF Header / 48 B",
+                            "kind": "stfheader",
+                            "role": "record"
+                          },
+                          {
+                            "label": "HeartbeatFrame",
+                            "kind": "hbf",
+                            "children": [
+                              {
+                                "label": "HBF Header / 16 B",
+                                "kind": "hbfheader",
+                                "role": "record"
+                              },
+                              {
+                                "label": "DAQ words within trigger window / 8 B each",
+                                "kind": "data",
+                                "role": "record"
+                              },
+                              {
+                                "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                                "kind": "data",
+                                "role": "record"
+                              }
+                            ],
+                            "role": "concept"
+                          }
+                        ],
+                        "role": "concept"
+                      },
+                      {
+                        "label": "× S sources",
+                        "kind": "ellipsis",
+                        "role": "annotation"
+                      }
+                    ],
+                    "role": "concept"
+                  },
+                  {
+                    "label": "SLICE record 1",
+                    "kind": "tf",
+                    "children": [
+                      {
+                        "label": "TF Header / type = SLICE / #1",
+                        "kind": "tfheader",
+                        "role": "record"
+                      },
+                      {
+                        "label": "SubTimeFrame",
+                        "kind": "stf",
+                        "children": [
+                          {
+                            "label": "STF Header / 48 B",
+                            "kind": "stfheader",
+                            "role": "record"
+                          },
+                          {
+                            "label": "HeartbeatFrame",
+                            "kind": "hbf",
+                            "children": [
+                              {
+                                "label": "HBF Header / 16 B",
+                                "kind": "hbfheader",
+                                "role": "record"
+                              },
+                              {
+                                "label": "DAQ words within trigger window / 8 B each",
+                                "kind": "data",
+                                "role": "record"
+                              },
+                              {
+                                "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                                "kind": "data",
+                                "role": "record"
+                              }
+                            ],
+                            "role": "concept"
+                          }
+                        ],
+                        "role": "concept"
+                      },
+                      {
+                        "label": "× S sources",
+                        "kind": "ellipsis",
+                        "role": "annotation"
+                      }
+                    ],
+                    "role": "concept"
+                  },
+                  {
+                    "label": "SLICE record 2",
+                    "kind": "tf",
+                    "children": [
+                      {
+                        "label": "TF Header / type = SLICE / #2",
+                        "kind": "tfheader",
+                        "role": "record"
+                      },
+                      {
+                        "label": "SubTimeFrame",
+                        "kind": "stf",
+                        "children": [
+                          {
+                            "label": "STF Header / 48 B",
+                            "kind": "stfheader",
+                            "role": "record"
+                          },
+                          {
+                            "label": "HeartbeatFrame",
+                            "kind": "hbf",
+                            "children": [
+                              {
+                                "label": "HBF Header / 16 B",
+                                "kind": "hbfheader",
+                                "role": "record"
+                              },
+                              {
+                                "label": "DAQ words within trigger window / 8 B each",
+                                "kind": "data",
+                                "role": "record"
+                              },
+                              {
+                                "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                                "kind": "data",
+                                "role": "record"
+                              }
+                            ],
+                            "role": "concept"
+                          }
+                        ],
+                        "role": "concept"
+                      },
+                      {
+                        "label": "× S sources",
+                        "kind": "ellipsis",
+                        "role": "annotation"
+                      }
+                    ],
+                    "role": "concept"
+                  }
+                ]
+              },
+              {
+                "label": "× H heartbeat groups = H META records",
+                "kind": "ellipsis",
+                "role": "annotation"
+              }
+            ]
+          }
+        ]
+      },
+      "output": {
+        "device": "Selection example / two kept SLICEs",
+        "nodes": [
+          {
+            "label": "TimeFrame / original input interval",
+            "kind": "tf",
+            "role": "concept",
+            "children": [
+              {
+                "label": "Heartbeat group / same synchronized Heartbeat",
+                "kind": "heartbeat",
+                "role": "concept",
+                "children": [
+                  {
+                    "label": "DAQ words across sources share the same Heartbeat reference",
+                    "kind": "ellipsis",
+                    "role": "annotation"
+                  },
+                  {
+                    "label": "META record / one per HBF",
+                    "kind": "tf",
+                    "children": [
+                      {
+                        "label": "TF Header / 24 B / type = META",
+                        "kind": "tfheader",
+                        "role": "record",
+                        "changed": true
+                      },
+                      {
+                        "label": "Filter Header / 56 B",
+                        "kind": "filter",
+                        "role": "record",
+                        "opacity": 0.24,
+                        "dashed": true,
+                        "changed": true
+                      },
+                      {
+                        "label": "Trigger Time block / current HBF",
+                        "kind": "filter",
+                        "children": [
+                          {
+                            "label": "Trigger Time Header / 16 B",
+                            "kind": "trigger",
+                            "role": "record"
+                          },
+                          {
+                            "label": "TrgTime / 8 B each × n_j",
+                            "kind": "trgtime",
+                            "role": "record"
+                          }
+                        ],
+                        "role": "concept",
+                        "opacity": 0.24,
+                        "dashed": true,
+                        "changed": true
+                      },
+                      {
+                        "label": "SubTimeFrame / type = META",
+                        "kind": "stf",
+                        "children": [
+                          {
+                            "label": "STF Header / 48 B",
+                            "kind": "stfheader",
+                            "role": "record"
+                          },
+                          {
+                            "label": "HeartbeatFrame",
+                            "kind": "hbf",
+                            "children": [
+                              {
+                                "label": "HBF Header / 16 B",
+                                "kind": "hbfheader",
+                                "role": "record"
+                              },
+                              {
+                                "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                                "kind": "data",
+                                "role": "record"
+                              }
+                            ],
+                            "role": "concept"
+                          }
+                        ],
+                        "role": "concept"
+                      },
+                      {
+                        "label": "× S sources",
+                        "kind": "ellipsis",
+                        "role": "annotation"
+                      }
+                    ],
+                    "role": "concept"
+                  },
+                  {
+                    "label": "SLICE record 0",
+                    "kind": "tf",
+                    "children": [
+                      {
+                        "label": "TF Header / type = SLICE / #0",
+                        "kind": "tfheader",
+                        "role": "record"
+                      },
+                      {
+                        "label": "SubTimeFrame",
+                        "kind": "stf",
+                        "children": [
+                          {
+                            "label": "STF Header / 48 B",
+                            "kind": "stfheader",
+                            "role": "record"
+                          },
+                          {
+                            "label": "HeartbeatFrame",
+                            "kind": "hbf",
+                            "children": [
+                              {
+                                "label": "HBF Header / 16 B",
+                                "kind": "hbfheader",
+                                "role": "record"
+                              },
+                              {
+                                "label": "DAQ words within trigger window / 8 B each",
+                                "kind": "data",
+                                "role": "record"
+                              },
+                              {
+                                "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                                "kind": "data",
+                                "role": "record"
+                              }
+                            ],
+                            "role": "concept"
+                          }
+                        ],
+                        "role": "concept"
+                      },
+                      {
+                        "label": "× S sources",
+                        "kind": "ellipsis",
+                        "role": "annotation"
+                      }
+                    ],
+                    "role": "concept"
+                  },
+                  {
+                    "label": "SLICE #1 / rejected",
+                    "kind": "tf",
+                    "children": [
+                      {
+                        "label": "TF Header / type = SLICE / #1",
+                        "kind": "tfheader",
+                        "role": "record"
+                      },
+                      {
+                        "label": "SubTimeFrame",
+                        "kind": "stf",
+                        "children": [
+                          {
+                            "label": "STF Header / 48 B",
+                            "kind": "stfheader",
+                            "role": "record"
+                          },
+                          {
+                            "label": "HeartbeatFrame",
+                            "kind": "hbf",
+                            "children": [
+                              {
+                                "label": "HBF Header / 16 B",
+                                "kind": "hbfheader",
+                                "role": "record"
+                              },
+                              {
+                                "label": "DAQ words within trigger window / 8 B each",
+                                "kind": "data",
+                                "role": "record"
+                              },
+                              {
+                                "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                                "kind": "data",
+                                "role": "record"
+                              }
+                            ],
+                            "role": "concept"
+                          }
+                        ],
+                        "role": "concept"
+                      },
+                      {
+                        "label": "× S sources",
+                        "kind": "ellipsis",
+                        "role": "annotation"
+                      }
+                    ],
+                    "role": "concept",
+                    "opacity": 0.24,
+                    "dashed": true,
+                    "changed": true
+                  },
+                  {
+                    "label": "SLICE record 2",
+                    "kind": "tf",
+                    "children": [
+                      {
+                        "label": "TF Header / type = SLICE / #2",
+                        "kind": "tfheader",
+                        "role": "record"
+                      },
+                      {
+                        "label": "SubTimeFrame",
+                        "kind": "stf",
+                        "children": [
+                          {
+                            "label": "STF Header / 48 B",
+                            "kind": "stfheader",
+                            "role": "record"
+                          },
+                          {
+                            "label": "HeartbeatFrame",
+                            "kind": "hbf",
+                            "children": [
+                              {
+                                "label": "HBF Header / 16 B",
+                                "kind": "hbfheader",
+                                "role": "record"
+                              },
+                              {
+                                "label": "DAQ words within trigger window / 8 B each",
+                                "kind": "data",
+                                "role": "record"
+                              },
+                              {
+                                "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                                "kind": "data",
+                                "role": "record"
+                              }
+                            ],
+                            "role": "concept"
+                          }
+                        ],
+                        "role": "concept"
+                      },
+                      {
+                        "label": "× S sources",
+                        "kind": "ellipsis",
+                        "role": "annotation"
+                      }
+                    ],
+                    "role": "concept"
+                  }
+                ]
+              },
+              {
+                "label": "× H heartbeat groups = H META records",
+                "kind": "ellipsis",
+                "role": "annotation"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "08-filesink",
+    "device": "FileSink",
+    "reference": 8,
+    "caption": "入力順にTF列を書き、ファイル先頭と末尾へ304 byteのFileSink Header/Trailerを付ける。図は非圧縮の論理byte列。",
+    "nodes": [
+      {
+        "label": "File / uncompressed logical byte stream",
+        "kind": "file",
+        "children": [
+          {
+            "label": "FileSink Header / 304 B",
+            "kind": "fileheader",
+            "role": "record",
+            "changed": true
+          },
+          {
+            "label": "TimeFrame / original input interval",
+            "kind": "tf",
+            "role": "concept",
+            "children": [
+              {
+                "label": "Heartbeat group / same synchronized Heartbeat",
+                "kind": "heartbeat",
+                "role": "concept",
+                "children": [
+                  {
+                    "label": "DAQ words across sources share the same Heartbeat reference",
+                    "kind": "ellipsis",
+                    "role": "annotation"
+                  },
+                  {
+                    "label": "META record / one per HBF",
+                    "kind": "tf",
+                    "children": [
+                      {
+                        "label": "TF Header / 24 B / type = META",
+                        "kind": "tfheader",
+                        "role": "record"
+                      },
+                      {
+                        "label": "SubTimeFrame / type = META",
+                        "kind": "stf",
+                        "children": [
+                          {
+                            "label": "STF Header / 48 B",
+                            "kind": "stfheader",
+                            "role": "record"
+                          },
+                          {
+                            "label": "HeartbeatFrame",
+                            "kind": "hbf",
+                            "children": [
+                              {
+                                "label": "HBF Header / 16 B",
+                                "kind": "hbfheader",
+                                "role": "record"
+                              },
+                              {
+                                "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                                "kind": "data",
+                                "role": "record"
+                              }
+                            ],
+                            "role": "concept"
+                          }
+                        ],
+                        "role": "concept"
+                      },
+                      {
+                        "label": "SubTimeFrame / type = META",
+                        "kind": "stf",
+                        "children": [
+                          {
+                            "label": "STF Header / 48 B",
+                            "kind": "stfheader",
+                            "role": "record"
+                          },
+                          {
+                            "label": "HeartbeatFrame",
+                            "kind": "hbf",
+                            "children": [
+                              {
+                                "label": "HBF Header / 16 B",
+                                "kind": "hbfheader",
+                                "role": "record"
+                              },
+                              {
+                                "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                                "kind": "data",
+                                "role": "record"
+                              }
+                            ],
+                            "role": "concept"
+                          }
+                        ],
+                        "role": "concept"
+                      },
+                      {
+                        "label": "× S sources",
+                        "kind": "ellipsis",
+                        "role": "annotation"
+                      }
+                    ],
+                    "role": "concept"
+                  },
+                  {
+                    "label": "SLICE record / one per kept trigger",
+                    "kind": "tf",
+                    "children": [
+                      {
+                        "label": "TF Header / 24 B / type = SLICE",
+                        "kind": "tfheader",
+                        "role": "record"
+                      },
+                      {
+                        "label": "SubTimeFrame",
+                        "kind": "stf",
+                        "children": [
+                          {
+                            "label": "STF Header / 48 B",
+                            "kind": "stfheader",
+                            "role": "record"
+                          },
+                          {
+                            "label": "HeartbeatFrame",
+                            "kind": "hbf",
+                            "children": [
+                              {
+                                "label": "HBF Header / 16 B",
+                                "kind": "hbfheader",
+                                "role": "record"
+                              },
+                              {
+                                "label": "DAQ words within trigger window / 8 B each",
+                                "kind": "data",
+                                "role": "record"
+                              },
+                              {
+                                "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                                "kind": "data",
+                                "role": "record"
+                              }
+                            ],
+                            "role": "concept"
+                          }
+                        ],
+                        "role": "concept"
+                      },
+                      {
+                        "label": "SubTimeFrame",
+                        "kind": "stf",
+                        "children": [
+                          {
+                            "label": "STF Header / 48 B",
+                            "kind": "stfheader",
+                            "role": "record"
+                          },
+                          {
+                            "label": "HeartbeatFrame",
+                            "kind": "hbf",
+                            "children": [
+                              {
+                                "label": "HBF Header / 16 B",
+                                "kind": "hbfheader",
+                                "role": "record"
+                              },
+                              {
+                                "label": "DAQ words within trigger window / 8 B each",
+                                "kind": "data",
+                                "role": "record"
+                              },
+                              {
+                                "label": "Heartbeat Delimiter (HBD1 + HBD2) / 16 B",
+                                "kind": "data",
+                                "role": "record"
+                              }
+                            ],
+                            "role": "concept"
+                          }
+                        ],
+                        "role": "concept"
+                      },
+                      {
+                        "label": "× S sources",
+                        "kind": "ellipsis",
+                        "role": "annotation"
+                      }
+                    ],
+                    "role": "concept"
+                  },
+                  {
+                    "label": "× k_j kept SLICE records in HBF j",
+                    "kind": "ellipsis",
+                    "role": "annotation"
+                  }
+                ]
+              },
+              {
+                "label": "× H heartbeat groups = H META records",
+                "kind": "ellipsis",
+                "role": "annotation"
+              }
+            ]
+          },
+          {
+            "label": "× number of original input TimeFrames",
+            "kind": "ellipsis",
+            "role": "annotation"
+          },
+          {
+            "label": "FileSink Trailer / 304 B",
+            "kind": "fileheader",
+            "role": "record",
+            "changed": true
+          }
+        ],
+        "role": "concept",
+        "changed": true
+      }
+    ],
+    "callout": "META records per original TimeFrame interval = max-hbf"
+  }
+]

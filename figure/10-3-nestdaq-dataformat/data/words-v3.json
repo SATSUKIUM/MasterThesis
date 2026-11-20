@@ -1,0 +1,125 @@
+[
+  {
+    "id": "hr-v3",
+    "name": "TDC64H_V3 / hit",
+    "fields": [
+      [
+        "type",
+        58,
+        6
+      ],
+      [
+        "ch",
+        51,
+        7
+      ],
+      [
+        "TOT",
+        29,
+        22
+      ],
+      [
+        "TDC",
+        0,
+        29
+      ]
+    ],
+    "note": "UnpackTdc.h: tdc4n = TDC >> 12。femType=5。"
+  },
+  {
+    "id": "lr-v3",
+    "name": "TDC64L_V3 / hit",
+    "fields": [
+      [
+        "type",
+        58,
+        6
+      ],
+      [
+        "ch",
+        50,
+        8
+      ],
+      [
+        "TOT",
+        34,
+        16
+      ],
+      [
+        "TDC",
+        15,
+        19
+      ],
+      [
+        "zero / reserved",
+        0,
+        15
+      ]
+    ],
+    "note": "UnpackTdc.h: tdc4n = TDC >> 2。femType=6。"
+  },
+  {
+    "id": "hbd1",
+    "name": "Heartbeat Delimiter / 1st word",
+    "fields": [
+      [
+        "type=0x1c",
+        58,
+        6
+      ],
+      [
+        "reserved",
+        56,
+        2
+      ],
+      [
+        "flag",
+        40,
+        16
+      ],
+      [
+        "time offset",
+        24,
+        16
+      ],
+      [
+        "HB frame ID",
+        0,
+        24
+      ]
+    ],
+    "note": "AmQStrTdcData.h v1。UnpackTdc.h V3はflag、toffset、hartbeatを抽出する。"
+  },
+  {
+    "id": "hbd2",
+    "name": "Heartbeat Delimiter / 2nd word",
+    "fields": [
+      [
+        "type=0x1e",
+        58,
+        6
+      ],
+      [
+        "reserved",
+        56,
+        2
+      ],
+      [
+        "userReg",
+        40,
+        16
+      ],
+      [
+        "generated size",
+        20,
+        20
+      ],
+      [
+        "transferred size",
+        0,
+        20
+      ]
+    ],
+    "note": "AmQStrTdcData.h v1のフィールド名。V3 unpack側は[55:40]をflagとして読み出す。"
+  }
+]
