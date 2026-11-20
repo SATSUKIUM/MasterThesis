@@ -1,0 +1,59 @@
+#
+# MAP file for MARQ-Testbench in Apr, 2024
+#
+# users side 
+# CATID: category id
+# DETID: detector id (starting from zero)
+# 
+# daq side
+# DEVID: device id
+# FP   : place
+# TYPE : data type
+# GEO  : geographical address
+# CH   : channel (starting from zero)
+#
+# 
+# 
+# Upstream TOF 
+11, 0, 0,0,0, 0x2a9, 8, 0,0,0, 0x2a9, 10
+#
+# Downstream TOF 
+12, 0, 0,0,0, 0x2aa,  0, 0,0,0, 0x2aa,  4
+12, 1, 0,0,0, 0x2aa,  2, 0,0,0, 0x2aa,  7
+12, 2, 0,0,0, 0x2aa,  1, 0,0,0, 0x2aa,  5
+#
+# Large TOF 
+13, 0, 0,0,0, 0x2aa, 16, 0,0,0, 0x2aa, 22
+13, 1, 0,0,0, 0x2aa, 19, 0,0,0, 0x2aa, 25
+13, 2, 0,0,0, 0x2aa, 17, 0,0,0, 0x2aa, 23
+13, 3, 0,0,0, 0x2aa, 20, 0,0,0, 0x2aa, 27
+13, 4, 0,0,0, 0x2aa, 18, 0,0,0, 0x2aa, 24
+13, 5, 0,0,0, 0x2aa, 21, 0,0,0, 0x2aa, 28
+#
+# T0
+15, 0, 0,0,0, 0x2a9, 16, 0,0,0, 0x2a9, 24
+15, 1, 0,0,0, 0x2a9, 20, 0,0,0, 0x2a9, 28
+15, 2, 0,0,0, 0x2a9, 17, 0,0,0, 0x2a9, 25
+15, 3, 0,0,0, 0x2a9, 21, 0,0,0, 0x2a9, 29
+15, 4, 0,0,0, 0x2a9, 18, 0,0,0, 0x2a9, 26
+15, 5, 0,0,0, 0x2a9, 22, 0,0,0, 0x2a9, 30
+15, 6, 0,0,0, 0x2a9, 19, 0,0,0, 0x2a9, 27
+15, 7, 0,0,0, 0x2a9, 23, 0,0,0, 0x2a9, 31
+#
+# TORef
+16, 0, 0,0,0, 0x2a9,  0, 0,0,0, 0x2a9,  4
+#
+# T1
+18, 0, 0,0,0, 0x2aa, 10, 0,0,0, 0x2aa, 12
+#
+# all charged
+19, 0, 0,0,0, 0x2a0, 10, 0,0,0, 0x2a0, 12
+#
+# BFT Ref
+#
+20, 0, 0,0,0, 0x2a9, 12, 0,0,0, 0x2a9, 14
+#
+# BHT
+#
+21, 0, 0,0,0, 0x2aa, 14, 0,0,0, 0x2aa, 16
+#

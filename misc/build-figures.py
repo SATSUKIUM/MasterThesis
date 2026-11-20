@@ -9,6 +9,7 @@ cases += ['10-appendix/merged-run000400-'+k for k in ['tof','multiplicity','trac
 cases += ['05-hlf/flat-or-run000668-'+k for k in ['tof','multiplicity','track','input-rate']]
 cases += ['10-appendix/flat-or-run000400-'+k for k in ['tof','multiplicity','track','input-rate']]
 cases += ['05-hlf/trigger-logic-run000668','10-appendix/trigger-logic-run000400']
+cases += ['05-hlf/ltof-readout-diagnosis']
 p=argparse.ArgumentParser(description='ROOT batch: figure PDFs only; no thesis build')
 p.add_argument('--include-pending-tof',action='store_true');a=p.parse_args()
 if a.include_pending_tof:cases.append('05-hlf/tof-selection')
