@@ -69,9 +69,9 @@ def table(n):
  widths={2:[.24,.66],3:[.30,.12,.48],4:[.10,.10,.29,.39],5:[.22,.06,.22,.17,.20]}[cols]
  # Header offset tables need space for 64-bit types and explanations.
  title=headings[-1] if headings else 'データ構造'
- out='\n'+r'{\footnotesize\setlength{\tabcolsep}{3pt}\begin{longtable}{'+''.join('p{'+str(w)+r'\linewidth}' for w in widths)+'}\n'+r'\caption{'+esc(re.sub(r'^\d+(?:\.\d+)*\s*','',title))+r'。}\label{tab:format-html-'+str(table_count)+r'}\\'+'\n'+r'\hline'+'\n'
+ out='\n'+r'\FloatBarrier'+'\n'+r'{\footnotesize\setlength{\tabcolsep}{3pt}\begin{longtable}{'+''.join('p{'+str(w)+r'\linewidth}' for w in widths)+'}\n'+r'\caption{'+esc(re.sub(r'^\d+(?:\.\d+)*\s*','',title))+r'。}\label{tab:format-html-'+str(table_count)+r'}\\'+'\n'+r'\hline'+'\n'
  out+=' & '.join(inline(c) for c in cells[0])+r' \\ \hline\endfirsthead'+'\n'+r'\hline '+' & '.join(inline(c) for c in cells[0])+r' \\ \hline\endhead'+'\n'
- for row in cells[1:]:out+=' & '.join(inline(c) for c in row)+r' \\'+'\n'
+ for row in cells[1:]:out+=' & '.join('{'+inline(c)+'}' for c in row)+r' \\'+'\n'
  return out+r'\hline\end{longtable}}'+'\n'
 
 def block(n):
@@ -83,7 +83,7 @@ def block(n):
   title=re.sub(r'^\d+(?:\.\d+)*[.]?\s*','',n.text()).strip();headings.append(title)
   cmd={'h2':'subsection','h3':'subsubsection','h4':'paragraph'}[t]
   ident=n.a.get('id','')
-  return ('\n\\FloatBarrier\n' if t=='h2' else '\n')+'\\'+cmd+'{'+esc(title)+'}\n'+('\\label{sec:format-html-'+ident+'}\n' if ident else '')
+  return ('\n\\FloatBarrier\n' if t=='h2' else ('\n\\clearpage\n' if t=='h3' and '::' in title else '\n'))+'\\'+cmd+'{'+esc(title)+'}\n'+('\\label{sec:format-html-'+ident+'}\n' if ident else '')
  if t=='p':
   if 'フォントライセンス' in n.text():return ''
   # Production links are handled in the source ledger/README rather than main prose.
