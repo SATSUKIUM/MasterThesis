@@ -1,0 +1,31 @@
+{
+  "article": "publish/site/index.html",
+  "source_project": "/Users/kashima/Library/CloudStorage/GoogleDrive-kashima@rcnp.osaka-u.ac.jp/マイドライブ/nestdaq-dataformat",
+  "generator": "docs/format-study/build_format.py",
+  "source_commit": "3dd6b69f9b3c37eaa6b97f11c11d0b659c5ab064",
+  "original_files": {
+    "publish/site/index.html": "0e3230c1e30871e7615bb4881427efde6b7789fbe63cf260b4cbe7cc6df9b398",
+    "docs/format-study/build_format.py": "39c3ebfedf613ed790d2a30db4351618560a1279f49c695c11bb97a0c2a224d8",
+    "publish/site/figures/07-filter-output.svg": "d03b48186ba940cdd0aa17208ddd35004f021981595886881f104a7eb043fd92",
+    "publish/site/figures/01-fee.svg": "154a6ca0e9da3020f848f2045a6addffeeccb6bb926eb6cfb879846f3b4addcc",
+    "publish/site/figures/04-timeframebuilder.svg": "5c898596adf75275e75f25ef7580ed1827bca1729d68caa32b7a0124520b599a",
+    "publish/site/figures/hbd1-bits.svg": "267059e8f60e5087f27b4fe2493cf1102a88ff18d64ecc1e97ae40f954a0c759",
+    "publish/site/figures/03-stfbuilder.svg": "416b367d56d19c1743e7d1d057fb5888b5b570933614473126e3fbd88e093251",
+    "publish/site/figures/lr-v3-bits.svg": "86e414bafd49e8bec7fb2500e4245630ac3cffa9ffbb4c661bc2bd2520e526f5",
+    "publish/site/figures/02-sampler.svg": "13a4f5bb1db6d84dcdb5183690ee0c5213eecf0a95e048e4447157da29271632",
+    "publish/site/figures/tf-bytes.svg": "99dadb1e3ae66c1bd1720698416a2e951b1e81e37dcf1a970d3ab14da08a6803",
+    "publish/site/figures/file-trailer-bytes.svg": "ec8588fe506cbc42da9a45a60cc85b96b91cd2a2326bcb1037f6ab526a79dcf4",
+    "publish/site/figures/filter-bytes.svg": "307a249e3b9911df52124b912d738faa6db9e1ee4ded803b37b08673bd599c4a",
+    "publish/site/figures/file-header-bytes.svg": "f0b406f152d5e7337135fa3981b3335715583c24a35da03e68a6e4f0d7699377",
+    "publish/site/figures/hbf-bytes.svg": "139574bccd88bc8e9f065861969ab6cd37030558fc83514f8a71092a4105679c",
+    "publish/site/figures/07-filter-input.svg": "3786bbc40e1ff5080fb00ced2124c41956a8f4725d1ebe0fdde7951fb29dd737",
+    "publish/site/figures/hbd2-bits.svg": "fbc50de1060dea77e149c6900f0d23609fdb592a4d9b1a77c22fb3cb36ead276",
+    "publish/site/figures/05-logicfilter.svg": "827412f5fdd8f7f52ecc5b76fa0824e82b59aa450d900679a72d046dcc25eba7",
+    "publish/site/figures/06-slicer.svg": "ddc9e135ccded40924fded2d54fc30409f7e12c13bb8b3aaecfcb8653c41b4ce",
+    "publish/site/figures/trigger-bytes.svg": "506ff091adb6125dd81593f364ed2c71d1a9bba106bc5d346523e1d339d87467",
+    "publish/site/figures/trgtime-bytes.svg": "ed64020a5bd20574e2b87bb3d5ef3e89c1adaf9bec989604fc11882e878162b2",
+    "publish/site/figures/08-filesink.svg": "e919e23bc6da8f0276d8a78c150a87b4b8cc184ba74cbdc5a257ed3b836934ca",
+    "publish/site/figures/hr-v3-bits.svg": "c329616ad1595cba81f5d6cd0150e37c5033f1341b9579ac9b1e0ad088f39aea",
+    "publish/site/figures/stf-bytes.svg": "17dc9ee3cd843dcb75f67224464dbfc9c7a838d5a5648a6d9595c7a0e8fe1a1a"
+  }
+}

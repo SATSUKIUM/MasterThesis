@@ -1,0 +1,100 @@
+{
+  "svg_font_family": "\"NestDAQ Noto Serif\", \"Noto Serif\", serif",
+  "html_font_family": "\"NestDAQ Roboto\", Roboto, \"Hiragino Sans\", sans-serif",
+  "embedded_font": {
+    "family": "NestDAQ Roboto",
+    "path": "fonts/Roboto-Variable.ttf",
+    "format": "truetype",
+    "mime": "font/ttf",
+    "weight": "100 900"
+  },
+  "concept_font_size": 28,
+  "depth_font_step": 3,
+  "min_font_size": 13,
+  "svg_font_weight": 400,
+  "svg_font_stretch": "100%",
+  "svg_font_variation_settings": "normal",
+  "colors": {
+    "heartbeat": "#82b56b",
+    "file": "#e9e7e2",
+    "fileheader": "#cdc9bf"
+  },
+  "font_choices": [
+    {
+      "id": "roboto",
+      "label": "Roboto",
+      "family": "NestDAQ Roboto",
+      "license": "fonts/OFL.txt",
+      "faces": [
+        {
+          "path": "fonts/Roboto-Variable.ttf",
+          "style": "normal",
+          "weight": "100 900"
+        },
+        {
+          "path": "fonts/Roboto-Italic-Variable.ttf",
+          "style": "italic",
+          "weight": "100 900"
+        }
+      ]
+    },
+    {
+      "id": "lato",
+      "label": "Lato",
+      "family": "NestDAQ Lato",
+      "license": "fonts/lato-OFL.txt",
+      "faces": [
+        {
+          "path": "fonts/Lato-Regular.ttf",
+          "style": "normal",
+          "weight": "400"
+        },
+        {
+          "path": "fonts/Lato-Bold.ttf",
+          "style": "normal",
+          "weight": "700"
+        },
+        {
+          "path": "fonts/Lato-Italic.ttf",
+          "style": "italic",
+          "weight": "400"
+        },
+        {
+          "path": "fonts/Lato-BoldItalic.ttf",
+          "style": "italic",
+          "weight": "700"
+        }
+      ]
+    },
+    {
+      "id": "noto-serif",
+      "label": "Noto Serif",
+      "family": "NestDAQ Noto Serif",
+      "license": "fonts/noto-serif-OFL.txt",
+      "faces": [
+        {
+          "path": "fonts/NotoSerif-Regular.ttf",
+          "style": "normal",
+          "weight": "400"
+        },
+        {
+          "path": "fonts/NotoSerif-Bold.ttf",
+          "style": "normal",
+          "weight": "700"
+        },
+        {
+          "path": "fonts/NotoSerif-Italic.ttf",
+          "style": "italic",
+          "weight": "400"
+        },
+        {
+          "path": "fonts/NotoSerif-BoldItalic.ttf",
+          "style": "italic",
+          "weight": "700"
+        }
+      ]
+    }
+  ],
+  "default_font_id": "noto-serif",
+  "show_font_selector": false
+}

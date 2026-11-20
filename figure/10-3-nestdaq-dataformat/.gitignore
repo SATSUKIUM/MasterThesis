@@ -1,0 +1,2 @@
+# Editable SVGs embed the same font data repeatedly and are regenerated from tracked fonts/schema.
+/editable-svg/

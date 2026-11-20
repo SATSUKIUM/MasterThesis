@@ -1,0 +1,50 @@
+<h2 id="sizes">4. サイズと個数の関係</h2>
+<p>以下はV3のHBDが2 wordで、通常のデータソースだけが存在し、ソースごとにH個のHBFが揃う代表例。D<sub>s,j</sub>をDAQ word数、n<sub>j</sub>をHBF jのtrigger数とする。制御word、既存METAソース、追加情報がある場合はその分を数える。</p>
+<table><tr><th>対象</th><th>非圧縮の実byte数</th><th>意味</th></tr>
+<tr><td>FEEのheartbeat区間</td><td>8D<sub>s,j</sub> + 16</td><td>DAQ words + HBD1/HBD2</td></tr>
+<tr><td>HBF</td><td>16 + 8D<sub>s,j</sub> + 16</td><td>HBF Headerを追加</td></tr>
+<tr><td>STF</td><td>48 + Σ<sub>j</sub> HBF<sub>s,j</sub></td><td>単一ソースのHBF列</td></tr>
+<tr><td>TFBuilder出力TF</td><td>24 + Σ<sub>s</sub> STF<sub>s</sub></td><td>複数ソースを集約</td></tr>
+<tr><td>LogicFilter追加部分</td><td>56 + Σ<sub>j</sub>(16 + 8n<sub>j</sub>)</td><td>suppressionなしの場合の増分。実装のFilter.length値とは差がある</td></tr>
+<tr><td>SlicerのMETA TF<sub>j</sub></td><td>24 + 56 + 16 + 8n<sub>j</sub> + 80S</td><td>80＝STF Header 48 + HBF Header 16 + HBD 16</td></tr>
+<tr><td>SlicerのSLICE TF</td><td>24 + 80S + 8Σ<sub>s</sub>D<sup>window</sup><sub>s</sub></td><td>窓内hitとHBDを残す</td></tr>
+<tr><td>後段FilterのMETA TF</td><td>24 + 80S</td><td>Filter/Trigger情報を除去</td></tr>
+<tr><td>FileSink出力</td><td>304 + Σ(保存するTFの実長) + 304</td><td>非圧縮・通常終了時の論理構成</td></tr></table>
+<p>Slicerは不要な時間領域を除く一方、TF/STF/HBFのHeaderを複製し、重なる窓のhitも複製し得る。そのため、切り出し後の総データ量が必ず小さくなるとは限らない。trigger密度・窓幅・ソース数によって決まる。</p>
+<h2 id="implementation">5. 実装を読む際の注記</h2>
+<p>構造の意図と、今のソースが書くフィールド値を分けて整理する。以下はソース上の観察であり、実データでの発現確認や修正は今回行っていない。</p>
+<table><tr><th>項目</th><th>コードで確認したこと</th><th>資料・解析への影響</th></tr>
+<tr><td>Filter.length</td><td>AddFilterMessageはlength計算でtriggerをsizeof(uint32_t)＝4 Bとして数える。一方、出力とTrgTimeHeader.lengthは8 B/trigger。{{LogicFilter/LogicFilter.cxx|flt_datasize +=|該当箇所}}</td><td>非suppression時のFilter.length初期値は実長より4Σn<sub>j</sub> B短くなる。TF全長は出力partサイズから再計算。SlicerのMETA生成ではFilter.lengthも再計算される。</td></tr>
+<tr><td>numMessages</td><td>STFBuilderはSTF Headerを除くpart数。LogicFilterのFilter Headerは自分を含むpart数。SlicerのSLICE STFは2に設定。META生成ではコピー元の値が残る。{{STFBuilder.cxx|stfHeader->numMessages|STFBuilder}} / {{TimeFrameSlicerByLogicTiming.cxx|stfh->numMessages = 2|Slicer}}</td><td>一律に「HBF数」と訳さず、生成したデバイスごとの意味を併記する。特にシリアライズ後のレコード数とは区別する。</td></tr>
+<tr><td>timeUSec</td><td>STFBuilderはgettimeofdayのtv_usec、LogicFilterはepochからの総µs。{{STFBuilder.cxx|stfHeader->timeUSec|STF}} / {{LogicFilter/LogicFilter.cxx|std::chrono::microseconds>(d)|Filter}}</td><td>同名でも意味が違う。Filterの時刻をtimeSec + timeUSec/10⁶として加算すると二重計上になる。</td></tr>
+<tr><td>Header内type</td><td>TFにframework状態フラグがある一方、Slicerと共通FilterはMETAと直接等値比較し、SlicerはMETA/SLICEで上書きする。</td><td>資料のMETA/SLICE図は通常のtype値を対象にする。上位状態bitを含む入力の伝播は別途確認する。</td></tr>
+<tr><td>SLICEのHBF length更新</td><td>Slicerのhbfhidx位置をSubTimeFrame::Header*へcastしてlengthを書いている。{{TimeFrameSlicerByLogicTiming.cxx|auto hbfh = (SubTimeFrame::Header*)|該当箇所}}</td><td>現在は両Headerのlengthがoffset 8なので同じ場所を更新する。HBFの構造がSTFと同じという意味ではない。</td></tr>
+<tr><td>再出力時のlength</td><td>共通Filterが明示的に再計算するのはTF.length。STF/HBF Headerはコピーする。{{FilterTimeFrameSliceABC.icxx|tf.GetHeader()->length =|TF全長更新}}</td><td>派生ProcessSliceでHBFデータ数等を変更する場合は、下位Headerのlength更新責任も確認する。</td></tr>
+<tr><td>FileSink Header/Trailer</td><td>time_tを含む。HeaderとTrailerは同じフィールド構成だが値は異なる。</td><td>304 Bはこの環境では検証済み。ファイルの移植性を考えると固定幅のwire型とABI依存の宣言を区別する。</td></tr>
+</table>
+<h2 id="rebuild">6. 図・本文の編集と再生成</h2>
+<p>原本は次のテキストファイル。生成SVGは独立したベクター図として利用できる。色はKeynoteの配色に合わせ、各段階の箱・Header・payloadは図形と文字で作っている。</p>
+<h3>Noto Serifの採用とフォント設定</h3><p>図だけを<b>Noto Serif</b>に固定。本文はRobotoとHiragino Sans系の設定を維持。通常体・太字・斜体を埋め込み、単独SVGもNoto Serifで生成する。日本語本文は日本語フォントへフォールバックする。</p><p>比較用のRoboto / Lato / Noto Serifと選択UIの実装は残してある。<a href="schema/appearance.json">appearance.json</a> の <code>show_font_selector</code> を <code>true</code> にして再生成すると選択欄を再表示できる。既定フォントは <code>default_font_id: "noto-serif"</code>。現在のHTMLには選択UIと切替スクリプトを出力していないが、3書体の埋め込みは保持している。</p><p>SVGの変数は <code>&lt;tspan font-style="italic"&gt;</code> で斜体にできる。この資料では<i>H</i>、<i>S</i>、<i>j</i>、<i>n<sub>j</sub></i>、<i>k<sub>j</sub></i>だけを斜体にし、添字は小さく下げる。<code>max-hbf</code>など実際の設定キーやHeader名は立体のままにする。埋め込んだ実際の斜体フォントを使用する。</p>
+<p>3書体のフォントデータを<b>HTML内の@font-faceに埋め込み</b>、図もinline SVGとして配置した。HTMLは本文と全図の表示に必要なフォント・図形を含み、ネット接続なしで閲覧できる。単独配布用の各SVGにも@font-faceのdata URLでNoto Serifの通常体・太字・斜体とライセンスを埋め込んでいる。文字はテキストのままなので後から編集できる。</p>
+<p>フォント原本は<a href="fonts/Roboto-Variable.ttf">Roboto-Variable.ttf</a>。このMacにあるRoboto 3.015を変更せずコピーした。<a href="fonts/OFL.txt">SIL Open Font License 1.1</a>を同梱。Robotoは日本語グリフを持たないので、日本語本文はHiragino Sansなどへフォールバックする。Robotoは比較候補として保持する。採用中の図はNoto Serifで表示する。埋め込みフォント名は専用の <code>NestDAQ Roboto</code> として登録し、OS側の同名フォントとの混同を避ける。図はRegular（weight=400）、標準幅（wdth=100）を明示している。</p>
+<p><a href="schema/appearance.json">appearance.json</a>の<code>font_choices</code>が選択肢と各書体の通常体・太字・斜体ファイル、<code>svg_font_family</code> / <code>html_font_family</code>が表示に使うフォントを指定する。別フォントに変える場合は両方を対応させて再生成する。<code>concept_font_size=28</code>、<code>depth_font_step=3</code>、<code>min_font_size=13</code>で、概念の外枠から深さごとに文字を小さくする。実レコードの文字はその階層の概念名より2小さくし、下限を設ける。</p>
+<p>Google Slides上の表示との見た目の差は、使用版・weight・文字サイズ・表示倍率・描画環境も照合が必要。この資料は同梱のRoboto 3.015のRegularを使い、Google Slidesが実際に選択したフォント版や太さとの一致までは確認していない。<a href="font-comparison.html">フォント比較見本</a>では同じ文字列をRegular/Medium/BoldとHelveticaで比較できる。</p><p>ブラウザのWebフォント表示は<a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorials/SVG_from_scratch/Using_fonts">SVGの@font-face</a>に基づく。外部エディタやSVG→PDF変換器によっては埋め込みWebフォントを読まない場合があるので、その場合は同梱TTFを使う環境で変換する。フォント変更後は文字幅が変わるため収まりを確認する。</p>
+<table><tr><th>編集対象</th><th>原本</th></tr><tr><td>SVGと本文のフォント</td><td><a href="schema/appearance.json">schema/appearance.json</a></td></tr><tr><td>入れ子の構成・ラベル・繰り返し表現</td><td><a href="schema/pipeline.json">schema/pipeline.json</a></td></tr><tr><td>ヘッダの型・offset・magic・注記</td><td><a href="schema/headers-v1.json">schema/headers-v1.json</a></td></tr><tr><td>DAQ word/HBDのbit配置</td><td><a href="schema/words-v3.json">schema/words-v3.json</a></td></tr><tr><td>デバイス別説明文</td><td><a href="pipeline-notes.html">pipeline-notes.html</a></td></tr><tr><td>サイズ式・実装注記・ログ</td><td><a href="format-notes.html">format-notes.html</a></td></tr><tr><td>描画・HTML生成</td><td><a href="build_format.py">build_format.py</a></td></tr></table>
+<pre>python3 docs/format-study/build_format.py
+# C++の宣言とsizeof/offsetofも照合する場合
+python3 docs/format-study/build_format.py --verify-cpp</pre>
+<p>生成だけならPython標準ライブラリで動く。検証にはclang++を使う。図の文字サイズ・色・余白はbuild_format.py側で変更する。生成SVGを直接微調整すると再生成で上書きされるため、手で編集する版は別名にする。修論にはSVGをPDFへ変換して取り込む構成を想定するが、今回PDF出力までは実装していない。</p>
+<p><a href="index.html">最初の構成検討メモ</a>も残してある。今回のフォーマット本文はdataformat.htmlを参照する。</p>
+<h2 id="log">7. 作業ログと確認範囲</h2>
+<ul><li>2026-10-23：追加されたfigures.keyの存在・アーカイブ構成を確認。図の見た目は数字.png 1〜8の全枚を目視し、段階の並びはユーザー指定に従った。Keynote本体の全スライドを直接展開しての照合はしていない。</li>
+<li>Sampler、STFBuilder、TimeFrameBuilder、LogicFilter、Slicer、共通Filter、BySomething、FrameContainer、FileSinkと各Header、V3 unpackの関連処理を読んだ。参照ソースは<a href="sources.html">行番号付きの全文スナップショット</a>、ファイルのSHA-256は<a href="source-manifest.json">manifest</a>に保存。</li>
+<li>構造図8枚とフィルタ比較図2枚、ヘッダ配置図8枚、bit配置図4枚をJSONから生成。ヘッダoffsetの連続性・合計サイズ、bit範囲の重複なし・64 bit全域被覆を生成時に検査する。</li>
+<li>clang++で実ヘッダのsizeof/offsetofを照合した結果は<a href="layout-verification.json">layout-verification.json</a>、検査ソースは<a href="verify_layout.cpp">verify_layout.cpp</a>。FairMQデバイス全体のビルドやDAQ実行、実データとの照合は未実施。</li>
+<li>HTMLをSafariで表示確認。生成SVGをrsvg-convertでPNG化し、入れ子図と代表的なbyte/bit図の枠・文字配置を目視確認。InkscapeのCLIはこの環境で起動できなかったため、PNG化にはrsvg-convertを使用。</li>
+<li>図の表記を更新：概念の枠は左揃え、実レコードは中央揃え。DAQ wordsと末尾HBDを分離し、繰り返し表記を「× number of …」へ統一。フォント設定をappearance.jsonに分離。</li>
+<li>Roboto 3.015をHTMLと単独SVGへ埋め込み、本文の図をinline SVGに変更。max-hbfとMETA生成数の対応、max-hbf=3の例を追記。Slicer以後のMETA/SLICEをTimeFrameの共通外枠で囲み、深い階層ほど小さい文字サイズに変更。</li>
+<li>heartbeat groupを同じ同期Heartbeatを基準とする複数ソースのDAQ word群として明記。背景をTF Headerより少し濃い緑、FileSinkを低彩度のウォームグレーに変更。Robotoの専用フォント名・weight=400・wdth=100を指定し、比較見本を追加。</li>
+<li>前段との差分を太字で強調。FEEは複数hitと0 hitを個別word・半透明破線で図示。high level filterは入力と選別例を左右に並べ、除去されるSLICEおよびMETAのFilter/Trigger情報を半透明で比較。BySomethingのProcessSlice()=return trueとは明確に区別。</li>
+<li>FEEのheartbeat interval枠を除き、0個以上のwordを持つ区間の説明をキャプションへ移動。SVG変数に斜体・添字を適用。Roboto/Lato/Noto Serifの埋め込み切替UIをページ上部へ追加し、Safariで3書体の読込み・切替・Robotoへのリセットを確認。</li>
+<li>図をNoto Serifに固定し、本文のフォントは従来どおり維持。単独SVGもNoto Serifで再生成。3書体の埋め込みは維持し、比較UIはshow_font_selector=falseで非表示。コードは再利用できるよう残した。</li>
+<li>元ソースとKeynote/PowerPoint/PNGは変更していない。FEE周期・firmware固有の時刻スケール、圧縮・分割ファイルの物理構造、旧版仕様は今後の照合対象。</li></ul>

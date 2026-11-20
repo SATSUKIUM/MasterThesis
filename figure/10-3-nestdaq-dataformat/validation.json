@@ -1,0 +1,12 @@
+{
+  "article_paragraphs": 58,
+  "article_tables": 16,
+  "included_original_svg": 21,
+  "generated_pdf": 21,
+  "original_html_script_svg_hashes": "passed",
+  "unchanged_original_generator_rebuild": "passed",
+  "struct_layout_checks": 64,
+  "rebuilt_svg_drawing_identical": 21,
+  "thesis_build": false,
+  "pdf_visual_review": false
+}

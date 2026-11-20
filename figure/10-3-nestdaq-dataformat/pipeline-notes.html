@@ -1,0 +1,30 @@
+<p>図のDAQ wordを1 wordずつ描き、複数ヒットの区間と0ヒットの区間を並べた。半透明・破線のDAQ wordは任意／不在を示す説明用の印であり、その位置に空のwordが記録される意味ではない。0ヒットでもHBD1/HBD2は区間の末尾に現れる。</p>
+<p>FEE（Front-End Electronics）がヒットのTDC・TOT・CH番号などをDAQ wordとして出力し、heartbeat区間の末尾にHBD1/HBD2を挿入する。図では通常のhitとHBDを示す。実際にはthrottlingやspillなどの制御wordもあり、任意の64 bit wordをhitとして読むことはできない。</p>
+<p>元のメモにある周期は524.288 µs。HBDの周期はハードウェア・firmware側の仕様として扱い、今回のソフトウェアコードだけから周期設定を確定してはいない。時刻を説明する際は「HBDに対応するheartbeat区間内の相対時刻」と、STFのUNIX時刻を分ける。</p>
+<!-- STAGE -->
+<p>実機用の <code>AmQStrTdcSampler</code> は、受信バッファをそのままサイズ付きのFairMQ messageに載せて送る（{{AmQStrTdcSampler.cxx|kOutBufByte*n_word|受信データの送信処理}}）。受信chunkの境界はHBD境界と一致するとは限らない。後段のSTFBuilderは残りのwordを保持して次の受信と結合する。</p>
+<p>初期化時には別途24 byteのFEMInfoを送れる（{{AmQStrTdcSampler.cxx|void AmQStrTdcSampler::SendFEMInfo|SendFEMInfo}}）。magicは <code>0x4f464e492d4d4546</code>、LE文字列は <code>"FEM-INFO"</code>。送信処理ではoffset 8にFEMType、12にFEMIdを配置し、16〜23はreserved。C++構造体宣言のFEMId/FEMTypeの順序とは違うため、受信wire配置は送信処理で確認する。</p>
+<p class="note">参考の2.pngはHBF Header付きの姿を示す。今回の実装ではそのHeaderを付けるのはSTFBuilderなので、この段階の図はコードに合わせて受信word列とした。HBFという論理区間と、HBF Headerを付けた出力オブジェクトを区別する。</p>
+<!-- STAGE -->
+<p>HBDを認識し、受信chunkをまたぐデータも集めて、HBF Header 16 byteを追加する（{{STFBuilder.cxx|AmQStrTdcSTFBuilder::FillData|FillData}}）。末尾のHBDもpayloadとして残る。HBFの <code>length</code> はHeaderとpayloadの合計。</p>
+<p><code>max-hbf</code>で指定したHBF数に達するとSTF Header 48 byteを先頭に置く。ソースのFEM種別・ID、timeFrameId、タイムスタンプを設定する（{{STFBuilder.cxx|void AmQStrTdcSTFBuilder::FinalizeSTF|FinalizeSTF}}）。STFの <code>length</code> はHeaderを含む全メッセージ長の合計、<code>numMessages</code> はSTF Headerを除くpayloadメッセージ数。この経路では各payloadがHBFなので、ここではHBF数に対応する。</p>
+<p>FairMQ multipartの概形は <code>[STF Header] [HBF 0] [HBF 1] …</code>。HBF HeaderとDAQ word/HBDは同じpartに格納される。</p>
+<!-- STAGE -->
+<p>各FEMからのSTFをtimeFrameIdで対応付け、必要なソースが揃ったTFを構築する。単に異なる時刻のSTFを足し合わせるのではなく、同じIDに属するソースの集合をまとめる。ソース数Sは通常の構成では読み出しFEM数に対応するが、実際には設定と参加ソースの集合で決まる。</p>
+<p>出力は <code>[TF Header] [source 0のSTF Header] [そのHBF列] [source 1のSTF Header] [そのHBF列] …</code>。Headerは24 byteで、numSource、timeFrameId、全長を設定する（{{TimeFrameBuilder.cxx|auto h = std::make_unique<TimeFrame::Header>|TFの生成処理}}）。既存STFのメッセージを出力multipartへ移すため、DAQ wordのbit配置はここでは変わらない。</p>
+<!-- STAGE -->
+<p>各HBF内のヒットをソース間で照合し、設定した論理条件の成立時刻を求める。TF Headerの直後に、<b>単一のFilter Header</b>と、HBFごとの <code>[Trigger Time Header][TrgTime列]</code> を追加する。その後にSTF列が続く（{{LogicFilter/LogicFilter.cxx|//Copy TimeFrameHeader|出力の組み立て}}、{{LogicFilter/LogicFilter.cxx|fltHeader->numMessages =|Filter情報の生成}}）。参考5.pngにはFilter Headerが複数描かれているが、この実装経路では1個。</p>
+<p>Trigger Time Headerは16 byte、TrgTimeは1個8 byte。<code>numTrigs = Σ n_j</code>、<code>Filter::numMessages = 1 + H</code>。各HBFのtriggerが0個でも、そのHBFに対応するTrigger Time Headerを持ち得る。TrgTimeは <code>uint32_t time</code> と <code>uint32_t type</code> の組で、LogicFilterはtypeに <code>0xaa000000</code> を書く。</p>
+<p>data suppressionを有効にした経路では、送らないHBFのDAQ wordを落とし、Headerと末尾HBD2 wordを持つblank HBFに置き換える場合がある（{{LogicFilter/LogicFilter.cxx|struct BlankHBF|BlankHBF}}）。図はtrigger情報の追加が見える代表構造。DAQ wordが常に全量保存されるとは限らない。</p>
+<!-- STAGE -->
+<p>入力TFのHBF番号jに注目し、<code>[META TF_j] [SLICE TF_j,0] … [SLICE TF_j,n_j−1]</code> を作る。これを各HBFについて繰り返す。入力1 TFから、基本形では <b>H個のMETA TFとΣn_j個のSLICE TF</b> が生まれる（{{TimeFrameSlicerByLogicTiming.cxx|while (fIdxHBF < fNumHBF)|HBFごとの反復}}）。実装のfNumHBFは最後にパースしたSTFのHBF数から決まる。欠損・不揃い入力は別途確認が必要。</p>
+<p><b>META：</b>TF HeaderのtypeをMETAにし、Filter Header・HBF jのTrigger Time HeaderとTrgTime列、各ソースのSTF Header・HBF Header・HBDを入れる。通常のデータSTFではDAQ wordをコピーせず、末尾のHBD2 wordだけを残す。入力STFが既にMETAの場合はそのHBFデータ全体をコピーする例外がある（{{TimeFrameSlicerByLogicTiming.cxx|// make summary block (meta)|METAの作成}}）。</p>
+<p><b>SLICE：</b>triggerごとにTF HeaderのtypeをSLICEにし、各データソースから <code>trig + offsetBegin ≤ tdc4n ≤ trig + offsetEnd</code> のDAQ wordを取り出す。HBFの末尾HBD2 wordもコピーする。META型の入力STFはSLICEには含めない。Trigger情報そのものはSLICE内には入らず、直前のMETA側に置かれる（{{TimeFrameSlicerByLogicTiming.cxx|for (uint32_t iTrig|triggerごとのSLICE作成}}）。</p>
+<p>各HBFの <code>META + SLICE列</code> は1個の連続バッファ／FairMQ partにシリアライズされる。図では元の入力区間をTimeFrameの共通外枠で囲む。その中のMETA/SLICEは順に並ぶ独立レコードであり、外枠の分だけ追加Headerが付くわけではない。窓が重なるtriggerについては読み出し位置を戻すため、同じhitが複数SLICEに含まれることもある。</p>
+<!-- STAGE -->
+<p>ここでの実ファイル名は <code>FilterTimeFrameSliceBySomething</code>。共通の <code>FilterTimeFrameSliceABC::ParseMessages</code> が、連続バッファからTF/STF/HBFを <code>FrameContainer.h</code> のコンテナへパースする。Filter Headerは読み飛ばし、Trigger Timeブロックはlengthぶん進めるため、再出力用のコンテナには含めない（{{FilterTimeFrameSliceABC.icxx|bool FilterTimeFrameSliceABC::ParseMessages|ParseMessages}}）。</p>
+<p>共通処理はMETAを無条件に保持し、その他のTFは <code>ProcessSlice(tf)</code> の結果で保持する。採用されたTFを <code>CopyAllTo</code> で再出力するため、METAのFilter/Trigger情報はこの段階で除かれる。TFのlengthは再計算される（{{FilterTimeFrameSliceABC.icxx|bool doKeep = false;|選別と再出力}}、{{FrameContainer.h|class ContainerFrame|コンテナのシリアライズ}}）。</p>
+<p class="note">BySomethingはhigh level filterのスケルトンであり、現在の有効なProcessSlice()は <code>return true;</code> なので、SLICEはすべて残る（{{FilterTimeFrameSliceBySomething.cxx|return true;|雛形の実装}}）。7.pngの「SLICEを落とす」表現は、具体的な選別処理を実装した場合の動作。TOT・TOF・Multiplicity等の派生フィルタで選別条件を与える。左右の比較図はこの選別動作の例であり、現在のスケルトンがSLICEを落とすことを示すものではない。ただしMETAのFilter/Trigger情報を除く共通処理は、ProcessSlice()のreturn trueとは独立して行われる。</p>
+<!-- STAGE -->
+<p>非圧縮の論理byte列は <code>[FileSink Header] [META TF] [採用SLICE TF列] [次のMETA TF] … [FileSink Trailer]</code>。入力の順序を保つ。multipartのpart境界を示す別のレコードはこの書き込み経路では付けず、連結して書く（{{FileSink.cxx|bool FileSink::WriteMultipartData|WriteMultipartData}}）。読出しは各ヘッダのmagicとlengthなどで構造をたどる。</p>
+<p>FileSink Header/Trailerはtime_t=8 byteの環境で各304 byte。同じフィールド配置だがmagicが違い、HeaderのstopUnixtimeは0、Trailerには終了時刻が入る（{{FileSink.cxx|fFileSinkHeader.stopUnixtime|Headerの設定}}、{{FileSink.cxx|fFileSinkTrailer.stopUnixtime|Trailerの設定}}）。圧縮やファイル分割を有効にした場合は、保存ファイルの物理構造をその設定と併せて読む。</p>

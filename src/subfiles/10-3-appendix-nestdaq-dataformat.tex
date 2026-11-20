@@ -1,75 +1,8 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
-\section{NestDAQデータフォーマット}
+\section{NestDAQデータフォーマットとデバイス間の構造変化}
 \label{sec:nestdaq-dataformat}
-本付録では、本論文で扱う連続読み出しデータの単位と、オンラインフィルターによるデータ構造の変化をまとめる。対象は\texttt{nestdaq-user-impl}のV1ソフトウェアヘッダとV3 TDCワードである。定義と処理を確認した参照実装はコミット\texttt{3dd6b69f9b3c37eaa6b97f11c11d0b659c5ab064}であり、NestDAQの全世代に共通する形式を意味しない\footnote{\url{https://github.com/SATSUKIUM/nestdaq-user-impl/tree/3dd6b69f9b3c37eaa6b97f11c11d0b659c5ab064}。ヘッダ定義に加え、\texttt{UnpackTdc.h}、\texttt{STFBuilder.cxx}、\texttt{TimeFrameSlicerByLogicTiming.cxx}などの読み書き処理を参照した。}。
-図の定義データ、ROOTマクロ、参照ソースとハッシュを\path{figure/10-3-nestdaq-dataformat/}にまとめた。各図はこのディレクトリだけから再生成できる。
-
-\subsection{読み出しと選別の単位}
-\label{sec:format-units}
-TDCのヒット情報は64 bitのワードで表される。FEEはヒット列にHeartbeat Delimiter（HBD）を挿入し、時間区間を区切る。ここで、FEEが送るHBDと、ソフトウェアが付加するHeartbeat Frame Header（HBFH）は異なる。HBDは2個の64 bitワード、HBFHは16 byteのヘッダである。ヒットがなくても区間を示すHBDは存在し得る。
-
-STFBuilderは、FEEから受信したデータにHBFHを付加し、同一ソースの複数のHeartbeat Frame（HBF）をSubTimeFrame（STF）にまとめる。TimeFrameBuilderは対応するIDのSTFを複数ソースから集め、TimeFrame（TF）を作る。通常の整列した入力で、ソース数を$S$、各STFのHBF数を$H$とすると、TFには$S H$個のHBFが含まれる。FairMQのメッセージパートの区切りと、これらのフレームの論理的な区切りは同一とは限らない。
-
-図\ref{fig:format-pipeline}に構造の変化を示す。Samplerは受信したワード列をメッセージとして渡し、HBFHの追加はSTFBuilderで行う。LogicFilterはコインシデンスの時刻を付加し、Slicerは各時刻の周囲を切り出す。したがって、Slicerより前のTFと切り出し後の\texttt{SLICE}型TFは、同じ語を含んでいても時間幅とデータ量が異なる。
-\begin{figure}[htbp]
- \centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=0.95\linewidth,height=0.70\textheight,keepaspectratio]{../figure/10-3-nestdaq-dataformat/pdf/pipeline.pdf}}
- \caption{読み出しからFileSinkまでのレコード構造。繰り返し回数$H$と$S$は通常の整列した入力について示す。転送時のFairMQパート境界は省略した。}\label{fig:format-pipeline}
-\end{figure}
-\FloatBarrier
-
-\subsection{64 bitワードの配置}
-\label{sec:format-words}
-図\ref{fig:format-hr-v3}、\ref{fig:format-lr-v3}に高分解能・低分解能TDCの配置を示す。ビット番号は最下位を0とし、図では上位を左に置く。ワード上位6 bitが種類を表し、V3のleading edgeは\texttt{0x0b}、trailing edgeは\texttt{0x0d}である。チャンネル番号、Time Over Threshold（TOT）、TDC値の幅は高分解能と低分解能で異なる。
-
-\texttt{UnpackTdc.h}は高分解能TDC値を12 bit、低分解能TDC値を2 bit右シフトし、4 ns単位の\texttt{tdc4n}を作る。これに対応して元のTDCの時間単位は、それぞれ$1/1024$ nsと1 nsである。フィルターのカット値をnsへ換算する際は、元のTDC値と\texttt{tdc4n}を混同しない。TOTは別のフィールドであり、TDC値へのこの換算をそのまま適用するものではない。
-\begin{figure}[htbp]\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=0.95\linewidth,height=0.36\textheight,keepaspectratio]{../figure/10-3-nestdaq-dataformat/pdf/hr-v3.pdf}}\caption{高分解能TDC V3のヒットワード。}\label{fig:format-hr-v3}\end{figure}
-\begin{figure}[htbp]\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=0.95\linewidth,height=0.36\textheight,keepaspectratio]{../figure/10-3-nestdaq-dataformat/pdf/lr-v3.pdf}}\caption{低分解能TDC V3のヒットワード。}\label{fig:format-lr-v3}\end{figure}
-
-HBDの配置を図\ref{fig:format-hbd1}、\ref{fig:format-hbd2}に示す。第1ワードの種類は\texttt{0x1c}、第2ワードは\texttt{0x1e}である。第1ワードにHBFのIDと時刻オフセット、第2ワードに生成・転送データサイズが入る。第2ワードのbit 55--40は\texttt{AmQStrTdcData.h}では\texttt{userReg}、V3のunpack処理では\texttt{flag}という名前で参照されている。図は前者の名称を採用する。予約領域にヒット情報を割り当てない。
-\begin{figure}[htbp]\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=0.95\linewidth,height=0.36\textheight,keepaspectratio]{../figure/10-3-nestdaq-dataformat/pdf/hbd1.pdf}}\caption{HBDの第1ワード。}\label{fig:format-hbd1}\end{figure}
-\begin{figure}[htbp]\centering\makebox[\linewidth][c]{\includegraphics[pagebox=cropbox,width=0.95\linewidth,height=0.36\textheight,keepaspectratio]{../figure/10-3-nestdaq-dataformat/pdf/hbd2.pdf}}\caption{HBDの第2ワード。}\label{fig:format-hbd2}\end{figure}
-
-\FloatBarrier
-\subsection{ソフトウェアヘッダ}
-\label{sec:format-headers}
-以下のオフセットと長さの単位はbyteである。V1の主要なヘッダは先頭に64 bitの\texttt{magic}、32 bitの\texttt{length}、16 bitの\texttt{hLength}、16 bitの\texttt{type}を持つ。\texttt{length}は自分を含むフレーム長、\texttt{hLength}はヘッダ自身の長さを表す。ただし、トリガー時刻の8 byteレコードにはこの共通部はない。
-
-本付録の配置は、64 bitの\texttt{time\_t}を持つ環境を対象とする。ヘッダを構造体のバイト列として扱う実装に合わせ、パディングを含む配置を照合した。リトルエンディアン環境でのバイト列と、数値として記した\texttt{magic}の桁順を区別する。異なるABIやエンディアンへの移植では、この配置がそのまま成立するとは限らない。
-
-TFの\texttt{type}には\texttt{META=0x0001}と\texttt{SLICE=0x0002}があり、STFの\texttt{femType}はデータの解釈を指定する。V3の高分解能TDCは5、低分解能TDCは6である。STFの\texttt{numMessages}は、STFBuilderではSTFヘッダを除くメッセージ数として設定されるため、ヘッダの値だけを一般にHBF数と読み替えない。
-
-時刻フィールドにも実装差がある。STFBuilderの\texttt{timeUSec}は\texttt{gettimeofday}の秒内のマイクロ秒である。一方、参照LogicFilterがFilterヘッダに入れる\texttt{timeUSec}はepochからの総マイクロ秒である。同名でも基準を確認して解釈する必要がある。
-
-\input{../figure/10-3-nestdaq-dataformat/header-tables.tex}
-\FloatBarrier
-
-\subsection{LogicFilterとSlicerの出力}
-\label{sec:format-slices}
-LogicFilterはTFヘッダの後にFilterヘッダを置き、HBFごとの\texttt{TrgTimeHeader}とトリガー時刻列を格納する。HBF $j$のトリガー数を$n_j$とすると、トリガーが0個でも\texttt{TrgTimeHeader}の16 byteは残る。各\texttt{TrgTime}は\texttt{time}と\texttt{type}を各32 bit持つ8 byteのレコードである。\texttt{time}は4 ns単位で、\texttt{type}には\texttt{0xaa000000}が設定される。Filterヘッダの\texttt{numTrigs}は$\sum_j n_j$、\texttt{numMessages}はヘッダ自身と$H$個の時刻ブロックを数えて$1+H$となる。
-
-ここで、参照実装のFilterヘッダの\texttt{length}計算には注意が必要である。実際のトリガー時刻レコードは8 byteであるのに対し、LogicFilterの\texttt{AddFilterMessage}内では、この長さを4 byteとして加算している。したがって、この実装が記録する宣言値は
-\begin{equation}
- L_{\mathrm{declared}}=56+16H+4\sum_j n_j
-\end{equation}
-であるが、時刻ブロックの実際の格納量は
-\begin{equation}
- L_{\mathrm{serialized}}=56+16H+8\sum_j n_j
-\end{equation}
-となる。各\texttt{TrgTimeHeader.length}は8 byteレコードを用いて計算される。この差を仕様上の4 byteレコードと解釈しない。図のサイズと本付録のデータ量は実際の8 byte配置に従う。
-
-SlicerはHBF $j$ごとに\texttt{META}型のTFを1個作り、トリガー時刻列と各読み出しソースのHBDを保存する。その後、$n_j$個の\texttt{SLICE}型TFを作る。各Sliceには指定した時刻窓のヒットとHBDを含める。窓が重なれば、同じヒットが複数Sliceに入る場合もある。\texttt{META}型STFの内容は保存し、通常の読み出しSTFからは最後の2ワードをHBDとしてコピーする。Slicerは\texttt{META}内のFilterヘッダの長さをコピー後の実バイト数で更新する。
-
-HighLevelFilterは\texttt{META}を保持し、\texttt{SLICE}ごとに\texttt{ProcessSlice()}の結果から保持・破棄を決める。保持するSlice数を$k_j$とすれば$0\leq k_j\leq n_j$であり、すべてのSliceを必ず残すわけではない。参照の共通処理\texttt{FilterTimeFrameSliceABC.icxx}ではTF/STF/HBFのコンテナを再直列化するため、SlicerのFilterヘッダとトリガー時刻ブロックはそのまま出力へコピーされない。
-
-したがって、HLF入力の1メッセージを、元の読み出しTF 1個やSlice 1個と同一視できない。メッセージにSliceがない場合も、\texttt{META}、ヘッダ、HBDなどのデータは残る。一方、LogicFilterの\texttt{remove-hb}設定などにより、前段で残るヒットの量は変わる。Sliceなしという分類だけから、全段の入力が同じバイト数になると仮定しない。
-
-\subsection{FileSinkとデータ量の数え方}
-FileSinkは、非圧縮の論理的なファイル列では、先頭に304 byteのFileSinkヘッダ、最後に304 byteのトレーラを置き、その間に受信データを記録する。\texttt{comments}は256 byteである。開始・終了時刻は\texttt{time\_t}であり、開始側の終了時刻と終了側の終了時刻は区別する。圧縮を用いる場合は、保存媒体上のバイト数とこの非圧縮の論理配置を分けて扱う。
-
-通常の整列した生TFについて、ソース$s$のHBF $j$に含まれるヒット等のワード数を$w_{sj}$とし、末尾のHBD 2ワードをこれに含めなければ、データ量は
-\begin{equation}
- B_{\mathrm{rawTF}}=24+48S+\sum_{s=1}^{S}\sum_{j=1}^{H}\left\{16+8(w_{sj}+2)\right\}
-\end{equation}
-である。24、48、16はそれぞれTF、STF、HBFのヘッダ長である。この式は追加の特殊ソースや欠損フレームを含めない場合の構造を示す。フィルター前後で比較するときは、追加された時刻情報、繰り返しコピーされたHBDやヒット、削除されたSliceも含め、各測定点の実際の入力・出力バイト数を用いる。FileSinkの実ファイル長をそのままHLFの処理ペイロード長と置き換えることはできない。
+本付録は、既存のデータフォーマット解説資料の本文・表・SVG図を収録したものである。対象は参照スナップショットのV1ヘッダとV3 TDCであり、全世代に共通する仕様を規定するものではない。参照ソースのコミットは\texttt{3dd6b69f9b3c37eaa6b97f11c11d0b659c5ab064}である。
+SVG原図、元の生成スクリプト、定義JSON、フォント、参照ソースおよび引用・再生成案内を\path{figure/10-3-nestdaq-dataformat/}にまとめた。本文の図は同梱SVGからベクターPDFへ変換したものであり、描き直したものではない。
+\input{../figure/10-3-nestdaq-dataformat/appendix-body.tex}
 \end{document}

@@ -1,0 +1,26 @@
+/* Scope all article styling to this wrapper when adding to Hatena Design CSS. */
+.nestdaq-format{color:#203746;line-height:1.85;overflow-wrap:anywhere}
+.nestdaq-format h2{margin-top:2.5em;border-bottom:2px solid #cbdde5}
+.nestdaq-format h3{margin-top:2em}
+.nestdaq-format a{color:#08668e}
+.nestdaq-format code{background:#edf1f4;padding:2px 4px}
+.nestdaq-format table{border-collapse:collapse;width:100%;font-size:14px;margin:20px 0}
+.nestdaq-format th,.nestdaq-format td{border:1px solid #cbd6dc;padding:9px;text-align:left;vertical-align:top}
+.nestdaq-format th{background:#eaf1f5}
+.nestdaq-format img{display:block;max-width:100%;height:auto;margin:16px auto}
+.nestdaq-format figure{margin:24px 0}
+.nestdaq-format figcaption,.nestdaq-format .muted{font-size:14px;color:#5c707d}
+.nestdaq-format .lead,.nestdaq-format .note{border-left:5px solid #217c91;background:#edf5f7;padding:14px 22px}
+.nestdaq-format .note{border-color:#b58232;background:#fff6e7}
+.nestdaq-format nav{background:#eaf1f5;padding:14px}
+.nestdaq-format .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.nestdaq-format .flow a{background:#eaf1f5;padding:6px 10px;border-radius:4px}
+.nestdaq-format .diagram{max-width:960px}
+.nestdaq-format .filter-comparison{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start}
+.nestdaq-format .filter-comparison figure{margin:0}
+.nestdaq-format .filter-comparison img{width:100%}
+.nestdaq-format details{margin:14px 0}
+.nestdaq-format summary{cursor:pointer;color:#08668e}
+.nestdaq-format pre{overflow:auto;font:12px/1.6 monospace;background:#edf1f4;padding:12px}
+.nestdaq-format pre span:target{background:#ffe5a8;display:block}
+@media(max-width:760px){.nestdaq-format .filter-comparison{display:block}.nestdaq-format table{display:block;overflow:auto}}
